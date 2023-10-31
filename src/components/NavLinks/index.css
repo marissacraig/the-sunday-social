@@ -5,11 +5,19 @@
     color: white;
     text-decoration: none;
 }
+.navLinks ul li a:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
 
 /* style for logout */
 .navLinks ul li p {
     display: inline;
     margin-right: 0;
+}
+.navLinks ul li p:hover {
+    cursor: pointer;
+    text-decoration: underline;
 }
 
 

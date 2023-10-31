@@ -26,11 +26,14 @@ function NavLinks({ closeHamburger, isMobile }) {
                 </li>
                 <li>
                     <NavLink to='/friends' onClick={closeHamburgerMenu}>
-                        Friends
+                        Messages
                     </NavLink>
                 </li>
                 <li>
                     <p>Login</p>
+                </li>
+                <li>
+                    <p>Signup</p>
                 </li>
             </ul>
         </nav>
