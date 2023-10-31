@@ -1,8 +1,10 @@
+import Post from "../components/Post";
 function HomePage() {
 
     return (
-        <>
-            <p>This is the homepage</p>
+        <>  
+            <h1 className="section-heading">Home</h1>
+            <Post />
         </>
     )
 }

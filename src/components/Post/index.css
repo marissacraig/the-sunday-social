@@ -1,0 +1,32 @@
+.post-section {
+    width: 85%;
+    margin: 0 auto;
+    margin-bottom: 40px;
+    box-shadow: 0px 0px 10px 0px white;
+    border-radius: 8px 8px 8px 8px;
+    border: 1px solid black;
+}
+
+.post-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background-color: rgb(38, 38, 142);
+    padding: 10px 20px;
+    border-radius: 8px 8px 0 0;
+}
+
+.post-body {
+    color: black;
+    background-color: antiquewhite;
+    padding: 20px;
+    line-height: 1.2;
+}
+
+.post-footer {
+    background-color: gray;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    border-radius: 0 0 8px 8px;
+}
