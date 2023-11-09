@@ -7,8 +7,8 @@ function MobileNav() {
 
     const [isMobileOpen, setIsMobileOpen] = useState(false)
 
-    const hamburgerIcon = <CgMenuRound className='hamburger' size='35px' color='white' onClick={() => setIsMobileOpen(!isMobileOpen)} />
-    const closeIcon = <CgCloseO className='hamburger' size='35px' color='white' onClick={() => setIsMobileOpen(!isMobileOpen)} />
+    const hamburgerIcon = <CgMenuRound className='hamburger' size='35px' color='#C69214' onClick={() => setIsMobileOpen(!isMobileOpen)} />
+    const closeIcon = <CgCloseO className='hamburger' size='35px' color='#C69214' onClick={() => setIsMobileOpen(!isMobileOpen)} />
 
     function closeHamburger() {
         setIsMobileOpen(false)

@@ -4,5 +4,5 @@
     align-items: center;
     margin-bottom: 50px;
     padding: 20px 30px;
-    background-color: rgb(114, 34, 12);
+    background-color: var(--primary-color);
 }

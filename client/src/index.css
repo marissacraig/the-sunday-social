@@ -1,3 +1,18 @@
+/*  GLOBAL VARAIABLES */
+:root {
+  /*  COLORS */
+  --primary-color: #182B49;
+  --secondary-color: #00629B;
+  --tertiary-color: #C69214;
+  --accent-color:#FFCD00;
+  --black: #0c0b0b;
+  --off-white: #e9dede;
+
+  /* Border Radius */
+  --border-radius: 4px;
+}
+
+
 /* ///////////////////////////////////// CSS RESET ///////////////////////////// */
 /* Resets the box size of every element */
 * {
@@ -8,8 +23,8 @@
 
 /* Gives the body element a parent height to compare against */
 html, body {
-  background-color: rgba(0, 0, 0, 0.786);
-  color: white;
+  background-color: var(--secondary-color);
+  color: var(--off-white);
 }
 
 html {
@@ -19,7 +34,7 @@ html {
 body {
   min-height: 100%;
   line-height: 1;
-  font-family: sans-serif;
+  font-family: 'Montserrat', sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -39,3 +54,16 @@ ol, ul {
 }
 
 /* /////////////////////////////////// RESET OVER ////////////////////////// */
+
+.page-heading {
+  width: fit-content;
+  padding: 0 30px;
+  margin: 0 auto;
+  font-size: 2rem;
+  background-color: var(--tertiary-color);
+  border-radius: var(--border-radius);
+  padding: 10px 60px;
+  color: rgba(0, 0, 0, 0.5);
+  box-shadow: inset 0px 0px 8px 3px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}

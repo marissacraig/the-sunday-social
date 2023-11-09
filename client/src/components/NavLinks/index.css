@@ -2,12 +2,8 @@
     list-style-type: none;
     display: inline;
     margin-right: 15px;
-    color: white;
+    color: var(--off-white);
     text-decoration: none;
-}
-.navLinks ul li a:hover {
-    cursor: pointer;
-    text-decoration: underline;
 }
 
 /* style for logout */
@@ -15,11 +11,11 @@
     display: inline;
     margin-right: 0;
 }
-.navLinks ul li p:hover {
-    cursor: pointer;
-    text-decoration: underline;
-}
 
+.navLinks ul li a:hover, .navLinks ul li p:hover{
+    cursor: pointer;
+    color: var(--accent-color)
+}
 
 /* mobile styles */
 @media screen and (max-width: 540px) {

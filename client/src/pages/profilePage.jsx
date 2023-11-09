@@ -1,7 +1,7 @@
 function ProfilePage() {
 
     return (
-        <p>This is the Profile Page</p>
+        <h1 className="page-heading">Profile</h1>
     )
 
 }

@@ -1,22 +1,19 @@
 import Post from "../components/Post";
+import Login from "../components/Login";
+
 function HomePage() {
 
-    async function hitRoute() {
-        const data = await fetch('/api/test-route');
-
-        // const parsedData =  data.json;
-        console.log(data)
-    }
 
     return (
         <>  
-            <h1 className="section-heading">Home</h1>
+            <h1 className="page-heading">Home</h1>
+
+            {/* <Login /> */}
+
             <Post />
-
-
-            <p
-            onClick={hitRoute}
-            >Click Me</p>
+            <Post />
+            <Post />
+            <Post />
 
         </>
     )

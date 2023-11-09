@@ -1,6 +1,6 @@
 function Messages() {
     return (
-        <p>This is the messages</p>
+        <h1 className="page-heading">Messages</h1>
     )
 }
 

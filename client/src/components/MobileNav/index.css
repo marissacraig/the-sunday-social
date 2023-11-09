@@ -4,12 +4,41 @@
 
 .mobile-nav ul {
     width: 100%;
-    background-color: antiquewhite;
+    background-color: var(--primary-color);
+    animation: slideFromRight .25s ease-out both;
+    transform: translateX(500px)
+}
+/*  different delay times for li elements */
+.mobile-nav ul li:nth-child(1) {
+    animation: slideFromRight .3s ease-out both .15s;
+    transform: translateX(500px)
+}
+.mobile-nav ul li:nth-child(2) {
+    animation: slideFromRight .3s ease-out both .2s;
+    transform: translateX(500px)
+}
+.mobile-nav ul li:nth-child(3) {
+    animation: slideFromRight .3s ease-out both .25s;
+    transform: translateX(500px)
+}
+.mobile-nav ul li:nth-child(4) {
+    animation: slideFromRight .3s ease-out both .3s;
+    transform: translateX(500px)
+}
+.mobile-nav ul li:nth-child(5) {
+    animation: slideFromRight .3s ease-out both .35s;
+    transform: translateX(500px)
+}
+
+/* slide right nav and nav link animation */
+@keyframes slideFromRight {
+    to {
+        transform: translateX(0px)
+    }
 }
 
 .mobile-nav ul li,  .mobile-nav ul li a, .mobile-nav ul li p {
     padding: 10px;
-    color: black;
 }
 
 

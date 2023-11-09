@@ -4,8 +4,16 @@ import './index.css'
 
 function NavLinks({ closeHamburger, isMobile }) {
 
-    function closeHamburgerMenu () {
-        if(isMobile) {
+
+    const activeLinkStyle = {
+        color: '#FFCD00'
+    }
+    const nonActiveLink = {
+        color: '#e9dede'
+    }
+
+    function closeHamburgerMenu() {
+        if (isMobile) {
             closeHamburger();
         }
     }
@@ -13,27 +21,34 @@ function NavLinks({ closeHamburger, isMobile }) {
         <nav className='navLinks'>
             <ul>
                 <li>
-                    <NavLink to='/' onClick={closeHamburgerMenu}>
+                    <NavLink
+                        to='/'
+                        onClick={closeHamburgerMenu}
+                        style={({ isActive }) => isActive ? activeLinkStyle : nonActiveLink}
+                    >
                         Home
                     </NavLink>
-                    {/* <a href='/'>HomePage</a> */}
                 </li>
                 <li>
-                    <NavLink to='/profile' onClick={closeHamburgerMenu}>
+                    <NavLink
+                        to='/profile'
+                        onClick={closeHamburgerMenu}
+                        style={({ isActive }) => isActive ? activeLinkStyle : nonActiveLink}
+                    >
                         Profile
                     </NavLink>
-                    {/* <a href='/profile'>Profile</a> */}
                 </li>
                 <li>
-                    <NavLink to='/friends' onClick={closeHamburgerMenu}>
+                    <NavLink
+                        to='/friends'
+                        onClick={closeHamburgerMenu}
+                        style={({ isActive }) => isActive ? activeLinkStyle : nonActiveLink}
+                    >
                         Messages
                     </NavLink>
                 </li>
                 <li>
                     <p>Login</p>
-                </li>
-                <li>
-                    <p>Signup</p>
                 </li>
             </ul>
         </nav>
