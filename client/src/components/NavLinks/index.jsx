@@ -8,9 +8,6 @@ function NavLinks({ closeHamburger, isMobile }) {
     const activeLinkStyle = {
         color: '#FFCD00'
     }
-    const nonActiveLink = {
-        color: '#e9dede'
-    }
 
     function closeHamburgerMenu() {
         if (isMobile) {
@@ -24,7 +21,7 @@ function NavLinks({ closeHamburger, isMobile }) {
                     <NavLink
                         to='/'
                         onClick={closeHamburgerMenu}
-                        style={({ isActive }) => isActive ? activeLinkStyle : nonActiveLink}
+                        style={({ isActive }) => isActive ? activeLinkStyle : {}}
                     >
                         Home
                     </NavLink>
@@ -33,7 +30,7 @@ function NavLinks({ closeHamburger, isMobile }) {
                     <NavLink
                         to='/profile'
                         onClick={closeHamburgerMenu}
-                        style={({ isActive }) => isActive ? activeLinkStyle : nonActiveLink}
+                        style={({ isActive }) => isActive ? activeLinkStyle : {}}
                     >
                         Profile
                     </NavLink>
@@ -42,7 +39,7 @@ function NavLinks({ closeHamburger, isMobile }) {
                     <NavLink
                         to='/friends'
                         onClick={closeHamburgerMenu}
-                        style={({ isActive }) => isActive ? activeLinkStyle : nonActiveLink}
+                        style={({ isActive }) => isActive ? activeLinkStyle : {}}
                     >
                         Messages
                     </NavLink>
