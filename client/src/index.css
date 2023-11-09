@@ -64,7 +64,7 @@ ol, ul {
   border-radius: var(--border-radius);
   padding: 10px 60px;
   color: rgba(0, 0, 0, 0.5);
-  box-shadow: inset 0px 0px 8px 3px rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(163, 198, 22, 0.1);
+  box-shadow: inset 0px 0px 7px 4px rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--tertiary-color)
 
 }

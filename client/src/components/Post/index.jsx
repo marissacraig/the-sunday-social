@@ -17,7 +17,7 @@ function Post() {
             </div>
             <div className="post-footer">
                 <p>12 comments</p>
-                <p>reply</p>
+                <p></p>
             </div>
 
 
