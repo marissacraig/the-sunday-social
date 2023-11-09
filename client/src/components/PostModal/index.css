@@ -1,0 +1,95 @@
+.modal {
+    overflow-y: auto;
+}
+.modal::-webkit-scrollbar {
+    width: 2px;
+}
+
+.post-modal-title {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.post-modal-text {
+    text-align: justify;
+}
+
+
+.reply-textarea-div {
+    position: sticky;
+    bottom: 0;
+    left: 0; 
+    right: 0;
+    background-color: var(--primary-color);
+    padding: 15px;
+}
+
+.reply-textarea {
+    resize: none;
+    margin: 0 auto;
+    width: 100%;
+    border: none;
+    background-color: var(--off-white);
+    padding: 8px;
+    height: 60px;
+    letter-spacing: 1px;
+    border-radius: var(--border-radius) var(--border-radius) 0 0 ;
+    color: var(--black);
+}
+.reply-textarea::placeholder {
+    color: var(--primary-color);
+    font-size: .95rem;
+}
+
+.reply-textarea::-webkit-scrollbar {
+    width: 2px;
+}
+
+.reply-textarea:focus {
+    outline: none;
+    border: none;
+}
+
+.reply-textarea-div .send-icon {
+    background-color: var(--off-white);
+    text-align: right;
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+    padding: 0 10px 2px 0;
+    margin-top: -10px;
+    font-size: 1.3rem;
+    color: var(--primary-color)
+
+}
+
+.reply-textarea-div .send-icon:hover { 
+    cursor: pointer;
+    color: var(--accent-color);
+}
+
+.comment-section-div {
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px solid var(--accent-color);
+}
+.user-comment-info, .post-modal-user-info {
+    font-size: .93rem;
+    color: var(--tertiary-color);
+    margin-bottom: 5px;
+    line-height: 1.2;
+}
+.user-comment-info {
+    font-size: .85rem;
+}
+
+.single-comment-div {
+    margin-bottom: 30px;
+    padding: 0 10px;
+}
+
+.single-comment {
+    padding: 5px;
+    padding-top: 0;
+}
+
+

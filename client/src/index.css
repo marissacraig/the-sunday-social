@@ -23,18 +23,20 @@
 
 /* Gives the body element a parent height to compare against */
 html, body {
-  background-color: var(--secondary-color);
   color: var(--off-white);
 }
 
 html {
+  background-color: var(--primary-color);
   height: 100%;
 }
 
 body {
   min-height: 100%;
   line-height: 1;
+  background-color: var(--secondary-color);
   font-family: 'Montserrat', sans-serif;
+  padding-bottom: 40px;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -59,7 +61,8 @@ ol, ul {
   width: fit-content;
   padding: 0 30px;
   margin: 0 auto;
-  font-size: 2rem;
+  font-size: 1.6rem;
+  letter-spacing: 5px;
   background-color: var(--tertiary-color);
   border-radius: var(--border-radius);
   padding: 10px 60px;
@@ -71,21 +74,62 @@ ol, ul {
 
 
 .modal-container {
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
   background-color: rgba(0, 0, 0, 0.5);
+  z-index: 55;
 }
 
 .modal-container .modal {
   width: 90%;
   max-width: 700px;
+  max-height: 500px;
   margin: 0 auto;
-  margin-top: 80px;
-  border: 1px solid white;
+  margin-top: 50px;
+  border: 1px solid var(--secondary-color);
   border-radius: var(--border-radius);
   padding: 20px;
+  padding-bottom: 0px;
   background-color: var(--primary-color);
+  min-height: 250px;
+  transform: translateY(-500px);
+  animation: slideDown .2s ease-out both;
+}
+
+@keyframes slideDown {
+  to {
+    transform: translateY(0px);
+  }
+}
+
+/* profile pic margin for all posts and comments */
+.profile-pic {
+  margin-right: 8px;
+}
+
+
+/* flex box */
+.flex-box {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.flex-box-sa {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.flex-box-sb {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.flex-box-se {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
 }

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import PostModal from '../PostModal';
+import { BiLike } from 'react-icons/bi'
 import './index.css';
 
 function Post() {
@@ -20,7 +21,10 @@ function Post() {
 
             <section onClick={() => setShowModal(true)} className="post-section">
                 <div className="post-header">
-                    <p>anthony_bar</p>
+                    <div className='flex-box-sa'>
+                        <figure><img src='/logo.png' width={28} alt='user profile picture' className='profile-pic'/> </figure>
+                        <p>anthony_bar</p>
+                    </div>
                     <p>{newDate}</p>
                 </div>
                 <div className="post-body">
@@ -29,7 +33,10 @@ function Post() {
                 </div>
                 <div className="post-footer">
                     <p>12 comments</p>
-                    <p> 👍 like</p>
+                    <div>
+                        <p>4</p>
+                        <p><BiLike /></p>
+                    </div>
                 </div>
             </section>
         </>

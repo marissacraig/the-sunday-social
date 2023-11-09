@@ -7,3 +7,13 @@ function ProfilePage() {
 }
 
 export default ProfilePage;
+
+
+
+// name
+// location
+// currently learning
+// strongest language
+// relationship status
+// Bio
+
