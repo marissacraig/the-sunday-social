@@ -6,7 +6,7 @@
   --tertiary-color: #C69214;
   --accent-color:#FFCD00;
   --black: #0c0b0b;
-  --off-white: #e9dede;
+  --off-white: rgb(212, 205, 205);
 
   /* Border Radius */
   --border-radius: 4px;
@@ -66,5 +66,26 @@ ol, ul {
   color: rgba(0, 0, 0, 0.5);
   box-shadow: inset 0px 0px 7px 4px rgba(0, 0, 0, 0.35);
   border: 1px solid var(--tertiary-color)
+}
 
+
+
+.modal-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-container .modal {
+  width: 90%;
+  max-width: 700px;
+  margin: 0 auto;
+  margin-top: 80px;
+  border: 1px solid white;
+  border-radius: var(--border-radius);
+  padding: 20px;
+  background-color: var(--primary-color);
 }

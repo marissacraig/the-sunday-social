@@ -1,5 +1,5 @@
 import Post from "../components/Post";
-import Login from "../components/Login";
+import Login from "../components/LoginModal";
 
 function HomePage() {
 
