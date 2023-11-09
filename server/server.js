@@ -2,11 +2,17 @@ const express = require('express');
 const path = require('path');
 
 const app = express();
+
+const api = require('./api')
 const PORT = process.env.PORT || 3001;
 
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
+app.use('/api', api)
+
+
 
 if (process.env.NODE_ENV === 'production') {
   // server react app when in production
@@ -16,14 +22,6 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.join(__dirname, '../client/dist/index.html'));
   });
 }
-
-
-
-
-app.get('/api/test-route', async(req, res) => {
-    console.log('in the server')
-    res.send('This came from my express app')
-}) 
 
 
 app.listen(PORT, () => {
