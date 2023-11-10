@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import NavLinks from "../NavLinks";
 import { useState } from "react";
 import { CgMenuRound, CgCloseO } from 'react-icons/cg';

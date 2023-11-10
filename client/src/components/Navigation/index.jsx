@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import NavLinks from "../NavLinks"
 import './index.css';
 

@@ -1,10 +1,13 @@
+/* eslint-disable no-unused-vars */
 import HomePage from './pages/homePage'
 import Header from './components/Header'
 import ProfilePage from './pages/profilePage'
 import Messages from './pages/messages'
+import { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 function App() {
+
 
   return (
     <>

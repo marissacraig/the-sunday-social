@@ -1,17 +1,18 @@
 const express = require('express');
 const path = require('path');
-
 const app = express();
-
 const api = require('./api')
+const db = require('./config/connection');
+const cookieParser = require('cookie-parser');
 const PORT = process.env.PORT || 3001;
+
 
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+app.use(cookieParser())
 app.use('/api', api)
-
 
 
 if (process.env.NODE_ENV === 'production') {
@@ -25,5 +26,6 @@ if (process.env.NODE_ENV === 'production') {
 
 
 app.listen(PORT, () => {
-    console.log(`API server running on port ${PORT}!`)
+    console.log(`API server running on port ${PORT}!`);
+    db.sync({ force: false })
 })

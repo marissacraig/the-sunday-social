@@ -9,10 +9,14 @@
     text-align: center;
     margin-bottom: 10px;
     font-size: 1.2rem;
+    letter-spacing: 2px;
+    font-weight: 700;
 }
 
 .post-modal-text {
     text-align: justify;
+    line-height: 1.2;
+    font-size: .98rem;
 }
 
 .reply-textarea-div {
@@ -28,6 +32,7 @@
     resize: none;
     margin: 0 auto;
     width: 100%;
+    font-weight: 500;
     border: none;
     background-color: var(--off-white);
     padding: 8px;
@@ -57,13 +62,14 @@
     padding: 0 10px 2px 0;
     margin-top: -10px;
     font-size: 1.3rem;
-    color: var(--primary-color)
+    color: var(--primary-color);
+    transition: .15s;
 
 }
 
 .reply-textarea-div .send-icon:hover { 
     cursor: pointer;
-    color: var(--accent-color);
+    color: var(--tertiary-color)
 }
 
 
@@ -71,6 +77,7 @@
 .comment-section-div {
     margin-top: 20px;
     padding-top: 10px;
+    font-size: .95rem;
     border-top: 1px solid var(--accent-color);
 }
 .user-comment-info, .post-modal-user-info {
@@ -84,7 +91,7 @@
 }
 
 .single-comment-div {
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     padding: 0 10px;
 }
 

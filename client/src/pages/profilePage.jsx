@@ -1,5 +1,5 @@
-function ProfilePage() {
-
+/* eslint-disable react/prop-types */
+function ProfilePage({ userInfo }) {
     return (
         <h1 className="page-heading">Profile</h1>
     )
@@ -7,8 +7,6 @@ function ProfilePage() {
 }
 
 export default ProfilePage;
-
-
 
 // name
 // location
