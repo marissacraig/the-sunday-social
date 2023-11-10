@@ -6,7 +6,7 @@ function HomePage() {
 
     return (
         <>  
-            <h1 className="page-heading">Home</h1>
+            <h1 className="page-heading">The Sunday Feed</h1>
 
             {/* <Login /> */}
 

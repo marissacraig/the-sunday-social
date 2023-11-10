@@ -3,6 +3,15 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 50px;
+    height: 80px;
     padding: 5px 30px;
     background-color: var(--primary-color);
+}
+
+.logo {
+    border: none;
+    position: absolute;
+    top: 4px;
+    width: 100px;
+    height: 100px;
 }

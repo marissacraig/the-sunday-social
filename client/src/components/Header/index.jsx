@@ -7,7 +7,7 @@ function Header() {
     return (
         <header className="header">
             <NavLink to='/'>
-                <img src="/logo.png" width={60} height={60}></img>
+                <img className="logo" src="/logo2.png"></img>
             </NavLink>
             
             <Navigation />

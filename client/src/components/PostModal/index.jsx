@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
-import './index.css'
 import { IoMdSend } from 'react-icons/io'
+import './index.css'
 
 function PostModal({ triggerModal }) {
 
@@ -46,13 +46,7 @@ function PostModal({ triggerModal }) {
                         </div>
                         <p className='single-comment'>this is awesome! I can&apos;t wait to see wha t you do. I wish you the best of luck</p>
                     </div>
-
-
-
                 </div>
-
-
-
 
                 <div className='reply-textarea-div'>
                     <textarea
@@ -62,6 +56,9 @@ function PostModal({ triggerModal }) {
                     />
                     <p className='send-icon'><IoMdSend /></p>
                 </div>
+
+
+
             </div>
         </section>
     )

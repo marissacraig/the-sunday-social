@@ -65,7 +65,7 @@ ol, ul {
   letter-spacing: 5px;
   background-color: var(--tertiary-color);
   border-radius: var(--border-radius);
-  padding: 10px 60px;
+  padding: 10px 25px;
   color: rgba(0, 0, 0, 0.5);
   box-shadow: inset 0px 0px 7px 4px rgba(0, 0, 0, 0.35);
   border: 1px solid var(--tertiary-color)
