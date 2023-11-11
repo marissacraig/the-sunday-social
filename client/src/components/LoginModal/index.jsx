@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState, useRef, useEffect } from "react";
+import { FallingLines } from 'react-loader-spinner';
 import './index.css'
 
 function LoginModal({ setShowModal }) {
@@ -12,6 +13,7 @@ function LoginModal({ setShowModal }) {
     const [showSignup, setShowSignup] = useState(false);
     const [showForgotPassword, setShowForgotPassword] = useState(false);
     const [showLogin, setShowLogin] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
 
     const errorText = useRef(null);
     const emailInputEl = useRef(null);
@@ -49,6 +51,8 @@ function LoginModal({ setShowModal }) {
 
     async function signupHandler(e) {
         e.preventDefault();
+        if (isLoading) return;
+        setIsLoading(true)
         try {
             const data = await fetch('/api/user/signup', {
                 method: 'POST',
@@ -63,6 +67,7 @@ function LoginModal({ setShowModal }) {
             const response = await data.json();
             if (response.error) {
                 errorText.current.innerHTML = response.error
+                setIsLoading(false)
             } else {
                 window.location.reload();
             }
@@ -73,6 +78,9 @@ function LoginModal({ setShowModal }) {
 
     async function loginHandler(e) {
         e.preventDefault();
+        if (isLoading) return;
+        setIsLoading(true)
+
         try {
             const rawData = await fetch('/api/auth/login', {
                 method: 'POST',
@@ -86,6 +94,7 @@ function LoginModal({ setShowModal }) {
             const response = await rawData.json();
             if (response.error) {
                 errorText.current.innerHTML = response.error;
+                setIsLoading(false)
             } else {
                 window.location.reload();
             }
@@ -96,8 +105,11 @@ function LoginModal({ setShowModal }) {
 
     async function forgotPasswordHandler(e) {
         e.preventDefault();
+        if (isLoading) return;
+        setIsLoading(true)
+
         try {
-            await fetch('/api/user/signup', {
+            const data = await fetch('/api/user/signup', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -106,9 +118,15 @@ function LoginModal({ setShowModal }) {
                     username
                 })
             })
+
+            const response = data.json();
+            if (response.error) {
+                errorText.current.innerHTML = response.error;
+                setIsLoading(false)
+            }
             window.location.reload();
         } catch (err) {
-            console.log('error sign up user ', err)
+            console.log('error', err)
         }
     }
 
@@ -136,9 +154,18 @@ function LoginModal({ setShowModal }) {
 
                             <p className="error-text" ref={errorText}></p>
 
-                            <button
-                                type="submit"
-                            >Login</button>
+                            {isLoading ?
+                                <p className="loading-icon">
+                                    <FallingLines
+                                        color="#FFCD00"
+                                        width="50"
+                                        visible={true}
+                                        ariaLabel='falling-lines-loading'
+                                    />
+                                </p>
+                                :
+                                <button type="submit">Login</button>
+                            }
                         </form>
                         <p className="login-option-text">Not a member?
                             <span onClick={showSignupHandler}> Sign up</span>
@@ -159,7 +186,7 @@ function LoginModal({ setShowModal }) {
                                 ref={emailInputEl}
                                 placeholder="email"
                                 onChange={(e) => { setEmail(e.target.value); errorText.current.innerHTML = ''; }}
-                                
+
                             />
                             <input
                                 type="text"
@@ -176,9 +203,18 @@ function LoginModal({ setShowModal }) {
 
                             <p className="error-text" ref={errorText}></p>
 
-                            <button
-                                type="submit"
-                            >Sign up</button>
+                            {isLoading ?
+                                <p className="loading-icon">
+                                    <FallingLines
+                                        color="#FFCD00"
+                                        width="50"
+                                        visible={true}
+                                        ariaLabel='falling-lines-loading'
+                                    />
+                                </p>
+                                :
+                                <button type="submit">Sign up</button>
+                            }
                         </form>
                         <p className="login-option-text">Already a member?
                             <span onClick={showLoginHandler}> Login</span>
@@ -201,9 +237,18 @@ function LoginModal({ setShowModal }) {
 
                             <p className="error-text" ref={errorText}></p>
 
-                            <button
-                                type="submit"
-                            >Reset</button>
+                            {isLoading ?
+                                <p className="loading-icon">
+                                    <FallingLines
+                                        color="#FFCD00"
+                                        width="50"
+                                        visible={true}
+                                        ariaLabel='falling-lines-loading'
+                                    />
+                                </p>
+                                :
+                                <button type="submit">Reset</button>
+                            }
                         </form>
                         <p className="login-option-text">Or <br /> <br />
                             <span onClick={showLoginHandler}>Sign in</span>

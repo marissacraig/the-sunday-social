@@ -67,4 +67,9 @@ button[type="submit"]:hover {
 
 }
 
+.loading-icon {
+    text-align: center;
+    margin-top: 0;
+}
+
 
