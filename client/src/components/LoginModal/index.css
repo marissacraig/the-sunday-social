@@ -42,7 +42,11 @@
 .error-text {
     color: red;
     text-align: center;
+    position: relative;
+    top: -5px;
     font-size: .9rem;
+    font-weight: 700;
+    letter-spacing: 1px;
 }
 
 button[type="submit"] {

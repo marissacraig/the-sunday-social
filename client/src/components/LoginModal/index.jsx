@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import './index.css'
 
 function LoginModal({ setShowModal }) {
@@ -13,7 +13,12 @@ function LoginModal({ setShowModal }) {
     const [showForgotPassword, setShowForgotPassword] = useState(false);
     const [showLogin, setShowLogin] = useState(true);
 
-    const errorText = useRef();
+    const errorText = useRef(null);
+    const emailInputEl = useRef(null);
+
+    useEffect(() => {
+        emailInputEl.current.focus()
+    }, [showSignup, showForgotPassword, showLogin, emailInputEl])
 
     function resetFormFields() {
         setEmail('');
@@ -43,7 +48,6 @@ function LoginModal({ setShowModal }) {
 
 
     async function signupHandler(e) {
-        console.log('jhaowef')
         e.preventDefault();
         try {
             const data = await fetch('/api/user/signup', {
@@ -57,8 +61,11 @@ function LoginModal({ setShowModal }) {
             })
 
             const response = await data.json();
-            console.log(response);
-            // window.location.reload();
+            if (response.error) {
+                errorText.current.innerHTML = response.error
+            } else {
+                window.location.reload();
+            }
         } catch (err) {
             console.log('error sign up user ', err)
         }
@@ -72,13 +79,12 @@ function LoginModal({ setShowModal }) {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     email,
-                    password,
-                    username
+                    password
                 })
             })
 
             const response = await rawData.json();
-            if(response.error) {
+            if (response.error) {
                 errorText.current.innerHTML = response.error;
             } else {
                 window.location.reload();
@@ -116,14 +122,15 @@ function LoginModal({ setShowModal }) {
                         <form className="login-form" onSubmit={(e) => loginHandler(e)}>
                             <input
                                 type="email"
+                                ref={emailInputEl}
                                 placeholder="email"
-                                onChange={(e) => setEmail(e.target.value)}
+                                onChange={(e) => { setEmail(e.target.value); errorText.current.innerHTML = ''; }}
                                 minLength={3}
                             />
                             <input
                                 type="password"
                                 placeholder="password"
-                                onChange={(e) => setPassword(e.target.value)}
+                                onChange={(e) => { setPassword(e.target.value); errorText.current.innerHTML = ''; }}
                                 minLength={8}
                             />
 
@@ -148,24 +155,27 @@ function LoginModal({ setShowModal }) {
                         <h3 className="modal-title">Sign up</h3>
                         <form className="login-form" onSubmit={(e) => signupHandler(e)}>
                             <input
-                                type="text"
-                                placeholder="username"
-                                onChange={(e) => setUsername(e.target.value)}
-                                minLength={3}
+                                type="email"
+                                ref={emailInputEl}
+                                placeholder="email"
+                                onChange={(e) => { setEmail(e.target.value); errorText.current.innerHTML = ''; }}
+                                
                             />
                             <input
-                                type="email"
-                                placeholder="email"
-                                onChange={(e) => setEmail(e.target.value)}
-
+                                type="text"
+                                placeholder="username"
+                                onChange={(e) => { setUsername(e.target.value); errorText.current.innerHTML = ''; }}
+                                minLength={3}
                             />
                             <input
                                 type="password"
                                 placeholder="password"
                                 minLength={8}
-                                onChange={(e) => setPassword(e.target.value)}
-
+                                onChange={(e) => { setPassword(e.target.value); errorText.current.innerHTML = ''; }}
                             />
+
+                            <p className="error-text" ref={errorText}></p>
+
                             <button
                                 type="submit"
                             >Sign up</button>
@@ -184,9 +194,13 @@ function LoginModal({ setShowModal }) {
                         <form className="login-form" onSubmit={(e) => forgotPasswordHandler(e)}>
                             <input
                                 type="email"
+                                ref={emailInputEl}
                                 placeholder="email"
-                                onChange={(e) => setEmail(e.target.value)}
+                                onChange={(e) => { setEmail(e.target.value); errorText.current.innerHTML = ''; }}
                             />
+
+                            <p className="error-text" ref={errorText}></p>
+
                             <button
                                 type="submit"
                             >Reset</button>
