@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { signToken, verifyToken } = require('../utils/auth');
 const { User } = require('../models/User');
 
+
 router.get('/', verifyToken, async(req, res) => {
     try {
         // const userData = await User.findByPk(res.cookie.token.id)
@@ -20,17 +21,15 @@ router.post('/signup', async (req, res) => {
             email: data.email,
             password: data.password
         })
-        if (newUser) {
+        if (!newUser) {
+            return res.status(400).json({ error: 'flo' })
+        } else {
             // create JWT and save it to HTTP cookie
             signToken(newUser, res)
-            // return res.status(200).json({ message: 'User Created'})
             return res.status(200).json(newUser)
         }
-
-        // return res.status(200).json({ message: 'User Created'})
-        return res.status(400).json({ data })
     } catch (err) {
-        console.log(err)
+        res.status(400).json({ error: 'password must be 8 characters'})
     }
 })
 

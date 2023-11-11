@@ -82,14 +82,16 @@ ol, ul {
   right: 0;
   background-color: rgba(0, 0, 0, 0.8);
   z-index: 55;
+  padding: 20px;
+  padding-top: 40px;
 }
 
 .modal-container .modal {
-  width: 90%;
+  width: fit-content;
   max-width: 700px;
   max-height: 500px;
   margin: 0 auto;
-  margin-top: 50px;
+  margin-top: 20px;
   border: 1px solid var(--secondary-color);
   border-radius: var(--border-radius);
   padding: 20px;

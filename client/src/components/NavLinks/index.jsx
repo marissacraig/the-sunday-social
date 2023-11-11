@@ -83,9 +83,6 @@ function NavLinks({ closeHamburger, isMobile }) {
                         <li>
                             <p onClick={() => setShowModal(true)}>Login</p>
                         </li>
-                        <li>
-                            <p onClick={() => setShowModal(true)}>Signup</p>
-                        </li>
                     </ul>
                 </nav>
             }

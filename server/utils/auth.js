@@ -26,6 +26,7 @@ module.exports = {
             return res.status(401).json({ message: 'Unauthorized' });
         }
         jwt.verify(token, secret, (err, decoded) => {
+            console.log('hi')
             if (err) {
                 return res.status(401).json({ message: 'Unauthorized' });
             }
