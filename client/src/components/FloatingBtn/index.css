@@ -1,0 +1,27 @@
+/* Floating Add Post Button */
+.add-post-floating-btn {
+    position: fixed;
+    right: 10px;
+    bottom: 40px;
+    font-size: 4.5rem;
+    z-index: 40;
+  }
+  
+  .add-post-floating-btn:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+  }
+  
+  .add-post-floating-btn:active {
+    transform: scale(1);
+  }
+  
+  .remove-floating-button {
+    animation: remoteFloatingButton .2s both;
+  }
+  
+  @keyframes remoteFloatingButton {
+    to {
+      transform: translateY(120px);
+    }
+  }

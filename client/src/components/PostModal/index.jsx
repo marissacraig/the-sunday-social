@@ -3,6 +3,7 @@ import { IoMdSend } from 'react-icons/io'
 import './index.css'
 
 function PostModal({ triggerModal }) {
+    
 
     return (
         <section onClick={() => triggerModal(false)} className='modal-container'>
@@ -56,9 +57,6 @@ function PostModal({ triggerModal }) {
                     />
                     <p className='send-icon'><IoMdSend /></p>
                 </div>
-
-
-
             </div>
         </section>
     )

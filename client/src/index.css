@@ -58,6 +58,15 @@ ol, ul {
 
 /* /////////////////////////////////// RESET OVER ////////////////////////// */
 
+.homepage-greeting {
+  position: absolute;
+  top: 90px;
+  right: 20px;
+  font-size: .9rem;
+  font-style: italic;
+  color: var(--accent-color)
+}
+
 .page-heading {
   width: fit-content;
   padding: 0 30px;
@@ -113,6 +122,7 @@ ol, ul {
   margin-right: 8px;
 }
 
+/* //////////////////// Utilities////////////////// */
 
 /* flex box */
 .flex-box {
