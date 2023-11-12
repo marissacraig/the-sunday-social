@@ -6,11 +6,11 @@
   border-radius: var(--border-radius);
   border: 1px solid rgba(0, 0, 0, 0.3);
   box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.4);
-  transition: 0.12s;
+  transition: 0.08s;
 }
 .post-section:hover {
   cursor: pointer;
-  transform: scale(1.01);
+  transform: scale(1.007);
   box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.2);
 }
 

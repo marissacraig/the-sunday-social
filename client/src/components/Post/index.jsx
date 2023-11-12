@@ -19,7 +19,7 @@ function Post() {
             
             }
 
-            <section onClick={() => setShowModal(true)} className="post-section">
+            <section onClick={() => setTimeout(() => setShowModal(true), 150)} className="post-section">
                 <div className="post-header">
                     <div className='flex-box-sa'>
                         <figure><img src='/logo.png' width={28} alt='user profile picture' className='profile-pic'/> </figure>
