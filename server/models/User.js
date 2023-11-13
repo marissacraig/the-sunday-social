@@ -54,8 +54,6 @@ User.init(
         sequelize,
         // doesn't plurarlize table name
         freezeTableName: true,
-        // enforces snake case
-        underscored: true,
         modelName: 'User',
     }
 )

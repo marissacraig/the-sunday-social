@@ -1,9 +1,22 @@
 /* eslint-disable react/prop-types */
 import { IoMdSend } from 'react-icons/io'
+import { useEffect, useState } from 'react';
 import './index.css'
 
-function PostModal({ triggerModal }) {
-    
+function ViewPostModal({ triggerModal, postData }) {
+
+
+    const [isUserLoggedIn, setIsUserLoggedIn] = useState(false)
+    useEffect(() => {
+        async function getUserData() {
+            const rawData = await fetch('/api/user');
+            const { data } = await rawData.json();
+            if (data?.username) {
+                setIsUserLoggedIn(true)
+            }
+        }
+        getUserData();
+    }, [])
 
     return (
         <section onClick={() => triggerModal(false)} className='modal-container'>
@@ -17,8 +30,7 @@ function PostModal({ triggerModal }) {
                         </div>
                     </div>
                 </div>
-                <h3 className='post-modal-title'>I got a new Job!</h3>
-                <p className='post-modal-text'>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using Content here, content here, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for lorem ipsum will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                <p className='post-modal-text'>{postData?.postText}</p>
 
                 <div className='comment-section-div'>
                     <div className='single-comment-div'>
@@ -49,6 +61,9 @@ function PostModal({ triggerModal }) {
                     </div>
                 </div>
 
+
+                {/* only show reply box if user is logged in */}
+                {isUserLoggedIn ? 
                 <div className='reply-textarea-div'>
                     <textarea
                         className='reply-textarea'
@@ -57,9 +72,15 @@ function PostModal({ triggerModal }) {
                     />
                     <p className='send-icon'><IoMdSend /></p>
                 </div>
+                :
+                <p>Sign in to add a reply</p>
+                }
+
+
+
             </div>
         </section>
     )
 }
 
-export default PostModal;
+export default ViewPostModal;

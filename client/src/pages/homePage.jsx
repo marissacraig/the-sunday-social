@@ -11,6 +11,7 @@ function HomePage() {
     // these two use state variable are paired with the floating button
     const [showAddPostModal, setShowAddPostModal] = useState(false)
     const [makeButtonDisappear, setMakeButtonDisappear] = useState(false);
+    const [allPosts, setAllPosts] = useState(null);
 
 
     useEffect(() => {
@@ -19,8 +20,18 @@ function HomePage() {
             const { data } = await rawData.json();
             setUserData(data);
         }
+
+        async function getAllPosts() {
+            const rawData = await fetch('/api/home');
+            const allPostData = await rawData.json();
+            setAllPosts(allPostData);
+        }
         getUserData();
+        getAllPosts();
+
     }, [])
+
+    console.log(allPosts)
 
 
     return (
@@ -33,7 +44,7 @@ function HomePage() {
 
             {/* FLOATING BUTTON */}
             {showAddPostModal &&
-                <AddPostModal 
+                <AddPostModal
                     setShowPostModal={setShowAddPostModal}
                     setMakeButtonDisappear={setMakeButtonDisappear}
 
@@ -48,10 +59,17 @@ function HomePage() {
 
 
             {/* ALL POSTS */}
-            <Post />
-            <Post />
-            <Post />
-            <Post />
+
+            {allPosts &&
+                allPosts.map((post, index) => {
+                    return (
+                        <Post
+                            postData={post}
+                            key={index}
+                        />
+                    )
+                })
+            }
 
         </>
     )

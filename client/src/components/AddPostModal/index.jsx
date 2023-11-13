@@ -1,29 +1,48 @@
 /* eslint-disable react/prop-types */
 import { IoMdSend } from 'react-icons/io'
+import { useState } from 'react';
 import './index.css';
 
 
 function AddPostModal({ setMakeButtonDisappear, setShowPostModal }) {
 
+    const [postText, setPostText] = useState('');
 
-    function postHandler(e) {
+    async function postHandler(e) {
         e.preventDefault();
-        console.log('item has been posted')
+
+        try {
+            const data = await fetch('/api/user/addPost', {
+                method: 'POST', 
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    postText
+                })
+            })
+            const response = await data.json();
+            console.log(response)
+
+        } catch(err) {
+            console.log(err)
+        }
+
     }
 
     return (
         <div onClick={() => {setMakeButtonDisappear(false); setShowPostModal(false)}} className='modal-container'>
             <div onClick={(e) => e.stopPropagation()} className='modal'>
-                <form onSubmit={(e) => postHandler(e)}>
                     <div className='post-form-textarea-div'>
                         <textarea
                             className='post-form-textarea'
                             type='text'
+                            onChange={((e) => setPostText(e.target.value))}
                             placeholder='what&apos;s going on...'
+                            required
                         />
                         <p className='send-icon'><IoMdSend onClick={postHandler} /></p>
                     </div>
-                </form>
             </div>
         </div>
     )

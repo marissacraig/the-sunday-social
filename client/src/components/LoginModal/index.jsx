@@ -54,7 +54,7 @@ function LoginModal({ setShowModal }) {
         if (isLoading) return;
         setIsLoading(true)
         try {
-            const data = await fetch('/api/user/signup', {
+            const data = await fetch('/api/auth/signup', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -109,7 +109,7 @@ function LoginModal({ setShowModal }) {
         setIsLoading(true)
 
         try {
-            const data = await fetch('/api/user/signup', {
+            const data = await fetch('/api/auth/signup', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

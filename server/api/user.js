@@ -1,43 +1,44 @@
 const router = require('express').Router();
-const { signToken, verifyToken } = require('../utils/auth');
-const { User } = require('../models/User');
+const { verifyToken } = require('../utils/auth');
+const { User, Post } = require('../models');
 
-
+// this route is just to check if user is logged in. Used in Navigation
 router.get('/', verifyToken, async(req, res) => {
     try {
-        // const userData = await User.findByPk(res.cookie.token.id)
-        // res.json(userData)
-        res.json(req.user)
+        res.status(200).json(req.user)
     } catch(err) {
         console.log('no user with that id found', err)
     }
 })
 
-router.post('/signup', async (req, res) => {
+
+router.post('/addPost', verifyToken, async(req, res) => {
     try {
         const data = req.body;
-        // check if username or email is already taken
-        const isEmailTaken = await User.findOne({ where: { email: data.email}})
-        const isUsernameTaken = await User.findOne({ where: { username: data.username}})
-
-        if (isEmailTaken || isUsernameTaken) {
-            return res.status(400).json({ error: 'Email or Username taken' })
-        }
-
-        const newUser = await User.create({
-            username: data.username,
-            email: data.email,
-            password: data.password
+        const newPost = await Post.create({
+            postText: data.postText.trim(),
+            userId: req.user.data.id,
+            author: req.user.data.username
         })
-        if (!newUser) {
-            return res.status(400).json({ error: 'invalid inputs' })
-        } else {
-            // create JWT and save it to HTTP cookie
-            signToken(newUser, res)
-            return res.status(200).json(newUser)
+        if (!newPost) {
+            return res.status(400).json({ error: 'invalid input'})
         }
-    } catch (err) {
-        res.status(400).json({ err })
+        res.status(200).json(newPost)
+    } catch(err) {
+        console.log('error adding posts', err)
+    }
+})
+
+router.get('/getPosts', verifyToken, async(req, res) => {
+    try {
+        const posts = await Post.findAll({ 
+            where: { userId: req.user.data.id},
+        })
+
+        res.status(200).json(posts)
+
+    } catch(err) {
+        console.log('could not get posts', err)
     }
 })
 
