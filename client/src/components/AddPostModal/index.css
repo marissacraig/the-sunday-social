@@ -1,8 +1,8 @@
 .post-form-textarea-div {
     margin: 0 auto;
     margin-top: 30px;
-    width: 80%;
-    max-width: 500px;
+    width: 100%;
+    min-width: 290px;
 }
 
 .post-form-textarea {
@@ -13,7 +13,7 @@
     width: 100%;
     background-color: var(--off-white);
     padding: 8px;
-    height: 60px;
+    height: 100px;
     letter-spacing: 1px;
     border-radius: var(--border-radius) var(--border-radius) 0 0 ;
     color: var(--black);
@@ -21,6 +21,7 @@
 .post-form-textarea::placeholder {
     color: rgba(13, 13, 156, 0.7);
     font-size: .95rem;
+    font-style: italic;
 }
 
 .post-form-textarea::-webkit-scrollbar {
@@ -47,4 +48,14 @@
 .post-form-textarea-div .send-icon svg:hover { 
     cursor: pointer;
     color: var(--tertiary-color)
+}
+
+.error-text-post-form {
+    color: red;
+    text-align: center;
+    position: relative;
+    top: 20px;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 1px;
 }

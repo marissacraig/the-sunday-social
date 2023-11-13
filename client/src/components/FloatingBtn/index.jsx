@@ -15,11 +15,16 @@ function FloatingButton({ setShowAddPostModal, makeButtonDisappear, setMakeButto
 
 
     return (
-        <IoAddCircleSharp
-            onClick={() => setMakeButtonDisappear(true)}
-            className={`add-post-floating-btn  ${makeButtonDisappear ? 'remove-floating-button' : ''}`}
-            color="#FFCD00"
-        />
+        // <IoAddCircleSharp
+        //     onClick={() => setMakeButtonDisappear(true)}
+        //     className={`add-post-floating-btn  ${makeButtonDisappear ? 'remove-floating-button' : ''}`}
+        //     color="#FFCD00"
+        // />
+
+        <p
+        onClick={() => setMakeButtonDisappear(true)}
+         className={`add-post-floating-btn  ${makeButtonDisappear ? 'remove-floating-button' : ''}`}
+        >+</p>
 
     
     )

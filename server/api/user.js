@@ -3,6 +3,7 @@ const { verifyToken } = require('../utils/auth');
 const { User, Post } = require('../models');
 
 // this route is just to check if user is logged in. Used in Navigation
+// and other components. no database query
 router.get('/', verifyToken, async(req, res) => {
     try {
         res.status(200).json(req.user)
@@ -33,9 +34,14 @@ router.get('/getPosts', verifyToken, async(req, res) => {
     try {
         const posts = await Post.findAll({ 
             where: { userId: req.user.data.id},
+            order: [['createdAt', 'DESC']]
         })
 
-        res.status(200).json(posts)
+        if (!posts) {
+            return res.status(400).json({ error: 'could not get posts' })
+        } else {
+            res.status(200).json(posts)
+        }
 
     } catch(err) {
         console.log('could not get posts', err)

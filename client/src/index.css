@@ -95,6 +95,13 @@ ol, ul {
   padding-top: 40px;
 }
 
+.modal-title {
+  text-align: center;
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+  margin-bottom: 30px;
+}
+
 .modal-container .modal {
   width: fit-content;
   max-width: 700px;

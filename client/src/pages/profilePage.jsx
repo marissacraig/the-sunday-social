@@ -18,9 +18,8 @@ function ProfilePage() {
             setUserPosts(response)
         
         }
-
         getPosts()
-    }, [])
+    }, [showAddPostModal])
 
     return (
         <>

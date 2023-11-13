@@ -29,10 +29,7 @@ function HomePage() {
         getUserData();
         getAllPosts();
 
-    }, [])
-
-    console.log(allPosts)
-
+    }, [showAddPostModal])
 
     return (
         <>
