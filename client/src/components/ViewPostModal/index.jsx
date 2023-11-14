@@ -4,13 +4,13 @@ import { useEffect, useState } from 'react';
 import formatDate from '../../utils/formatDate'
 import './index.css';
 
-function ViewPostModal({ triggerModal, postId }) {
+function ViewPostModal({ triggerModal, postId, postRefresh, postStatus }) {
 
     const [postData, setPostData] = useState(null);
 
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false)
     const [refresh, setRefresh] = useState(false);
-    
+
     useEffect(() => {
         async function getUserData() {
             const rawData = await fetch('/api/user');
@@ -30,7 +30,8 @@ function ViewPostModal({ triggerModal, postId }) {
     }, [postId, refresh])
 
 
-    const [commentText, setCommentText] = useState('')
+    const [commentText, setCommentText] = useState('');
+
     async function addComment() {
         try {
             const data = await fetch('/api/user/addComment', {
@@ -45,13 +46,13 @@ function ViewPostModal({ triggerModal, postId }) {
             })
             const response = await data.json();
             if (response) {
-                setRefresh(!refresh)
-                setCommentText('')
+                setRefresh(!refresh);
+                setCommentText('');
+                postRefresh(!postStatus);
             }
         } catch (err) {
-            console.log('comment not added ', err)
+            console.log('comment not added ', err);
         }
-
     }
 
     return (

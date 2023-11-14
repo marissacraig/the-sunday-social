@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { verifyToken } = require('../utils/auth');
-const { Post, Comment, Likes } = require('../models');
+const { Post, Comment, Likes, User } = require('../models');
 
 // this route is just to check if user is logged in. Used in Navigation
 // and other components. no database query
@@ -72,10 +72,28 @@ router.post('/addComment', verifyToken, async(req, res) => {
 
 router.post('/addLike', verifyToken, async(req, res) => {
     try {
-        const post = await Post.findByPk(req.body.postId);
+        const post = await Post.findByPk(req.body.postId, {
+            include: [
+                {
+                    model: Likes,
+                    attributes: ['id'],
+                }
+            ]
+        });
         if (!post) {
             return res.status(400).json({ error: 'post is no long available'})
         }
+        const hasUserAlreadyLiked = await Likes.findOne({
+            where: {
+                postId: req.body.postId,
+                userId: req.user.data.id
+            }
+        })
+
+        if (hasUserAlreadyLiked) {
+           return res.status(400).json({ error: 'You can only like a post once' })
+        }
+
         const newLike = await Likes.create({
             userId: req.user.data.id,
             postId: req.body.postId

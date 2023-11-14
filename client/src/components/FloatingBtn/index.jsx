@@ -16,10 +16,8 @@ function FloatingButton({ setShowAddPostModal, makeButtonDisappear, setMakeButto
     return (
         <p
             onClick={() => setMakeButtonDisappear(true)}
-            className={`add-post-floating-btn  ${makeButtonDisappear ? 'remove-floating-button' : ''}`}
+            className={`add-post-floating-btn ${makeButtonDisappear ? 'remove-position remove-floating-button' : 'initial-position add-post-floating-btn-slide-in'}`}
         >+</p>
-
-
     )
 }
 

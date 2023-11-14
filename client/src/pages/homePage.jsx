@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import FloatingButton from "../components/FloatingBtn";
 import Post from "../components/Post";
 import AddPostModal from "../components/AddPostModal";
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function HomePage() {
 
@@ -34,25 +36,25 @@ function HomePage() {
     return (
         <>
             {userData &&
-                <p className="homepage-greeting">Hello, {userData.username}. Let&apos;s get social...</p>
+                <>
+                    <p className="homepage-greeting">Hello, {userData.username}. Let&apos;s get social...</p>
+                    <FloatingButton
+                        setShowAddPostModal={setShowAddPostModal}
+                        setMakeButtonDisappear={setMakeButtonDisappear}
+                        makeButtonDisappear={makeButtonDisappear}
+                        showAddPostModal={showAddPostModal} />
+                </>
             }
-            <h1 className="page-heading">The Sunday Feed</h1>
-
-
-            {/* FLOATING BUTTON */}
             {showAddPostModal &&
                 <AddPostModal
                     setShowPostModal={setShowAddPostModal}
                     setMakeButtonDisappear={setMakeButtonDisappear}
-
                 />
             }
-            <FloatingButton
-                setShowAddPostModal={setShowAddPostModal}
-                setMakeButtonDisappear={setMakeButtonDisappear}
-                makeButtonDisappear={makeButtonDisappear}
-                showAddPostModal={showAddPostModal}
-            />
+
+            <h1 className="page-heading">The Sunday Feed</h1>
+
+
 
 
             {/* ALL POSTS */}

@@ -26,7 +26,7 @@ User.hasMany(Likes, {
     onDelete: 'CASCADE'
 })
 
-Likes.hasOne(User, {
+Likes.belongsTo(User, {
     foreignKey: 'userId'
 })
 

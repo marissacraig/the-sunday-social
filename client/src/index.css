@@ -104,7 +104,7 @@ ol, ul {
 
 .modal-container .modal {
   width: fit-content;
-  min-width: 330px;
+  min-width: 470px;
   max-width: 700px;
   max-height: 500px;
   margin: 0 auto;
@@ -119,6 +119,12 @@ ol, ul {
   animation: slideDown .2s ease-out both;
 }
 
+@media screen and (max-width: 520px) {
+  .modal-container .modal {
+    min-width: 340px;
+  }
+}
+
 @keyframes slideDown {
   to {
     transform: translateY(0px);
@@ -128,6 +134,14 @@ ol, ul {
 /* profile pic margin for all posts and comments */
 .profile-pic {
   margin-right: 8px;
+}
+
+
+.toast-message {
+  background: var(--off-white);
+  color: var(--primary-color);
+  font-size: .95rem;
+  padding: 0 10px;
 }
 
 /* //////////////////// Utilities////////////////// */

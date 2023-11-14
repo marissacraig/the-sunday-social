@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import ViewPostModal from '../ViewPostModal';
 import { BiLike } from 'react-icons/bi'
 import formatDate from '../../utils/formatDate'
+import { ToastContainer, toast } from "react-toastify";
 import './index.css';
 
 function Post({ postId }) {
@@ -36,6 +37,9 @@ function Post({ postId }) {
                 })
             })
             const response = await data.json();
+            if(response.error) {
+                showToastMessage(response.error)
+            }
             if (response) {
                 setRefresh(!refresh)
             }
@@ -44,14 +48,28 @@ function Post({ postId }) {
         }
     }
 
+    const showToastMessage = (errorMsg) => {
+        toast.error(errorMsg, {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 2000,
+            className: 'toast-message',
+            toastId: 'cannotLike'
+        });
+    };
+
     return (
         <>
             {showModal &&
                 <ViewPostModal
                     triggerModal={setShowModal}
                     postId={postData?.id}
+                    // these two props are for fresh of post
+                    postRefresh={setRefresh}
+                    postStatus={refresh}
                 />
             }
+
+            <ToastContainer />
 
             <section onClick={() => setTimeout(() => setShowModal(true), 200)} className="post-section">
                 <div className="post-header">
