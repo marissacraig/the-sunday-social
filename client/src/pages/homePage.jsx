@@ -65,6 +65,7 @@ function HomePage() {
                         <Post
                             postId={post?.id}
                             key={index}
+                            isInUserProfile={false}
                         />
                     )
                 })

@@ -4,10 +4,10 @@ import { useEffect, useState } from 'react';
 import formatDate from '../../utils/formatDate'
 import './index.css';
 
-function ViewPostModal({ triggerModal, postId, postRefresh, postStatus }) {
+function ViewPostModal({ triggerModal, postId, postRefresh, postStatus, isInEditMode }) {
 
     const [postData, setPostData] = useState(null);
-
+    const [postText, setPostText] = useState('');
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false)
     const [refresh, setRefresh] = useState(false);
 
@@ -22,8 +22,8 @@ function ViewPostModal({ triggerModal, postId, postRefresh, postStatus }) {
         async function getSinglePost() {
             const rawData = await fetch(`/api/posts/getSingleViewPost/${postId}`);
             const response = await rawData.json();
-            // console.log(response)
             setPostData(response)
+            setPostText(response.postText)
         }
         getSinglePost();
         getUserData();
@@ -33,6 +33,9 @@ function ViewPostModal({ triggerModal, postId, postRefresh, postStatus }) {
     const [commentText, setCommentText] = useState('');
 
     async function addComment() {
+        if (commentText === '') {
+            return
+        }
         try {
             const data = await fetch('/api/user/addComment', {
                 method: 'POST',
@@ -55,25 +58,48 @@ function ViewPostModal({ triggerModal, postId, postRefresh, postStatus }) {
         }
     }
 
+    function editPostHandler() {
+
+    }
+
     return (
         <section onClick={() => triggerModal(false)} className='modal-container'>
             <div onClick={(e) => e.stopPropagation()} className='modal'>
-                <div className='post-modal-user-info'>
-                    <div className='flex-box'>
-                        <figure><img src='/logo.png' width={33} alt='user profile picture' className='profile-pic' /> </figure>
-                        <div>
-                            <p>{postData?.author}</p>
-                            <p>{formatDate(postData?.createdAt)}</p>
+                {isInEditMode ?
+                    <h3 className='modal-title'>Edit Post</h3>
+                    :
+
+                    <div className='post-modal-user-info'>
+                        <div className='flex-box'>
+                            <figure><img src='/logo.png' width={33} alt='user profile picture' className='profile-pic' /> </figure>
+                            <div>
+                                <p>{postData?.author}</p>
+                                <p>{formatDate(postData?.createdAt)}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <p className='post-modal-text'>{postData?.postText}</p>
+                }
+                {isInEditMode ?
+                    <div className='post-form-textarea-div'>
+                        <textarea
+                            className='post-form-textarea'
+                            type='text'
+                            value={postText}
+                            onChange={((e) => setPostText(e.target.value))}
+                            placeholder='what&apos;s going on...'
+                        />
+                        <p className='send-icon'><IoMdSend onClick={editPostHandler} /></p>
+                    </div>
+                    :
+                    <p className='post-modal-text'>{postData?.postText}</p>
+                }
 
                 <div className='comment-section-div'>
                     {!isUserLoggedIn &&
                         <p className='signin-to-comment-text'>Sign in to comment...</p>
                     }
 
+                    {/* Comment Section */}
                     {postData && postData?.Comments.map((comment, index) => {
                         return (
                             <div key={index} className='single-comment-div'>
@@ -94,11 +120,12 @@ function ViewPostModal({ triggerModal, postId, postRefresh, postStatus }) {
 
 
                 {/* only show comment box if user is logged in */}
-                {isUserLoggedIn ?
+                {isUserLoggedIn && !isInEditMode ?
                     <div className='comment-textarea-div'>
                         <textarea
                             className='comment-textarea'
                             type='text'
+                            value={commentText}
                             placeholder='comment...'
                             onChange={(e) => setCommentText(e.target.value)}
                         />
@@ -107,9 +134,6 @@ function ViewPostModal({ triggerModal, postId, postRefresh, postStatus }) {
                     :
                     <></>
                 }
-
-
-
             </div>
         </section>
     )

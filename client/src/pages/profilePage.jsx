@@ -8,7 +8,6 @@ function ProfilePage() {
     // these two use state variable are paired with the floating button
     const [showAddPostModal, setShowAddPostModal] = useState(false)
     const [makeButtonDisappear, setMakeButtonDisappear] = useState(false);
-
     const [userPosts, setUserPosts] = useState(null)
 
     useEffect(() => {
@@ -42,14 +41,18 @@ function ProfilePage() {
                 makeButtonDisappear={makeButtonDisappear}
                 showAddPostModal={showAddPostModal}
             />
+            {/* User Info */}
+            <h2 className="section-heading"><span>User Info</span></h2>
 
             {/* User Posts */}
+            <h2 className="section-heading"><span>My Posts</span></h2>
             {userPosts && 
                 userPosts.map((post, index) => {
                     return (
                         <Post 
                             key={index}
                             postId={post.id}
+                            isInUserProfile={true}
                         />
                     )
                 })

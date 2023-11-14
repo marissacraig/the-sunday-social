@@ -3,11 +3,13 @@
   min-width: 330px;
   max-width: 800px;
   margin: 40px auto;
+  margin-top: 20px;
   border-radius: var(--border-radius);
   border: 1px solid rgba(0, 0, 0, 0.3);
   box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.4);
   transition: 0.08s;
 }
+
 .post-section:hover {
   cursor: pointer;
   transform: scale(1.007);
@@ -55,13 +57,19 @@
 }
 
 /* this is the hover over 'comments' and 'comment' */
-.post-footer p:nth-child(2):hover {
+.post-footer .like-icon:hover {
   cursor: pointer;
   color: var(--primary-color);
 }
 
 /* styles for the like icon */
-.post-footer p:nth-child(2) {
+.post-footer .like-icon {
   font-size: 1.1rem;
   margin-left: 5px;
+}
+
+.click-to-edit-modal-text {
+  font-size: .9rem;
+  color: var(--off-white);
+  font-style: italic;
 }

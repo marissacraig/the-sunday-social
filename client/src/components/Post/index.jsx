@@ -6,18 +6,18 @@ import formatDate from '../../utils/formatDate'
 import { ToastContainer, toast } from "react-toastify";
 import './index.css';
 
-function Post({ postId }) {
+function Post({ postId, isInUserProfile }) {
     const [showModal, setShowModal] = useState(false)
     const [postData, setPostData] = useState(null)
     const [refresh, setRefresh] = useState(false);
 
     useEffect(() => {
         async function getPost() {
-            try{
+            try {
                 const data = await fetch(`/api/posts/getSinglePost/${postId}`);
                 const response = await data.json();
                 setPostData(response)
-            } catch(err) {
+            } catch (err) {
                 console.log('could not get post ', err)
             }
         }
@@ -37,7 +37,7 @@ function Post({ postId }) {
                 })
             })
             const response = await data.json();
-            if(response.error) {
+            if (response.error) {
                 showToastMessage(response.error)
             }
             if (response) {
@@ -66,6 +66,7 @@ function Post({ postId }) {
                     // these two props are for fresh of post
                     postRefresh={setRefresh}
                     postStatus={refresh}
+                    isInEditMode={isInUserProfile}
                 />
             }
 
@@ -77,6 +78,9 @@ function Post({ postId }) {
                         <figure><img src='/logo.png' width={28} alt='user profile picture' className='profile-pic' /> </figure>
                         <p>{postData?.author}</p>
                     </div>
+
+                    { isInUserProfile && <p className='click-to-edit-modal-text'>(click to edit)</p> }
+
                     <p>{formatDate(postData?.createdAt)}</p>
                 </div>
                 <div className="post-body">
@@ -88,7 +92,7 @@ function Post({ postId }) {
                     </p>
                     <div>
                         <p>{postData?.Likes?.length}</p>
-                        <p onClick={(e) => addLike(e)}><BiLike /></p>
+                        <p className='like-icon' onClick={(e) => addLike(e)}><BiLike /></p>
                     </div>
                 </div>
             </section>
