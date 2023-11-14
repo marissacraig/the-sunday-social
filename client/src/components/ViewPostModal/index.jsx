@@ -32,7 +32,6 @@ function ViewPostModal({ triggerModal, postId, postRefresh, postStatus, isInEdit
 
 
     const [commentText, setCommentText] = useState('');
-
     async function addComment() {
         if (commentText === '') {
             return
@@ -77,6 +76,7 @@ function ViewPostModal({ triggerModal, postId, postRefresh, postStatus, isInEdit
             if (!response) {
                 console.log('error updating post')
             } else {
+                triggerModal(false);
                 postRefresh(!postStatus)
             }
         } catch (err) {
@@ -126,10 +126,10 @@ function ViewPostModal({ triggerModal, postId, postRefresh, postStatus, isInEdit
                             <p className='send-icon'><IoMdSend onClick={editPostHandler} /></p>
                         </div>
                         {!confirmDeletePost &&
-                            <button onClick={() => setConfirmDeletePost(true)}>Delete Post</button>
+                            <button className='delete-button' onClick={() => setConfirmDeletePost(true)}>Delete Post</button>
                         }
                         {confirmDeletePost &&
-                            <button onClick={deletePost}>Confirm Delete</button>
+                            <button className='delete-button' onClick={deletePost}>Confirm Delete</button>
                         }
                     </>
                     :

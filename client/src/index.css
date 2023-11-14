@@ -161,6 +161,32 @@ ol, ul {
   padding: 0 10px;
 }
 
+
+
+.delete-button {
+  display: block;
+  padding: 5px 10px;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--black);
+  background-color: red;
+  font-size: .95rem;
+  color: var(--off-white);
+  border: 1px solid black;
+  margin: 0 auto;
+  margin-bottom: 30px;
+  margin-top: -20px;
+}
+
+.delete-button:hover {
+  cursor: pointer;
+  color: var(--black);
+
+}
+.delete-button:active {
+  border: 1px solid transparent
+}
+
+
 /* //////////////////// Utilities////////////////// */
 
 /* flex box */
