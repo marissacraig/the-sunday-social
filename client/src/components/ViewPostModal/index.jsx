@@ -1,9 +1,14 @@
 /* eslint-disable react/prop-types */
 import { IoMdSend } from 'react-icons/io'
 import { useEffect, useState } from 'react';
-import './index.css'
+import  formatDate  from '../../utils/formatDate'
+import './index.css';
 
-function ViewPostModal({ triggerModal, postData }) {
+function ViewPostModal({ triggerModal, postId }) {
+
+    console.log(postId)
+
+    const [postData, setPostData] = useState(null);
 
 
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false)
@@ -15,8 +20,38 @@ function ViewPostModal({ triggerModal, postData }) {
                 setIsUserLoggedIn(true)
             }
         }
+        async function getSinglePost() {
+            const rawData = await fetch(`/api/posts/getSinglePost/${postId}`);
+            const response = await rawData.json();
+            // console.log(response)
+            setPostData(response)
+        }
+        getSinglePost();
         getUserData();
-    }, [])
+    }, [postId])
+
+    console.log(postData)
+
+    const [commentText, setCommentText] = useState('')
+    async function addComment() {
+        try {
+            const data = await fetch('/api/user/addComment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    commentText,
+                    postId,
+                })
+            })
+            const response = await data.json();
+            console.log(response)
+        } catch (err) {
+            console.log('comment not added ', err)
+        }
+
+    }
 
     return (
         <section onClick={() => triggerModal(false)} className='modal-container'>
@@ -33,47 +68,39 @@ function ViewPostModal({ triggerModal, postData }) {
                 <p className='post-modal-text'>{postData?.postText}</p>
 
                 <div className='comment-section-div'>
-                    <div className='single-comment-div'>
-                        <div className='user-comment-info'>
-                            <div className='flex-box'>
-                                <figure><img src='/logo.png' width={23} alt='user profile picture' className='profile-pic' /> </figure>
-                                <div>
-                                    <p>anthony_bar</p>
-                                    <p>11/2/23</p>
-                                </div>
-                            </div>
-                        </div>
-                        <p className='single-comment'>this is awesome! I can&apos;t wait to see wha t you do. I wish you the best of luck</p>
-                    </div>
 
-
-                    <div className='single-comment-div'>
-                        <div className='user-comment-info'>
-                            <div className='flex-box'>
-                                <figure><img src='/logo.png' width={23} alt='user profile picture' className='profile-pic' /> </figure>
-                                <div>
-                                    <p>anthony_bar</p>
-                                    <p>11/2/23</p>
+                    {postData && postData?.Comments.map((comment, index) => {
+                        return (
+                            <div key={index} className='single-comment-div'>
+                                <div className='user-comment-info'>
+                                    <div className='flex-box'>
+                                        <figure><img src='/logo.png' width={23} alt='user profile picture' className='profile-pic' /> </figure>
+                                        <div>
+                                            <p>{comment?.User?.username}</p>
+                                            <p>{formatDate(comment?.createdAt)}</p>
+                                        </div>
+                                    </div>
                                 </div>
+                                <p className='single-comment'>{comment.commentText}</p>
                             </div>
-                        </div>
-                        <p className='single-comment'>this is awesome! I can&apos;t wait to see wha t you do. I wish you the best of luck</p>
-                    </div>
+                        )
+                    })}
                 </div>
 
 
                 {/* only show reply box if user is logged in */}
-                {isUserLoggedIn ? 
-                <div className='reply-textarea-div'>
-                    <textarea
-                        className='reply-textarea'
-                        type='text'
-                        placeholder='reply...'
-                    />
-                    <p className='send-icon'><IoMdSend /></p>
-                </div>
-                :
-                <p>Sign in to add a reply</p>
+                {isUserLoggedIn ?
+                    <div className='reply-textarea-div'>
+                        <textarea
+                            className='reply-textarea'
+                            type='text'
+                            placeholder='reply...'
+                            onChange={(e) => setCommentText(e.target.value)}
+                        />
+                        <p onClick={addComment} className='send-icon'><IoMdSend /></p>
+                    </div>
+                    :
+                    <p>Sign in to add a reply</p>
                 }
 
 

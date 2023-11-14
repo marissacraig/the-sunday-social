@@ -17,7 +17,7 @@ User.hasMany(Comment, {
     onDelete: 'CASCADE'
 })
 
-Comment.hasOne(User, {
+Comment.belongsTo(User, {
     foreignKey: 'userId'
 })
 

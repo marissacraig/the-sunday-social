@@ -22,7 +22,7 @@ function HomePage() {
         }
 
         async function getAllPosts() {
-            const rawData = await fetch('/api/home');
+            const rawData = await fetch('/api/posts/getAllPosts');
             const allPostData = await rawData.json();
             setAllPosts(allPostData);
         }

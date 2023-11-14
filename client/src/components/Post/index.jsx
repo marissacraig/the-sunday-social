@@ -6,19 +6,14 @@ import  formatDate  from '../../utils/formatDate'
 import './index.css';
 
 function Post({ postData }) {
-
-    console.log('ijas;doijfawe', postData)
-
     const [showModal, setShowModal] = useState(false)
-
     return (
         <>
             {showModal && 
                 <ViewPostModal 
                     triggerModal={setShowModal}
-                    postData={postData}
+                    postId={postData?.id}
                 />
-            
             }
 
             <section onClick={() => setTimeout(() => setShowModal(true), 200)} className="post-section">
@@ -33,7 +28,9 @@ function Post({ postData }) {
                     <p>{postData?.postText}</p>
                 </div>
                 <div className="post-footer">
-                    <p>12 comments</p>
+                    <p>{postData?.Comments?.length}  
+                        {postData?.Comments?.length > 1 ? ' comments' : ' comment'}
+                    </p>
                     <div>
                         <p>4</p>
                         <p><BiLike /></p>

@@ -17,6 +17,7 @@
     text-align: justify;
     line-height: 1.2;
     font-size: .98rem;
+    word-break: break-word;
 }
 
 .reply-textarea-div {
