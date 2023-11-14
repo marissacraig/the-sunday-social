@@ -27,6 +27,7 @@ function AddPostModal({ setMakeButtonDisappear, setShowPostModal }) {
                 errorText.current.innerHTML = 'oops, an error occurred'
             } else {
                 setShowPostModal(false)
+                setMakeButtonDisappear(false)
             }
 
         } catch(err) {

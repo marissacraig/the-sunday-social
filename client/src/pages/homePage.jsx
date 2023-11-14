@@ -24,7 +24,7 @@ function HomePage() {
         }
 
         async function getAllPosts() {
-            const rawData = await fetch('/api/posts/getAllPosts');
+            const rawData = await fetch('/api/post/getAllPosts');
             const allPostData = await rawData.json();
             setAllPosts(allPostData);
         }
@@ -53,9 +53,6 @@ function HomePage() {
             }
 
             <h1 className="page-heading">The Sunday Feed</h1>
-
-
-
 
             {/* ALL POSTS */}
 

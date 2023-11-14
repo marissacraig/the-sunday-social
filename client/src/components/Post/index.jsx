@@ -6,7 +6,7 @@ import formatDate from '../../utils/formatDate'
 import { ToastContainer, toast } from "react-toastify";
 import './index.css';
 
-function Post({ postId, isInUserProfile }) {
+function Post({ postId, isInUserProfile, setTriggerRefresh, triggerRefresh }) {
     const [showModal, setShowModal] = useState(false)
     const [postData, setPostData] = useState(null)
     const [refresh, setRefresh] = useState(false);
@@ -14,7 +14,7 @@ function Post({ postId, isInUserProfile }) {
     useEffect(() => {
         async function getPost() {
             try {
-                const data = await fetch(`/api/posts/getSinglePost/${postId}`);
+                const data = await fetch(`/api/post/getSinglePost/${postId}`);
                 const response = await data.json();
                 setPostData(response)
             } catch (err) {
@@ -67,6 +67,8 @@ function Post({ postId, isInUserProfile }) {
                     postRefresh={setRefresh}
                     postStatus={refresh}
                     isInEditMode={isInUserProfile}
+                    setTriggerRefresh={setTriggerRefresh}
+                    triggerRefresh={triggerRefresh}
                 />
             }
 

@@ -5,16 +5,16 @@ const { Post, Comment, Likes, User } = require('../models');
 // this route is just to check if user is logged in. Used in Navigation
 // and other components. no database query
 // the 'verifyToken' sets the req.user to have user information
-router.get('/', verifyToken, async(req, res) => {
+router.get('/', verifyToken, async (req, res) => {
     try {
         res.status(200).json(req.user)
-    } catch(err) {
+    } catch (err) {
         console.log('no user with that id found', err)
     }
 })
 
 
-router.post('/addPost', verifyToken, async(req, res) => {
+router.post('/addPost', verifyToken, async (req, res) => {
     try {
         const data = req.body;
         const newPost = await Post.create({
@@ -23,18 +23,18 @@ router.post('/addPost', verifyToken, async(req, res) => {
             author: req.user.data.username
         })
         if (!newPost) {
-            return res.status(400).json({ error: 'invalid input'})
+            return res.status(400).json({ error: 'invalid input' })
         }
         res.status(200).json(newPost)
-    } catch(err) {
+    } catch (err) {
         console.log('error adding posts', err)
     }
 })
 
-router.get('/getPosts', verifyToken, async(req, res) => {
+router.get('/getPosts', verifyToken, async (req, res) => {
     try {
-        const posts = await Post.findAll({ 
-            where: { userId: req.user.data.id},
+        const posts = await Post.findAll({
+            where: { userId: req.user.data.id },
             order: [['createdAt', 'DESC']]
         })
         if (!posts) {
@@ -43,16 +43,16 @@ router.get('/getPosts', verifyToken, async(req, res) => {
             res.status(200).json(posts)
         }
 
-    } catch(err) {
+    } catch (err) {
         console.log('could not get posts', err)
     }
 })
 
-router.post('/addComment', verifyToken, async(req, res) => {
+router.post('/addComment', verifyToken, async (req, res) => {
     try {
         const post = await Post.findByPk(req.body.postId);
         if (!post) {
-            return res.status(400).json({ error: 'post is no long available'})
+            return res.status(400).json({ error: 'post is no long available' })
         }
         const newComment = await Comment.create({
             commentText: req.body.commentText,
@@ -61,16 +61,16 @@ router.post('/addComment', verifyToken, async(req, res) => {
         })
 
         if (!newComment) {
-            return res.status(400).json({ error: 'comment not added'})
+            return res.status(400).json({ error: 'comment not added' })
         }
 
         res.status(200).json(newComment)
-    } catch(err) {
-        res.status(500).json({ error: 'comment not added'})
+    } catch (err) {
+        res.status(500).json({ error: 'comment not added' })
     }
 })
 
-router.post('/addLike', verifyToken, async(req, res) => {
+router.post('/addLike', verifyToken, async (req, res) => {
     try {
         const post = await Post.findByPk(req.body.postId, {
             include: [
@@ -81,7 +81,7 @@ router.post('/addLike', verifyToken, async(req, res) => {
             ]
         });
         if (!post) {
-            return res.status(400).json({ error: 'post is no long available'})
+            return res.status(400).json({ error: 'post is no long available' })
         }
         const hasUserAlreadyLiked = await Likes.findOne({
             where: {
@@ -91,7 +91,7 @@ router.post('/addLike', verifyToken, async(req, res) => {
         })
 
         if (hasUserAlreadyLiked) {
-           return res.status(400).json({ error: 'You can only like a post once' })
+            return res.status(400).json({ error: 'You can only like a post once' })
         }
 
         const newLike = await Likes.create({
@@ -100,12 +100,43 @@ router.post('/addLike', verifyToken, async(req, res) => {
         })
 
         if (!newLike) {
-            return res.status(400).json({ error: 'comment not added'})
+            return res.status(400).json({ error: 'comment not added' })
         }
 
         res.status(200).json(newLike)
+    } catch (err) {
+        res.status(500).json({ error: 'comment not added' })
+    }
+})
+
+router.put('/updatePost', verifyToken, async (req, res) => {
+    try {
+        const newText = req.body.updatedPostText;
+        const postId = req.body.postId;
+
+        const updatedPost = await Post.findByPk(postId)
+
+        if (!updatedPost) {
+            res.status(400).json({ error: 'Post not available to update' })
+        }
+        updatedPost.postText = newText;
+        await updatedPost.save();
+        res.status(200).json(updatedPost);
+    } catch (err) {
+        console.log('error updating post ', err)
+    }
+})
+
+router.delete('/deletePost', verifyToken, async (req, res) => {
+    try {
+        const deletedPost = await Post.findByPk(req.body.postId);
+        if (!deletedPost) {
+            console.log('Post was not able to delete')
+        }
+        await deletedPost.destroy();
+        res.status(200).json(deletedPost)
     } catch(err) {
-        res.status(500).json({ error: 'comment not added'})
+        console.log('could not delete post ', err)
     }
 })
 

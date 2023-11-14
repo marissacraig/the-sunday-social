@@ -8,6 +8,7 @@ function ProfilePage() {
     // these two use state variable are paired with the floating button
     const [showAddPostModal, setShowAddPostModal] = useState(false)
     const [makeButtonDisappear, setMakeButtonDisappear] = useState(false);
+    const [triggerRefresh, setTriggerRefresh] = useState(false)
     const [userPosts, setUserPosts] = useState(null)
 
     useEffect(() => {
@@ -22,7 +23,7 @@ function ProfilePage() {
             }
         }
         getPosts()
-    }, [showAddPostModal])
+    }, [showAddPostModal, triggerRefresh])
 
     return (
         <>
@@ -53,6 +54,8 @@ function ProfilePage() {
                             key={index}
                             postId={post.id}
                             isInUserProfile={true}
+                            setTriggerRefresh={setTriggerRefresh}
+                            triggerRefresh={triggerRefresh}
                         />
                     )
                 })
