@@ -13,10 +13,14 @@ function ProfilePage() {
 
     useEffect(() => {
         async function getPosts() {
-            const data = await fetch('/api/user/getPosts');
-            const response = await data.json();
-            setUserPosts(response)
-        
+            try{
+                const data = await fetch('/api/user/getPosts');
+                const response = await data.json();
+                setUserPosts(response)
+            }
+            catch(err) {
+                console.log(err)
+            }
         }
         getPosts()
     }, [showAddPostModal])
@@ -40,13 +44,12 @@ function ProfilePage() {
             />
 
             {/* User Posts */}
-
             {userPosts && 
                 userPosts.map((post, index) => {
                     return (
                         <Post 
                             key={index}
-                            postData={post}
+                            postId={post.id}
                         />
                     )
                 })

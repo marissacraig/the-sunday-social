@@ -61,7 +61,7 @@ function HomePage() {
                 allPosts.map((post, index) => {
                     return (
                         <Post
-                            postData={post}
+                            postId={post?.id}
                             key={index}
                         />
                     )

@@ -20,7 +20,7 @@
     word-break: break-word;
 }
 
-.reply-textarea-div {
+.comment-textarea-div {
     position: sticky;
     bottom: 0;
     left: 0; 
@@ -29,7 +29,7 @@
     padding: 15px;
 }
 
-.reply-textarea {
+.comment-textarea {
     resize: none;
     margin: 0 auto;
     width: 100%;
@@ -42,21 +42,21 @@
     border-radius: var(--border-radius) var(--border-radius) 0 0 ;
     color: var(--black);
 }
-.reply-textarea::placeholder {
+.comment-textarea::placeholder {
     color: var(--primary-color);
     font-size: .95rem;
 }
 
-.reply-textarea::-webkit-scrollbar {
+.comment-textarea::-webkit-scrollbar {
     width: 2px;
 }
 
-.reply-textarea:focus {
+.comment-textarea:focus {
     outline: none;
     border: none;
 }
 
-.reply-textarea-div .send-icon {
+.comment-textarea-div .send-icon {
     background-color: var(--off-white);
     text-align: right;
     border-radius: 0 0 var(--border-radius) var(--border-radius);
@@ -68,7 +68,7 @@
 
 }
 
-.reply-textarea-div .send-icon:hover { 
+.comment-textarea-div .send-icon:hover { 
     cursor: pointer;
     color: var(--tertiary-color)
 }
@@ -101,4 +101,12 @@
     padding-top: 0;
 }
 
+
+.signin-to-comment-text {
+    text-align: center;
+    font-size: 1.15rem;
+    color: var(--accent-color);
+    font-style: italic;
+    margin-bottom: 10px;
+}
 

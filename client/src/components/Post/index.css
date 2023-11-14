@@ -54,7 +54,7 @@
     align-items: center;
 }
 
-/* this is the hover over 'comments' and 'reply' */
+/* this is the hover over 'comments' and 'comment' */
 .post-footer p:nth-child(2):hover {
   cursor: pointer;
   color: var(--accent-color);
