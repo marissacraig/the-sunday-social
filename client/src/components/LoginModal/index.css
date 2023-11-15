@@ -10,6 +10,12 @@
     width: 290px;
 }
 
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .login-form input:focus {
     outline: none;
 }
@@ -50,7 +56,6 @@ button[type="submit"] {
     padding: 2px 15px;
     border-radius: var(--border-radius);
     margin: 0 auto;
-    margin-top: 25px;
     margin-bottom: 25px;
     background-color: var(--tertiary-color);
 }
