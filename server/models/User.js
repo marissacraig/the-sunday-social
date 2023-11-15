@@ -37,6 +37,40 @@ User.init(
             type: DataTypes.STRING,
             allowNull: false,
             validate: { len: [8] }
+        },
+        school: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            validate: { len: [1, 30]}
+        },
+        work: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            validate: { len: [1, 30]}
+        },
+        currentlyLearning: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            validate: { len: [1, 20]}
+        },
+        headline: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            validate: { len: [1, 100]}
+        },
+        petPeeve: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            validate: { len: [1, 28]}
+        },
+        website: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        hobbies: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            validate: { len: [1, 30]}
         }
     },
     // OPTIONS / CONFIG

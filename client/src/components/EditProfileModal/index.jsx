@@ -11,13 +11,15 @@ function EditProfileModal({ setShowModal }) {
     const [petPeeve, setPetPeeve] = useState('');
     const [headline, setHeadline] = useState('');
     const [website, setWebsite] = useState('');
+    const [hobbies, setHobbies] = useState('');
+
 
     const showToastMessage = (errorMsg) => {
         toast.error(errorMsg, {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 3000,
             className: 'toast-message',
-            toastId: 'cannotLike'
+            toastId: 'httpsRequired'
         });
     };
 
@@ -26,7 +28,7 @@ function EditProfileModal({ setShowModal }) {
         // check the format of website and enforce 'https://'
         const urlRegex = /^https:\/\//;
         if (!urlRegex.test(website)) {
-            showToastMessage('website needs to start with \'https://')
+            showToastMessage('website needs to start with \'https://\'')
             return
         }
 
@@ -92,6 +94,19 @@ function EditProfileModal({ setShowModal }) {
                         id="currently-learning"
                         onChange={(e) => setCurrentlyLearning(e.target.value)}
                     />
+                    
+                    <div className="flex-box-sb">
+                        <label htmlFor="hobbies">Hobbies</label>
+                        <p className="form-character-count">{hobbies.length}/30</p>
+                    </div>
+                    <input
+                        type="text"
+                        value={hobbies}
+                        className="form-input"
+                        maxLength={30}
+                        id="hobbies"
+                        onChange={(e) => setHobbies(e.target.value)}
+                    />
 
                     <div className="flex-box-sb">
                         <label htmlFor="petPeeve">Pet Peeve</label>
@@ -105,6 +120,7 @@ function EditProfileModal({ setShowModal }) {
                         id="pet-peeve"
                         onChange={(e) => setPetPeeve(e.target.value)}
                     />
+
 
                     <div className="flex-box-sb">
                         <label htmlFor="headline">Headline</label>
@@ -128,7 +144,7 @@ function EditProfileModal({ setShowModal }) {
                         placeholder="https://..."
                         onChange={(e) => setWebsite(e.target.value)}
                     />
-                    <button type="submit">Submit</button>
+                    <button type="submit">Update</button>
                 </form>
 
             </div>

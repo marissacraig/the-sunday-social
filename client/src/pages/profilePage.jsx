@@ -74,7 +74,9 @@ function ProfilePage() {
                     <p>School: <span>USCD</span></p>
                     <p>Work: <span>edX</span></p>
                     <p>Currently Learning: <span>React.js</span></p>
+                    <p>Hobbies: <span>uneven tables</span></p>
                     <p>Pet Peeve: <span>uneven tables</span></p>
+
                 </div>
             </section>
 
