@@ -13,6 +13,26 @@ router.get('/', verifyToken, async (req, res) => {
     }
 })
 
+router.get('/getUserInfo', verifyToken, async (req, res) => {
+    try {
+        const user = await User.findByPk(req.user.data.id, {
+            include: [
+                {
+                    model: Post,
+                    order: [['createdAt', 'DESC']]
+                }
+            ]
+        });
+        if (!user) {
+            return res.status(400).json({ error: 'no user found'})
+        }
+        res.status(200).json(user)
+    } catch (err) {
+        console.log('no user with that id found', err)
+    }
+})
+
+
 
 router.post('/addPost', verifyToken, async (req, res) => {
     try {
@@ -28,23 +48,6 @@ router.post('/addPost', verifyToken, async (req, res) => {
         res.status(200).json(newPost)
     } catch (err) {
         console.log('error adding posts', err)
-    }
-})
-
-router.get('/getPosts', verifyToken, async (req, res) => {
-    try {
-        const posts = await Post.findAll({
-            where: { userId: req.user.data.id },
-            order: [['createdAt', 'DESC']]
-        })
-        if (!posts) {
-            return res.status(400).json({ error: 'could not get posts' })
-        } else {
-            res.status(200).json(posts)
-        }
-
-    } catch (err) {
-        console.log('could not get posts', err)
     }
 })
 
@@ -140,6 +143,31 @@ router.delete('/deletePost', verifyToken, async (req, res) => {
     }
 })
 
+router.put('/updateUserInfo', verifyToken, async(req,res) => {
+    try{    
+
+        const data = req.body;
+        const updateUser = await User.findByPk(req.user.data.id);
+        if (!updateUser) {
+            return res.status(400).json({ error: 'no user found'})
+        }
+        
+        updateUser.relationshipStatus = data.relationshipStatus;
+        updateUser.school = data.school;
+        updateUser.work = data.work;
+        updateUser.currentlyLearning = data.currentlyLearning;
+        updateUser.headline = data.headline;
+        updateUser.petPeeve = data.petPeeve;
+        updateUser.website = data.website;
+        updateUser.hobbies = data.hobbies;
+
+        await updateUser.save();
+
+        res.status(200).json(updateUser)
+    } catch(err) {
+        console.log(err)
+    }
+})
 
 
 module.exports = router;

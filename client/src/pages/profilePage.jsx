@@ -10,27 +10,28 @@ function ProfilePage() {
     const [showAddPostModal, setShowAddPostModal] = useState(false)
     const [makeButtonDisappear, setMakeButtonDisappear] = useState(false);
     const [triggerRefresh, setTriggerRefresh] = useState(false)
-    const [userPosts, setUserPosts] = useState(null)
+    const [userData, setUserData] = useState(null)
     const [showEditModal, setShowEditModal] = useState(false)
 
     useEffect(() => {
-        async function getPosts() {
-            try{
-                const data = await fetch('/api/user/getPosts');
+        async function getUserInfo() {
+            try {
+                const data = await fetch('/api/user/getUserInfo');
                 const response = await data.json();
-                setUserPosts(response)
+                setUserData(response)
             }
-            catch(err) {
+            catch (err) {
                 console.log(err)
             }
         }
-        getPosts()
+        getUserInfo()
     }, [showAddPostModal, triggerRefresh])
+
 
 
     return (
         <>
-        <h1 className="page-heading">Profile</h1>
+            <h1 className="page-heading">Profile</h1>
             {/* FLOATING BUTTON */}
             {showAddPostModal &&
                 <AddPostModal
@@ -40,10 +41,12 @@ function ProfilePage() {
                 />
             }
 
-            {showEditModal && 
-                <EditProfileModal 
+            {showEditModal &&
+                <EditProfileModal
                     setShowModal={setShowEditModal}
-
+                    userData={userData}
+                    triggerRefresh={triggerRefresh}
+                    setTriggerRefresh={setTriggerRefresh}
                 />
             }
             <FloatingButton
@@ -59,33 +62,32 @@ function ProfilePage() {
                 <div className="user-profile-image-bio">
                     <img src="/logo.png" className="user-profile-image" />
                     <h3>Headline</h3>
-                    <p className="user-bio">1234 56789 1234 56789 1234 56789 12345 6789 1234 56789 1234 56789 1234 56789 1234 5678 </p>
+                    <p className="user-bio">&ldquo;{userData?.headline}&rdquo;</p>
 
-                    <h3>Website:</h3>
-                    <a className="view-work-link" href={'#' }>View my work</a>
+                    <h3>Website</h3>
+                    <a className="view-work-link" target="_blank" rel="noopener noreferrer" href={userData?.website}>View my work</a>
                 </div>
 
                 <div className="user-stats">
                     <button className="edit-profile-btn" onClick={() => setShowEditModal(true)}>edit</button>
-                    <h3>Searchable Qualities</h3>  
-                    <p>Username: <span>tony</span></p>
-                    <p>Email: <span>tony@gmail.com</span></p>
-                    <p>Relationship Status: <span>Married</span></p>
-                    <p>School: <span>USCD</span></p>
-                    <p>Work: <span>edX</span></p>
-                    <p>Currently Learning: <span>React.js</span></p>
-                    <p>Hobbies: <span>uneven tables</span></p>
-                    <p>Pet Peeve: <span>uneven tables</span></p>
-
+                    <h3>Searchable Qualities</h3>
+                    <p>Username: <span>{userData?.username}</span></p>
+                    <p>Email: <span>{userData?.email}</span></p>
+                    <p>Relationship Status: <span>{userData?.relationshipStatus}</span></p>
+                    <p>School: <span>{userData?.school}</span></p>
+                    <p>Work: <span>{userData?.work}</span></p>
+                    <p>Currently Learning: <span>{userData?.currentlyLearning}</span></p>
+                    <p>Hobbies: <span>{userData?.hobbies}</span></p>
+                    <p>Pet Peeve: <span>{userData?.petPeeve}</span></p>
                 </div>
             </section>
 
             {/* User Posts */}
             <h2 className="section-heading"><span>My Posts</span></h2>
-            {userPosts && 
-                userPosts.map((post, index) => {
+            {userData &&
+                userData?.Posts.map((post, index) => {
                     return (
-                        <Post 
+                        <Post
                             key={index}
                             postId={post.id}
                             isInUserProfile={true}

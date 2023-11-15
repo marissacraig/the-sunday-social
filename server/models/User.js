@@ -38,30 +38,40 @@ User.init(
             allowNull: false,
             validate: { len: [8] }
         },
+        relationshipStatus: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            defaultValue: 'N/A'
+        },
         school: {
             type: DataTypes.STRING,
             allowNull: true,
-            validate: { len: [1, 30]}
+            defaultValue: 'N/A',
+            validate: { len: [0, 30]}
         },
         work: {
             type: DataTypes.STRING,
             allowNull: true,
-            validate: { len: [1, 30]}
+            defaultValue: 'N/A',
+            validate: { len: [0, 30]}
         },
         currentlyLearning: {
             type: DataTypes.STRING,
             allowNull: true,
-            validate: { len: [1, 20]}
+            defaultValue: 'N/A',
+            validate: { len: [0, 20]}
         },
         headline: {
             type: DataTypes.STRING,
             allowNull: true,
-            validate: { len: [1, 100]}
+            defaultValue: 'Add a headline!',
+            validate: { len: [0, 100]}
         },
         petPeeve: {
             type: DataTypes.STRING,
             allowNull: true,
-            validate: { len: [1, 28]}
+            defaultValue: 'N/A',
+            validate: { len: [0, 28]}
         },
         website: {
             type: DataTypes.STRING,
@@ -70,7 +80,8 @@ User.init(
         hobbies: {
             type: DataTypes.STRING,
             allowNull: true,
-            validate: { len: [1, 30]}
+            defaultValue: 'N/A',
+            validate: { len: [0, 30]}
         }
     },
     // OPTIONS / CONFIG

@@ -3,15 +3,15 @@ import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import './index.css'
 
-function EditProfileModal({ setShowModal }) {
-    const [relationshipStatus, setRelationshipStatus] = useState('');
-    const [school, setSchool] = useState('');
-    const [work, setWork] = useState('');
-    const [currentlyLearning, setCurrentlyLearning] = useState('');
-    const [petPeeve, setPetPeeve] = useState('');
-    const [headline, setHeadline] = useState('');
-    const [website, setWebsite] = useState('');
-    const [hobbies, setHobbies] = useState('');
+function EditProfileModal({ setShowModal, userData, triggerRefresh, setTriggerRefresh }) {
+    const [relationshipStatus, setRelationshipStatus] = useState(userData.relationshipStatus);
+    const [school, setSchool] = useState(userData.school);
+    const [work, setWork] = useState(userData.work);
+    const [currentlyLearning, setCurrentlyLearning] = useState(userData.currentlyLearning);
+    const [petPeeve, setPetPeeve] = useState(userData.petPeeve);
+    const [headline, setHeadline] = useState(userData.headline);
+    const [website, setWebsite] = useState(userData.website);
+    const [hobbies, setHobbies] = useState(userData.hobbies);
 
 
     const showToastMessage = (errorMsg) => {
@@ -23,18 +23,40 @@ function EditProfileModal({ setShowModal }) {
         });
     };
 
+
     async function updateUserInfo(e) {
         e.preventDefault();
         // check the format of website and enforce 'https://'
         const urlRegex = /^https:\/\//;
-        if (!urlRegex.test(website)) {
+        if (!urlRegex.test(website) && website) {
             showToastMessage('website needs to start with \'https://\'')
             return
         }
-
-
         try {
-            console.log('hi')
+            const data = await fetch('/api/user/updateUserInfo', {
+                method: 'PUT', 
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    relationshipStatus,
+                    school,
+                    work,
+                    currentlyLearning,
+                    petPeeve, 
+                    headline,
+                    website,
+                    hobbies
+                })
+            })
+
+            const response = await data.json();
+            if(response.error) {
+                console.log(response.error)
+                return
+            }
+            setTriggerRefresh(!triggerRefresh);
+            setShowModal(false);
         } catch (err) {
             console.log('could not update user', err)
         }

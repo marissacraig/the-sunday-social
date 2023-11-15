@@ -153,15 +153,12 @@ ol, ul {
   margin-right: 8px;
 }
 
-
 .toast-message {
   background: var(--off-white);
   color: var(--primary-color);
   font-size: .95rem;
   padding: 0 10px;
 }
-
-
 
 .delete-button {
   display: block;
@@ -188,7 +185,6 @@ ol, ul {
 
 
 /* Profile Styles */
-
 .profile-stats-main-section {
   display: flex;
   flex-wrap: wrap;
@@ -216,6 +212,7 @@ ol, ul {
 
 .user-profile-image-bio p {
   font-style: italic;
+  text-align: center;
 }
 
 .view-work-link {
@@ -223,6 +220,7 @@ ol, ul {
   font-weight: 300;
 }
 .view-work-link:hover {
+  cursor: pointer;
   font-style: italic;
 }
 .view-work-link:active {
@@ -255,6 +253,7 @@ ol, ul {
   margin: 0 20px;
   min-height: 340px;
   padding-bottom: 10px;
+  box-shadow: inset 0px 0px 7px 4px rgba(0, 0, 0, 0.35);
 }
 
 .edit-profile-btn {
@@ -265,7 +264,7 @@ ol, ul {
   background-color: transparent;
   border: none;
   font-weight: 300;
-  font-size: 1rem;
+  font-size: .95rem;
   line-height: 1;
   color: var(--accent-color);
   border-bottom: 1px solid var(--accent-color)

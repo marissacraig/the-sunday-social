@@ -1,13 +1,19 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import LoginModal from '../LoginModal';
 import './index.css'
 
 function NavLinks({ closeHamburger, isMobile }) {
+
+    const navigate = useNavigate();
+
     const activeLinkStyle = {
         color: '#FFCD00'
     }
+
+    const [triggerReload, setTriggerReload] = useState(false)
 
     function closeHamburgerMenu() {
         if (isMobile) {
@@ -22,7 +28,8 @@ function NavLinks({ closeHamburger, isMobile }) {
                 method: 'POST'
             });
             localStorage.removeItem('token');
-            window.location.reload();
+            setTriggerReload(!triggerReload)
+            navigate('/')
         } catch (err) {
             console.log('problem signing out', err)
         }
@@ -37,7 +44,7 @@ function NavLinks({ closeHamburger, isMobile }) {
             setUserData(data);
         }
         getUserData();
-    }, [])
+    }, [triggerReload])
 
     return (
         <>
