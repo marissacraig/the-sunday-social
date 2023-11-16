@@ -16,9 +16,8 @@ function MobileNav() {
     }
 
     return (
-        <>
-        <div onClick={closeHamburger} className={isMobileOpen ? 'clickable-mobile-backdrop-display' : '.clickable-mobile-backdrop-display-none'}></div>
         <nav className="mobile-nav">
+        <div onClick={closeHamburger} className={isMobileOpen ? 'clickable-mobile-backdrop-display' : '.clickable-mobile-backdrop-display-none'}></div>
             {isMobileOpen ? closeIcon : hamburgerIcon}
             {isMobileOpen &&
                 <NavLinks
@@ -27,7 +26,6 @@ function MobileNav() {
                 />
             }
         </nav>
-        </>
     )
 }
 

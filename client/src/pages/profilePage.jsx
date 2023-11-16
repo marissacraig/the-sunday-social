@@ -69,8 +69,7 @@ function ProfilePage() {
         }
     }
     return (
-        <>
-            <h1 className="page-heading">Profile</h1>
+        <main>
             {/* FLOATING BUTTON */}
             {showAddPostModal &&
                 <AddPostModal
@@ -96,7 +95,7 @@ function ProfilePage() {
             />
             {/* User Info */}
             <h2 className="section-heading"><span>User Info</span></h2>
-            
+
 
             <section className="profile-stats-main-section">
                 <div className="user-profile-image-bio">
@@ -154,17 +153,9 @@ function ProfilePage() {
                     )
                 })
             }
-        </>
+        </main>
     )
 
 }
 
 export default ProfilePage;
-
-// name
-// location
-// currently learning
-// strongest language
-// relationship status
-// Bio
-

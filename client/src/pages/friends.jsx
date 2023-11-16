@@ -1,7 +1,13 @@
-function Friends() {
+import FriendResults from "../components/FriendResults";
+
+function FriendPage() {
     return (
-        <p>friends</p>
+        <main>            
+            <FriendResults />
+
+        </main>
+
     )
 }
 
-export default Friends
+export default FriendPage;

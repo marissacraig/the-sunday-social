@@ -8,8 +8,7 @@ function Messages() {
     const [makeButtonDisappear, setMakeButtonDisappear] = useState(false);
     
     return (
-        <>
-            <h1 className="page-heading">Messages</h1>
+        <main>
             {/* FLOATING BUTTON */}
             {showAddPostModal &&
                 <AddPostModal
@@ -25,7 +24,7 @@ function Messages() {
                 makeButtonDisappear={makeButtonDisappear}
                 showAddPostModal={showAddPostModal}
             />
-        </>
+        </main>
 
 
     )

@@ -34,7 +34,7 @@ function HomePage() {
     }, [showAddPostModal])
 
     return (
-        <>
+        <main>
             {userData &&
                 <>
                     <p className="homepage-greeting">Hello, {userData.username}. Let&apos;s get social...</p>
@@ -68,7 +68,7 @@ function HomePage() {
                 })
             }
 
-        </>
+        </main>
     )
 }
 
