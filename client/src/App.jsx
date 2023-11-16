@@ -3,7 +3,7 @@ import HomePage from './pages/homePage'
 import Header from './components/Header'
 import ProfilePage from './pages/profilePage'
 import Messages from './pages/messages'
-import { useState, useEffect } from 'react'
+import Friends from './pages/friends'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 function App() {
@@ -16,7 +16,9 @@ function App() {
         <Routes>
           <Route path='/' element={<HomePage />} />
           <Route path='/profile' element={<ProfilePage />} />
-          <Route path='/friends' element={<Messages />} />
+          <Route path='/messages' element={<Messages />} />
+          <Route path='/friends' element={<Friends />} />
+
         </Routes>
       </BrowserRouter>
     </>

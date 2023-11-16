@@ -1,20 +1,32 @@
 /* eslint-disable react/prop-types */
 import { IoMdSend } from 'react-icons/io'
-import { useState, useRef } from 'react';
+import { useState } from 'react';
+import { ToastContainer, toast } from "react-toastify";
 import './index.css';
 
 
 function AddPostModal({ setMakeButtonDisappear, setShowPostModal }) {
 
+    const showToastMessage = (errorMsg) => {
+        toast.error(errorMsg, {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 2000,
+            className: 'toast-message',
+            toastId: 'postMustHaveText'
+        });
+    };
+
     const [postText, setPostText] = useState('');
-    const errorText = useRef(null);
 
     async function postHandler(e) {
         e.preventDefault();
-        if (postText.trim() === '') return errorText.current.innerHTML = 'add text to post'
+        if (postText.trim() === '') {
+            showToastMessage('Add text to post');
+            return
+        }
         try {
             const data = await fetch('/api/user/addPost', {
-                method: 'POST', 
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -24,33 +36,32 @@ function AddPostModal({ setMakeButtonDisappear, setShowPostModal }) {
             })
             const response = await data.json();
             if (!response) {
-                errorText.current.innerHTML = 'oops, an error occurred'
+                showToastMessage('Oops, an error occurred')
             } else {
                 setShowPostModal(false)
                 setMakeButtonDisappear(false)
             }
 
-        } catch(err) {
+        } catch (err) {
             console.log(err)
         }
 
     }
 
     return (
-        <div onClick={() => {setMakeButtonDisappear(false); setShowPostModal(false)}} className='modal-container'>
+        <div onClick={() => { setMakeButtonDisappear(false); setShowPostModal(false) }} className='modal-container'>
             <div onClick={(e) => e.stopPropagation()} className='modal'>
-                    <h3 className='modal-title'>Add Post</h3>
-                    <div className='post-form-textarea-div'>
-                        <textarea
-                            className='post-form-textarea'
-                            type='text'
-                            onChange={((e) => {setPostText(e.target.value); errorText.current.innerHTML = ''})}
-                            placeholder='what&apos;s going on...'
-                        />
-                        <p className='send-icon'><IoMdSend onClick={postHandler} /></p>
-                    </div>
-
-                    <p className='error-text-post-form' ref={errorText}></p>
+                <ToastContainer />
+                <h3 className='modal-title'>Add Post</h3>
+                <div className='post-form-textarea-div'>
+                    <textarea
+                        className='post-form-textarea'
+                        type='text'
+                        onChange={((e) => setPostText(e.target.value) )}
+                        placeholder='what&apos;s going on...'
+                    />
+                    <p className='send-icon'><IoMdSend onClick={postHandler} /></p>
+                </div>
             </div>
         </div>
     )

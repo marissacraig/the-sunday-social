@@ -39,17 +39,7 @@
     cursor: pointer;
 }
 
-.error-text {
-    color: red;
-    text-align: center;
-    position: relative;
-    top: -5px;
-    font-size: .9rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-}
-
-button[type="submit"] {
+.submit-btn {
     border: 1px solid transparent;
     display: block;
     color: var(--black);
@@ -60,17 +50,24 @@ button[type="submit"] {
     background-color: var(--tertiary-color);
 }
 
-button[type="submit"]:hover {
+.submit-btn:hover {
     cursor: pointer;
     color: var(--accent-color);
     
 }
 
-button[type="submit"]:active {
+.submit-btn:active {
     color: var(--off-white);
     cursor: pointer;
 
 }
+
+.disabled-btn {
+    pointer-events: none;
+    color: var(--black);
+    background-color: gray;
+}
+
 
 .loading-icon {
     text-align: center;

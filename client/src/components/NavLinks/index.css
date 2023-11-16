@@ -20,7 +20,7 @@
 }
 
 /* mobile styles */
-@media screen and (max-width: 540px) {
+@media screen and (max-width: 700px) {
     .navLinks ul {
         position: absolute;
         top: 79px;

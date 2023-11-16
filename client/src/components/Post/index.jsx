@@ -26,9 +26,6 @@ function Post({ postId, isInUserProfile, setTriggerRefresh, triggerRefresh }) {
         getPost();
     }, [postId, refresh])
 
-
-    console.log(postData)
-
     async function addLike(e) {
         e.stopPropagation();
         try {

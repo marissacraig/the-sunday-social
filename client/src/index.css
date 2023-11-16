@@ -220,6 +220,7 @@ ol, ul {
   text-align: center;
   font-weight: 500;
   font-size: 1.1rem;
+  position: relative;
 }
 
 .user-profile-image-bio p {
@@ -235,8 +236,8 @@ ol, ul {
   position: absolute;
   height: 0;
   font-size: 1.5rem;
-  top: 100px;
-  right: 55px;
+  top: -30px;
+  right: -20px;
 }
 
 .open-file-profile-pic-btn:hover {

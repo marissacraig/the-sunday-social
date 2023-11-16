@@ -166,7 +166,7 @@ function EditProfileModal({ setShowModal, userData, triggerRefresh, setTriggerRe
                         placeholder="https://..."
                         onChange={(e) => setWebsite(e.target.value)}
                     />
-                    <button type="submit">Update</button>
+                    <button className="submit-btn" type="submit">Update</button>
                 </form>
 
             </div>

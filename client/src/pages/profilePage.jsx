@@ -96,12 +96,18 @@ function ProfilePage() {
             />
             {/* User Info */}
             <h2 className="section-heading"><span>User Info</span></h2>
+            
 
             <section className="profile-stats-main-section">
                 <div className="user-profile-image-bio">
 
                     <Image className='user-profile-image' cloudName='dp6owwg93' publicId={photoUrl} />
+                    
+                    <input type="file" name="upload-pic" id="upload-pic-input"
+                        onChange={(event) => { setImageSelected(event.target.files[0]) }}
+                    />
 
+                    <h3>Headline
                     {imageSelected ?
                         <p className="open-file-profile-pic-btn" onClick={uploadImage}>
                         <FaCheckCircle />
@@ -111,11 +117,7 @@ function ProfilePage() {
                             <IoCloudUpload />
                         </label>
                     }
-                    <input type="file" name="upload-pic" id="upload-pic-input"
-                        onChange={(event) => { setImageSelected(event.target.files[0]) }}
-                    />
-
-                    <h3>Headline</h3>
+                    </h3>
                     <p className="user-bio">&ldquo;{userData?.headline}&rdquo;</p>
 
                     <h3>Website</h3>

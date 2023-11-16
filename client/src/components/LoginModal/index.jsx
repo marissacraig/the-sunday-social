@@ -1,12 +1,24 @@
 /* eslint-disable react/prop-types */
 import { useState, useRef, useEffect } from "react";
 import { FallingLines } from 'react-loader-spinner';
+import { ToastContainer, toast } from "react-toastify";
 import './index.css'
 
 function LoginModal({ setShowModal }) {
 
+    const showToastMessage = (errorMsg, toastId) => {
+        toast.error(errorMsg, {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 2000,
+            closeOnClick: true,
+            className: 'toast-message',
+            toastId: toastId
+        });
+    };
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [username, setUsername] = useState('');
 
 
@@ -15,7 +27,6 @@ function LoginModal({ setShowModal }) {
     const [showLogin, setShowLogin] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
 
-    const errorText = useRef(null);
     const emailInputEl = useRef(null);
 
     useEffect(() => {
@@ -66,8 +77,8 @@ function LoginModal({ setShowModal }) {
 
             const response = await data.json();
             if (response.error) {
-                errorText.current.innerHTML = response.error
                 setIsLoading(false)
+                showToastMessage(response.error, 'nosignup')
             } else {
                 window.location.reload();
             }
@@ -93,7 +104,7 @@ function LoginModal({ setShowModal }) {
 
             const response = await rawData.json();
             if (response.error) {
-                errorText.current.innerHTML = response.error;
+                showToastMessage(response.error, 'loginError')
                 setIsLoading(false)
             } else {
                 window.location.reload();
@@ -121,7 +132,7 @@ function LoginModal({ setShowModal }) {
 
             const response = data.json();
             if (response.error) {
-                errorText.current.innerHTML = response.error;
+                showToastMessage(response.error, 'forgotPasswordError')
                 setIsLoading(false)
             }
             window.location.reload();
@@ -132,6 +143,7 @@ function LoginModal({ setShowModal }) {
 
     return (
         <div onClick={() => setShowModal(false)} className="modal-container">
+            <ToastContainer />
             <div onClick={(e) => e.stopPropagation()} className="modal">
                 {/* Login Section */}
                 {showLogin &&
@@ -142,17 +154,15 @@ function LoginModal({ setShowModal }) {
                                 type="email"
                                 ref={emailInputEl}
                                 placeholder="email"
-                                onChange={(e) => { setEmail(e.target.value); errorText.current.innerHTML = ''; }}
+                                onChange={(e) => setEmail(e.target.value)}
                                 minLength={3}
                             />
                             <input
                                 type="password"
                                 placeholder="password"
-                                onChange={(e) => { setPassword(e.target.value); errorText.current.innerHTML = ''; }}
+                                onChange={(e) => setPassword(e.target.value)}
                                 minLength={8}
                             />
-
-                            <p className="error-text" ref={errorText}></p>
 
                             {isLoading ?
                                 <p className="loading-icon">
@@ -164,7 +174,7 @@ function LoginModal({ setShowModal }) {
                                     />
                                 </p>
                                 :
-                                <button type="submit">Sign in</button>
+                                <button className="submit-btn" type="submit">Sign in</button>
                             }
                         </form>
                         <p className="login-option-text">Not a member?
@@ -185,23 +195,28 @@ function LoginModal({ setShowModal }) {
                                 type="email"
                                 ref={emailInputEl}
                                 placeholder="email"
-                                onChange={(e) => { setEmail(e.target.value); errorText.current.innerHTML = ''; }}
+                                onChange={(e) => setEmail(e.target.value)}
 
                             />
                             <input
                                 type="text"
                                 placeholder="username"
-                                onChange={(e) => { setUsername(e.target.value); errorText.current.innerHTML = ''; }}
+                                onChange={(e) => setUsername(e.target.value)}
                                 minLength={3}
                             />
                             <input
                                 type="password"
                                 placeholder="password"
                                 minLength={8}
-                                onChange={(e) => { setPassword(e.target.value); errorText.current.innerHTML = ''; }}
+                                onChange={(e) => setPassword(e.target.value)}
                             />
 
-                            <p className="error-text" ref={errorText}></p>
+                            <input
+                                type="password"
+                                placeholder="confirm password"
+                                minLength={8}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                            />
 
                             {isLoading ?
                                 <p className="loading-icon">
@@ -213,7 +228,7 @@ function LoginModal({ setShowModal }) {
                                     />
                                 </p>
                                 :
-                                <button type="submit">Create account</button>
+                                <button className={`submit-btn ${confirmPassword === password && password.length > 7 ? '' : 'disabled-btn'}`} type="submit">Create account</button>
                             }
                         </form>
                         <p className="login-option-text">Already a member?
@@ -232,10 +247,8 @@ function LoginModal({ setShowModal }) {
                                 type="email"
                                 ref={emailInputEl}
                                 placeholder="email"
-                                onChange={(e) => { setEmail(e.target.value); errorText.current.innerHTML = ''; }}
+                                onChange={(e) => setEmail(e.target.value)}
                             />
-
-                            <p className="error-text" ref={errorText}></p>
 
                             {isLoading ?
                                 <p className="loading-icon">
@@ -247,7 +260,7 @@ function LoginModal({ setShowModal }) {
                                     />
                                 </p>
                                 :
-                                <button type="submit">Reset</button>
+                                <button className="submit-btn" type="submit">Reset</button>
                             }
                         </form>
                         <p className="login-option-text">Or <br /> <br />

@@ -72,11 +72,20 @@ function NavLinks({ closeHamburger, isMobile }) {
                         </li>
                         <li>
                             <NavLink
-                                to='/friends'
+                                to='/messages'
                                 onClick={closeHamburgerMenu}
                                 style={({ isActive }) => isActive ? activeLinkStyle : {}}
                             >
                                 Messages
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                to='/friends'
+                                onClick={closeHamburgerMenu}
+                                style={({ isActive }) => isActive ? activeLinkStyle : {}}
+                            >
+                                Friends
                             </NavLink>
                         </li>
                         <li>
