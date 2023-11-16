@@ -151,7 +151,6 @@ router.put('/updateUserInfo', verifyToken, async(req,res) => {
         if (!updateUser) {
             return res.status(400).json({ error: 'no user found'})
         }
-        
         updateUser.relationshipStatus = data.relationshipStatus;
         updateUser.school = data.school;
         updateUser.work = data.work;
@@ -164,6 +163,23 @@ router.put('/updateUserInfo', verifyToken, async(req,res) => {
         await updateUser.save();
 
         res.status(200).json(updateUser)
+    } catch(err) {
+        console.log(err)
+    }
+})
+
+router.put('/updateProfilePic', verifyToken, async(req, res) => {
+    try {   
+        console.log('hitting route ', req.body)
+        const updatedUser = await User.findByPk(req.user.data.id);
+
+        if(!updatedUser) {
+            return res.status(400).json({ error: 'image not loaded'})
+        }
+        updatedUser.profilePic = req.body.profilePicURL
+        await updatedUser.save();
+        res.status(200).json(updatedUser)
+
     } catch(err) {
         console.log(err)
     }

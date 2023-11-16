@@ -6,6 +6,7 @@ router.get('/getAllPosts', async (req, res) => {
     try {
         const posts = await Post.findAll({
             order: [['createdAt', 'DESC']],
+            attributes: ['id'],
             include: [
                 {
                     model: Comment,
@@ -39,6 +40,10 @@ router.get('/getSinglePost/:id', async (req, res) => {
                     model: Likes,
                     attributes: ['id'], // Include only the comment id for counting
                 },
+                {
+                    model: User,
+                    attributes: ['profilePic']
+                }
             ],
         });
         if (!posts) {

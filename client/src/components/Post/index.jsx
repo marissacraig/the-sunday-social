@@ -5,6 +5,8 @@ import { BiLike } from 'react-icons/bi'
 import formatDate from '../../utils/formatDate'
 import { ToastContainer, toast } from "react-toastify";
 import './index.css';
+import { Image } from 'cloudinary-react';
+
 
 function Post({ postId, isInUserProfile, setTriggerRefresh, triggerRefresh }) {
     const [showModal, setShowModal] = useState(false)
@@ -23,6 +25,9 @@ function Post({ postId, isInUserProfile, setTriggerRefresh, triggerRefresh }) {
         }
         getPost();
     }, [postId, refresh])
+
+
+    console.log(postData)
 
     async function addLike(e) {
         e.stopPropagation();
@@ -77,7 +82,11 @@ function Post({ postId, isInUserProfile, setTriggerRefresh, triggerRefresh }) {
             <section onClick={() => setTimeout(() => setShowModal(true), 200)} className="post-section">
                 <div className="post-header">
                     <div className='flex-box-sa'>
-                        <figure><img src='/logo.png' width={28} alt='user profile picture' className='profile-pic' /> </figure>
+
+                        <figure>
+                    <Image width={28} alt='user profile picture' className='profile-pic' cloudName='dp6owwg93' publicId={postData?.User?.profilePic} />
+
+                        </figure>
                         <p>{postData?.author}</p>
                     </div>
 

@@ -4,14 +4,14 @@ import { ToastContainer, toast } from "react-toastify";
 import './index.css'
 
 function EditProfileModal({ setShowModal, userData, triggerRefresh, setTriggerRefresh }) {
-    const [relationshipStatus, setRelationshipStatus] = useState(userData.relationshipStatus);
-    const [school, setSchool] = useState(userData.school);
-    const [work, setWork] = useState(userData.work);
-    const [currentlyLearning, setCurrentlyLearning] = useState(userData.currentlyLearning);
-    const [petPeeve, setPetPeeve] = useState(userData.petPeeve);
-    const [headline, setHeadline] = useState(userData.headline);
-    const [website, setWebsite] = useState(userData.website);
-    const [hobbies, setHobbies] = useState(userData.hobbies);
+    const [relationshipStatus, setRelationshipStatus] = useState(userData?.relationshipStatus);
+    const [school, setSchool] = useState(userData?.school);
+    const [work, setWork] = useState(userData?.work);
+    const [currentlyLearning, setCurrentlyLearning] = useState(userData?.currentlyLearning);
+    const [petPeeve, setPetPeeve] = useState(userData?.petPeeve);
+    const [headline, setHeadline] = useState(userData?.headline);
+    const [website, setWebsite] = useState(userData?.website);
+    const [hobbies, setHobbies] = useState(userData?.hobbies);
 
 
     const showToastMessage = (errorMsg) => {

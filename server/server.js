@@ -27,6 +27,6 @@ if (process.env.NODE_ENV === 'production') {
 
 
 app.listen(PORT, () => {
-  // db.sync({ force: true })
+  // db.sync({ force: false })
     console.log(`API server running on port ${PORT}!`);
 })

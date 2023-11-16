@@ -136,7 +136,7 @@ function LoginModal({ setShowModal }) {
                 {/* Login Section */}
                 {showLogin &&
                     <>
-                        <h3 className="modal-title">Login</h3>
+                        <h3 className="modal-title">Sign in</h3>
                         <form className="login-form" onSubmit={(e) => loginHandler(e)}>
                             <input
                                 type="email"
@@ -164,11 +164,11 @@ function LoginModal({ setShowModal }) {
                                     />
                                 </p>
                                 :
-                                <button type="submit">Login</button>
+                                <button type="submit">Sign in</button>
                             }
                         </form>
                         <p className="login-option-text">Not a member?
-                            <span onClick={showSignupHandler}> Sign up</span>
+                            <span onClick={showSignupHandler}> Create account</span>
                         </p>
                         <p className="login-option-text">Forgot
                             <span onClick={showForgotPasswordHandler}> Password?</span>
@@ -213,11 +213,11 @@ function LoginModal({ setShowModal }) {
                                     />
                                 </p>
                                 :
-                                <button type="submit">Sign up</button>
+                                <button type="submit">Create account</button>
                             }
                         </form>
                         <p className="login-option-text">Already a member?
-                            <span onClick={showLoginHandler}> Login</span>
+                            <span onClick={showLoginHandler}> Sign in</span>
                         </p>
                         <p className="login-option-text">Forgot
                             <span onClick={showForgotPasswordHandler}> Password?</span>

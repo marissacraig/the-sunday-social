@@ -151,6 +151,9 @@ ol, ul {
 /* profile pic margin for all posts and comments */
 .profile-pic {
   margin-right: 8px;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
 }
 
 .toast-message {
@@ -188,18 +191,27 @@ ol, ul {
 .profile-stats-main-section {
   display: flex;
   flex-wrap: wrap;
+  width: 90%;
+  max-width: 700px;
+  margin: 0 auto;
   justify-content: center;
+  position: relative;
+  background-color: var(--primary-color);
+  border-radius: var(--border-radius);
+  box-shadow: inset 0px 0px 7px 4px rgba(0, 0, 0, 0.35);
 }
 
 .user-profile-image-bio {
   display: flex;
-  min-width: 255px;
+  position: relative;
+  min-width: 170px;
   max-width: 320px;
   flex: 1;
   flex-direction: column;
   align-items: center;
   margin-left: 20px;
   margin-bottom: 30px;
+  margin-top: 25px;
 }
 
 .user-profile-image-bio h3 {
@@ -213,6 +225,23 @@ ol, ul {
 .user-profile-image-bio p {
   font-style: italic;
   text-align: center;
+}
+
+#upload-pic-input {
+  opacity: 0;
+  position: absolute;
+}
+.open-file-profile-pic-btn {
+  position: absolute;
+  height: 0;
+  font-size: 1.5rem;
+  top: 100px;
+  right: 55px;
+}
+
+.open-file-profile-pic-btn:hover {
+  cursor: pointer;
+  color: var(--accent-color)
 }
 
 .view-work-link {
@@ -239,23 +268,6 @@ ol, ul {
 }
 
 
-.user-stats {
-  display: flex;
-  position: relative;
-  min-width: 400px;
-  max-width: 490px;
-  background-color: var(--primary-color);
-  border-radius: var(--border-radius);
-  flex-direction: column;
-  justify-content: space-around;
-  flex: 1.5;
-  text-align: left;
-  margin: 0 20px;
-  min-height: 340px;
-  padding-bottom: 10px;
-  box-shadow: inset 0px 0px 7px 4px rgba(0, 0, 0, 0.35);
-}
-
 .edit-profile-btn {
   width: fit-content;
   position: absolute;
@@ -267,7 +279,8 @@ ol, ul {
   font-size: .95rem;
   line-height: 1;
   color: var(--accent-color);
-  border-bottom: 1px solid var(--accent-color)
+  border-bottom: 1px solid var(--accent-color);
+  z-index: 10;
 }
 
 .edit-profile-btn:hover {
@@ -279,7 +292,19 @@ ol, ul {
 .edit-profile-btn:active {
   color: var(--secondary-color);
   border-bottom: 1px solid var(--secondary-color);
-
+}
+.user-stats {
+    display: flex;
+    position: relative;
+    min-width: 340px;
+    border-radius: var(--border-radius);
+    flex-direction: column;
+    justify-content: space-around;
+    flex: 1.5;
+    text-align: left;
+    margin: 0 20px;
+    min-height: 340px;
+    margin-bottom: 15px;
 }
 
 .user-stats h3 {
@@ -291,7 +316,7 @@ ol, ul {
 }
 
 .user-stats p {
-  padding: 0 30px;
+  padding: 0px;
   font-size: .95rem;
 }
 
@@ -300,20 +325,29 @@ ol, ul {
   color: var(--tertiary-color)
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 655px) {
   .profile-stats-main-section {
     flex-direction: column;
     align-items: center;
-    width: 100%;
   }
   .user-profile-image-bio {
+    min-width: 0px;
     margin-left: 0;
-    margin-bottom: 30px;
+    margin-bottom: 50px;
   }
-
+  .edit-profile-btn{
+    right: 20px;
+    top:  15px;
+  }
+  .user-stats {
+    min-width: 0;
+    margin: 0;
+    margin-bottom: 15px;
+  }
+  .user-stats h3 {
+    margin-top: -10px;
+  }
 }
-
-
 
 /* //////////////////// Utilities////////////////// */
 

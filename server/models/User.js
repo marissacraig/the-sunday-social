@@ -33,6 +33,10 @@ User.init(
             allowNull: false,
             unique: true
         },
+        profilePic: {
+            type: DataTypes.STRING,
+            defaultValue: 'https://res.cloudinary.com/dp6owwg93/image/upload/v1700111110/kh175ecm7lhercovte8p.png'
+        },
         password: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -47,31 +51,31 @@ User.init(
             type: DataTypes.STRING,
             allowNull: true,
             defaultValue: 'N/A',
-            validate: { len: [0, 30]}
+            validate: { len: [0, 30] }
         },
         work: {
             type: DataTypes.STRING,
             allowNull: true,
             defaultValue: 'N/A',
-            validate: { len: [0, 30]}
+            validate: { len: [0, 30] }
         },
         currentlyLearning: {
             type: DataTypes.STRING,
             allowNull: true,
             defaultValue: 'N/A',
-            validate: { len: [0, 20]}
+            validate: { len: [0, 20] }
         },
         headline: {
             type: DataTypes.STRING,
             allowNull: true,
             defaultValue: 'Add a headline!',
-            validate: { len: [0, 100]}
+            validate: { len: [0, 100] }
         },
         petPeeve: {
             type: DataTypes.STRING,
             allowNull: true,
             defaultValue: 'N/A',
-            validate: { len: [0, 28]}
+            validate: { len: [0, 28] }
         },
         website: {
             type: DataTypes.STRING,
@@ -81,17 +85,17 @@ User.init(
             type: DataTypes.STRING,
             allowNull: true,
             defaultValue: 'N/A',
-            validate: { len: [0, 30]}
+            validate: { len: [0, 30] }
         }
     },
     // OPTIONS / CONFIG
     {
         hooks: {
-            beforeCreate: async(newUserData) => {
+            beforeCreate: async (newUserData) => {
                 newUserData.password = await bcrypt.hash(newUserData.password, 10);
                 return newUserData;
             },
-            beforeUpdate: async(updatedUserData) => {
+            beforeUpdate: async (updatedUserData) => {
                 updatedUserData.password = await bcrypt.hash(updatedUserData.password, 10);
                 return updatedUserData;
             }

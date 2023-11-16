@@ -4,8 +4,13 @@ import FloatingButton from "../components/FloatingBtn";
 import Post from "../components/Post";
 import EditProfileModal from "../components/EditProfileModal";
 import { useEffect, useState } from "react";
+import { IoCloudUpload } from 'react-icons/io5'
+import { FaCheckCircle } from "react-icons/fa";
+import Axios from 'axios';
+import { Image } from 'cloudinary-react';
 
 function ProfilePage() {
+
     // these two use state variable are paired with the floating button
     const [showAddPostModal, setShowAddPostModal] = useState(false)
     const [makeButtonDisappear, setMakeButtonDisappear] = useState(false);
@@ -27,8 +32,42 @@ function ProfilePage() {
         getUserInfo()
     }, [showAddPostModal, triggerRefresh])
 
+    // Profile Picture logic and Variables
+    const [imageSelected, setImageSelected] = useState('');
+    const [photoUrl, setPhotoUrl] = useState(userData?.profilePic)
 
+    useEffect(() => {
+        setPhotoUrl(userData?.profilePic)
+    }, [userData?.profilePic])
 
+    async function uploadImage() {
+        try {
+            // set up form data
+            const formData = new FormData();
+            formData.append('file', imageSelected)
+            formData.append('upload_preset', 'ct5upohe')
+            // make Axios request to cloudinary for Post
+            Axios.post(
+                'https://api.cloudinary.com/v1_1/dp6owwg93/image/upload',
+                formData
+            ).then( async (response) => {
+                setImageSelected('');
+                setPhotoUrl(response.data.url)
+                // save photo to user's database
+                await fetch('/api/user/updateProfilePic', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        profilePicURL: response.data.url
+                    })
+                })
+            })
+        } catch (err) {
+            console.log('image not uploaded')
+        }
+    }
     return (
         <>
             <h1 className="page-heading">Profile</h1>
@@ -60,27 +99,43 @@ function ProfilePage() {
 
             <section className="profile-stats-main-section">
                 <div className="user-profile-image-bio">
-                    <img src="/logo.png" className="user-profile-image" />
+
+                    <Image className='user-profile-image' cloudName='dp6owwg93' publicId={photoUrl} />
+
+                    {imageSelected ?
+                        <p className="open-file-profile-pic-btn" onClick={uploadImage}>
+                        <FaCheckCircle />
+                        </p>
+                        :
+                        <label className="open-file-profile-pic-btn" htmlFor="upload-pic-input">
+                            <IoCloudUpload />
+                        </label>
+                    }
+                    <input type="file" name="upload-pic" id="upload-pic-input"
+                        onChange={(event) => { setImageSelected(event.target.files[0]) }}
+                    />
+
                     <h3>Headline</h3>
                     <p className="user-bio">&ldquo;{userData?.headline}&rdquo;</p>
 
                     <h3>Website</h3>
                     <a className="view-work-link" target="_blank" rel="noopener noreferrer" href={userData?.website}>View my work</a>
                 </div>
+                <button className="edit-profile-btn" onClick={() => setShowEditModal(true)}>edit</button>
 
                 <div className="user-stats">
-                    <button className="edit-profile-btn" onClick={() => setShowEditModal(true)}>edit</button>
                     <h3>Searchable Qualities</h3>
-                    <p>Username: <span>{userData?.username}</span></p>
-                    <p>Email: <span>{userData?.email}</span></p>
-                    <p>Relationship Status: <span>{userData?.relationshipStatus}</span></p>
-                    <p>School: <span>{userData?.school}</span></p>
-                    <p>Work: <span>{userData?.work}</span></p>
-                    <p>Currently Learning: <span>{userData?.currentlyLearning}</span></p>
-                    <p>Hobbies: <span>{userData?.hobbies}</span></p>
-                    <p>Pet Peeve: <span>{userData?.petPeeve}</span></p>
+                    <p>Username: <span>{userData && userData?.username}</span></p>
+                    <p>Email: <span>{userData && userData?.email}</span></p>
+                    <p>Relationship Status: <span>{userData && userData?.relationshipStatus}</span></p>
+                    <p>School: <span>{userData && userData?.school}</span></p>
+                    <p>Work: <span>{userData && userData?.work}</span></p>
+                    <p>Currently Learning: <span>{userData && userData?.currentlyLearning}</span></p>
+                    <p>Hobbies: <span>{userData && userData?.hobbies}</span></p>
+                    <p>Pet Peeve: <span>{userData && userData?.petPeeve}</span></p>
                 </div>
             </section>
+
 
             {/* User Posts */}
             <h2 className="section-heading"><span>My Posts</span></h2>
