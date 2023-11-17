@@ -1,6 +1,6 @@
 .friend-finder-aside {
     margin: 0 auto;
-    width: 400px;
+    width: 350px;
     padding: 30px;
     padding-top: 0;
     background-color: var(--primary-color);
@@ -10,7 +10,7 @@
 }
 
 .top-search-bar {
-    position: fixed;
+    position: absolute;
     padding-top: 30px;
     background-color: var(--primary-color);
 }
@@ -25,6 +25,9 @@
 
 .friend-search-option .make-active {
     color: var(--tertiary-color);
+    border-bottom: 2px solid var(--tertiary-color);
+    padding-bottom: 1px;
+    
 }
 
 .friend-search-option h2:first-child {
@@ -37,7 +40,7 @@
 }
 
 .search-results {
-    margin-top: 100px;
+    margin-top: 135px;
 }
 
 .search-input-div {
@@ -64,7 +67,7 @@
     color: var(--primary-color);
     margin-bottom: 25px;
     margin-top: 10px;
-    width: 300px
+    width: 280px
 }
 
 .search-friends-input:focus {
