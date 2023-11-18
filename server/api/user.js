@@ -1,14 +1,22 @@
 const router = require('express').Router();
 const { verifyToken } = require('../utils/auth');
 const { Op } = require('sequelize');
-const { Post, Comment, Likes, User, Friendship } = require('../models');
+const { Post, Comment, Likes, User, Friendship, FriendRequest } = require('../models');
 
 // this route is just to check if user is logged in. Used in Navigation
 // and other components. no database query
 // the 'verifyToken' sets the req.user to have user information
 router.get('/', verifyToken, async (req, res) => {
     try {
-        res.status(200).json(req.user)
+        const user = await User.findByPk(req.user.data.id, {
+            attributes: ['profilePic', 'username', 'id']
+        });
+
+        if (!user) {
+            res.status(400).json({ error: 'you must log in' })
+        }
+
+        res.status(200).json(user)
     } catch (err) {
         console.log('no user with that id found', err)
     }
@@ -249,6 +257,24 @@ router.post('/addFriend', verifyToken, async (req, res) => {
         if (!newFriendShip) {
             return res.status(400).json({ error: 'friendship not made' })
         }
+
+        await FriendRequest.destroy({ where: { id: req.body.requestId}})
+
+        res.status(200).json(newFriendShip)
+    } catch (err) {
+        res.status(500).json({ error: 'internal server error', err })
+    }
+});
+
+router.post('/sendFriendRequest', verifyToken, async (req, res) => {
+    try {
+        const newFriendShip = await FriendRequest.create({
+            requesterId: req.user.data.id,
+            requesteeId: req.body.friendId
+        })
+        if (!newFriendShip) {
+            return res.status(400).json({ error: 'friendship not made' })
+        }
         res.status(200).json(newFriendShip)
     } catch (err) {
         res.status(500).json({ error: 'internal server error', err })
@@ -277,7 +303,6 @@ router.get('/getUserFriends/:searchBy?', verifyToken, async (req, res) => {
                                 currentlyLearning: { [Op.like]: `%${req.params.searchBy}%` },
                                 petPeeve: { [Op.like]: `%${req.params.searchBy}%` },
                                 hobbies: { [Op.like]: `%${req.params.searchBy}%` }
-
                             }
                         },
                     }
@@ -310,5 +335,53 @@ router.get('/getUserFriends/:searchBy?', verifyToken, async (req, res) => {
         console.log('no user with that id found', err)
     }
 })
+
+router.get('/getIncomingFriendRequests', verifyToken, async(req, res) => {
+    try {
+        const incomingRequests = await User.findByPk(req.user.data.id, {
+            attributes: ['id'],
+            include: [
+                {
+                    model: User,
+                    as: 'Requesters',
+                    though: FriendRequest,
+                    attributes: ['id', 'username', 'profilePic', 'createdAt']
+                }
+            ]
+        })
+
+        if (!incomingRequests) {
+            return res.status(400).json({ error: 'could not get incoming friend requests' })
+        }
+
+        res.status(200).json(incomingRequests)
+
+    } catch(err) {
+        console.log('error getting friend request ', err)
+    }
+});
+router.get('/getOutgoingFriendRequests', verifyToken, async(req, res) => {
+    try {
+        const outgoingRequests = await User.findByPk(req.user.data.id, {
+            attributes: ['id'],
+            include: [
+                {
+                    model: User,
+                    as: 'Requestees',
+                    through: FriendRequest,
+                    attributes: ['id', 'username', 'profilePic', 'createdAt']
+                }
+            ]
+        })
+
+        if (!outgoingRequests) {
+            return res.status(400).json({ error: 'could not get outgoing friend requests'})
+        }
+        res.status(200).json(outgoingRequests)
+
+    } catch(err) {
+        console.log('error getting friend request ', err)
+    }
+});
 
 module.exports = router;

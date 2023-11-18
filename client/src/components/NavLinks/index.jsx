@@ -1,19 +1,18 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom';
+import { IoHome,  } from 'react-icons/io5'
+import { BiSolidMessage } from 'react-icons/bi'
+import { FaUserFriends } from 'react-icons/fa'
 import LoginModal from '../LoginModal';
+import { Image } from 'cloudinary-react';
 import './index.css'
 
-function NavLinks({ closeHamburger, isMobile }) {
-
-    const navigate = useNavigate();
+function NavLinks({ closeHamburger, isMobile, triggerRefreshAmongPages }) {
 
     const activeLinkStyle = {
         color: '#FFCD00'
     }
-
-    const [triggerReload, setTriggerReload] = useState(false)
 
     function closeHamburgerMenu() {
         if (isMobile) {
@@ -22,34 +21,21 @@ function NavLinks({ closeHamburger, isMobile }) {
     }
 
     const [showModal, setShowModal] = useState(false);
-    async function handleLogout() {
-        try {
-            await fetch('/api/auth/logout', {
-                method: 'POST'
-            });
-            localStorage.removeItem('token');
-            setTriggerReload(!triggerReload)
-            navigate('/')
-        } catch (err) {
-            console.log('problem signing out', err)
-        }
-    }
-
     const [userData, setUserData] = useState(null);
 
     useEffect(() => {
         async function getUserData() {
             const rawData = await fetch('/api/user');
-            const { data } = await rawData.json();
+            const data = await rawData.json();
             setUserData(data);
         }
         getUserData();
-    }, [triggerReload])
+    }, [triggerRefreshAmongPages])
 
     return (
         <>
             {showModal && <LoginModal setShowModal={setShowModal} />}
-            {userData ?
+            {userData?.profilePic ?
                 <nav className='navLinks'>
                     <ul>
                         <li>
@@ -58,16 +44,7 @@ function NavLinks({ closeHamburger, isMobile }) {
                                 onClick={closeHamburgerMenu}
                                 style={({ isActive }) => isActive ? activeLinkStyle : {}}
                             >
-                                Home
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink
-                                to='/profile'
-                                onClick={closeHamburgerMenu}
-                                style={({ isActive }) => isActive ? activeLinkStyle : {}}
-                            >
-                                Profile
+                                <IoHome />
                             </NavLink>
                         </li>
                         <li>
@@ -76,7 +53,7 @@ function NavLinks({ closeHamburger, isMobile }) {
                                 onClick={closeHamburgerMenu}
                                 style={({ isActive }) => isActive ? activeLinkStyle : {}}
                             >
-                                Messages
+                                <BiSolidMessage />
                             </NavLink>
                         </li>
                         <li>
@@ -85,11 +62,17 @@ function NavLinks({ closeHamburger, isMobile }) {
                                 onClick={closeHamburgerMenu}
                                 style={({ isActive }) => isActive ? activeLinkStyle : {}}
                             >
-                                Friends
+                                <FaUserFriends />
                             </NavLink>
                         </li>
                         <li>
-                            <p onClick={handleLogout}>Logout</p>
+                            <NavLink
+                                to='/profile'
+                                onClick={closeHamburgerMenu}
+                                style={({ isActive }) => isActive ? activeLinkStyle : {}}
+                            >
+                            <Image className='profile-pic-in-nav' cloudName='dp6owwg93' publicId={userData?.profilePic} />
+                            </NavLink>
                         </li>
                     </ul>
                 </nav>

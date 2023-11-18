@@ -19,7 +19,7 @@ function HomePage() {
     useEffect(() => {
         async function getUserData() {
             const rawData = await fetch('/api/user');
-            const { data } = await rawData.json();
+            const data = await rawData.json();
             setUserData(data);
         }
 
@@ -35,7 +35,7 @@ function HomePage() {
 
     return (
         <main>
-            {userData &&
+            {userData?.profilePic &&
                 <>
                     <p className="homepage-greeting">Hello, {userData.username}. Let&apos;s get social...</p>
                     <FloatingButton
@@ -55,7 +55,6 @@ function HomePage() {
             <h1 className="page-heading">The Sunday Feed</h1>
 
             {/* ALL POSTS */}
-
             {allPosts &&
                 allPosts.map((post, index) => {
                     return (

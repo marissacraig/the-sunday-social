@@ -1,12 +1,17 @@
 .friend-finder-aside {
     margin: 0 auto;
-    width: 350px;
+    width: 280px;
     padding: 30px;
     padding-top: 0;
     background-color: var(--primary-color);
     border-radius: var(--border-radius);
     max-height: 500px;
     overflow-y: auto;
+    margin-bottom: 30px;
+}
+
+.friend-finder-aside {
+    font-size: .9rem;
 }
 
 .top-search-bar {
@@ -67,7 +72,7 @@
     color: var(--primary-color);
     margin-bottom: 25px;
     margin-top: 10px;
-    width: 280px
+    width: 200px
 }
 
 .search-friends-input:focus {
@@ -94,6 +99,5 @@
 }
 
 .single-friend p {
-    margin-left: 10px;
-    margin-right: 10px;
+    margin-right: 5px;
 }

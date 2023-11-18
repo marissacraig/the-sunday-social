@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react'
 import { Image } from 'cloudinary-react';
 import './index.css'
 
-function FriendResults() {
+function FriendFinder() {
 
     const [isFindingFriend, setIsFindingFriends] = useState(false)
     const [foundUsers, setFoundUsers] = useState(null)
@@ -52,9 +52,9 @@ function FriendResults() {
 
 
 
-    async function addFriendHandler(friendId) {
+    async function sendFriendRequestHandler(friendId) {
         try {
-            const data = await fetch('/api/user/addFriend', {
+            const data = await fetch('/api/user/sendFriendRequest', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -66,16 +66,12 @@ function FriendResults() {
             const response = await data.json();
             if (!response) {
                 console.log('friendship not made')
-            } else {
-                console.log(response)
             }
 
         } catch (err) {
             console.log(err)
         }
     }
-
-    console.log(foundUsers)
 
     return (
         <aside className="friend-finder-aside">
@@ -122,11 +118,11 @@ function FriendResults() {
                                 <p>{user.username}</p>
                                 <div className='button-row'>
                                     {isFindingFriend ?
-                                        <p onClick={() => addFriendHandler(user.id)}>Send Friend Request</p>
+                                        <p onClick={() => sendFriendRequestHandler(user.id)}>Send Friend Request</p>
                                         :
                                         <>
                                             <p>Message</p>
-                                            <p>View Profile</p>
+                                            <p>Profile</p>
                                         </>
                                     }
                                 </div>
@@ -139,4 +135,4 @@ function FriendResults() {
     )
 }
 
-export default FriendResults;
+export default FriendFinder;

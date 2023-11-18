@@ -2,10 +2,12 @@
 import NavLinks from "../NavLinks"
 import './index.css';
 
-function Navigation() {
+function Navigation({ triggerRefreshAmongPages }) {
     return (
         <nav className="navigation">
-            <NavLinks />
+            <NavLinks 
+                triggerRefreshAmongPages={triggerRefreshAmongPages}
+            />
         </nav>
     )
 }

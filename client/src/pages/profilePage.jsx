@@ -2,6 +2,7 @@
 import AddPostModal from "../components/AddPostModal";
 import FloatingButton from "../components/FloatingBtn";
 import Post from "../components/Post";
+import { useNavigate } from "react-router-dom";
 import EditProfileModal from "../components/EditProfileModal";
 import { useEffect, useState } from "react";
 import { IoCloudUpload } from 'react-icons/io5'
@@ -9,7 +10,8 @@ import { FaCheckCircle } from "react-icons/fa";
 import Axios from 'axios';
 import { Image } from 'cloudinary-react';
 
-function ProfilePage() {
+function ProfilePage({ triggerRefreshAmongPages, setTriggerRefreshAmongPages}) {
+    const navigate = useNavigate();
 
     // these two use state variable are paired with the floating button
     const [showAddPostModal, setShowAddPostModal] = useState(false)
@@ -68,6 +70,18 @@ function ProfilePage() {
             console.log('image not uploaded')
         }
     }
+    async function handleLogout() {
+        try {
+            await fetch('/api/auth/logout', {
+                method: 'POST'
+            });
+            localStorage.removeItem('token');
+            navigate('/');
+            setTriggerRefreshAmongPages(!triggerRefreshAmongPages)
+        } catch (err) {
+            console.log('problem signing out', err)
+        }
+    }
     return (
         <main>
             {/* FLOATING BUTTON */}
@@ -94,6 +108,8 @@ function ProfilePage() {
                 showAddPostModal={showAddPostModal}
             />
             {/* User Info */}
+
+            <p className="submit-btn" onClick={handleLogout}>Logout</p>
             <h2 className="section-heading"><span>User Info</span></h2>
 
 

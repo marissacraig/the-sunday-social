@@ -15,7 +15,7 @@ function ViewPostModal({ triggerModal, postId, postRefresh, postStatus, isInEdit
     useEffect(() => {
         async function getUserData() {
             const rawData = await fetch('/api/user');
-            const { data } = await rawData.json();
+            const data = await rawData.json();
             if (data?.username) {
                 setIsUserLoggedIn(true)
             }
