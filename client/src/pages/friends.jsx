@@ -9,6 +9,8 @@ function FriendPage() {
     // these two use state variable are paired with the floating button
     const [showAddPostModal, setShowAddPostModal] = useState(false)
     const [makeButtonDisappear, setMakeButtonDisappear] = useState(false);
+    const [triggerRefreshInFriends, setTriggerRefreshInFriends] = useState(false)
+
     return (
         <main>
             {showAddPostModal &&
@@ -23,18 +25,21 @@ function FriendPage() {
                 setMakeButtonDisappear={setMakeButtonDisappear}
                 makeButtonDisappear={makeButtonDisappear}
                 showAddPostModal={showAddPostModal} />
-            <FriendFinder />
 
-            <FriendRequests />
 
-            <p>style the friend requests</p>
-            <p>Autorefresh when adding friend </p>
-            <p>autorefresh when sending request</p>
-            <p>Friends that are pending do not show up in the find</p>
-            <p>Profile button needs to work</p>
+            <FriendFinder 
+                setTriggerRefreshInFriends={setTriggerRefreshInFriends}
+                triggerRefreshInFriends={triggerRefreshInFriends}
+            />
+
+            <FriendRequests 
+                setTriggerRefreshInFriends={setTriggerRefreshInFriends}
+                triggerRefreshInFriends={triggerRefreshInFriends}
+            />
+
+
+   
             <p>Messaging needs to work</p>
-
-
 
             <p>Allowed to send on message with request</p>
             <p>case insensitivity searches</p>

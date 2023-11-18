@@ -63,6 +63,12 @@ function LoginModal({ setShowModal }) {
     async function signupHandler(e) {
         e.preventDefault();
         if (isLoading) return;
+
+        if (password !== confirmPassword) {
+            showToastMessage('Passwords must match');
+            return;
+        }
+
         setIsLoading(true)
         try {
             const data = await fetch('/api/auth/signup', {

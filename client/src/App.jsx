@@ -4,6 +4,7 @@ import Header from './components/Header'
 import ProfilePage from './pages/profilePage'
 import Messages from './pages/messages'
 import Friends from './pages/friends'
+import FriendProfilePage from './pages/friendProfile'
 import { useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
@@ -23,7 +24,7 @@ function App() {
            />} />
           <Route path='/messages' element={<Messages />} />
           <Route path='/friends' element={<Friends />} />
-
+          <Route path='/friendProfile/:friendId' element={<FriendProfilePage />} />
         </Routes>
       </BrowserRouter>
     </>

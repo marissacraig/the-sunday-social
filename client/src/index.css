@@ -186,6 +186,14 @@ ol, ul {
   border: 1px solid transparent
 }
 
+/* Buttons */
+.logout-btn {
+  position: absolute;
+  font-weight: 500;
+  top: 100px;
+  right: 20px;
+}
+
 
 /* Profile Styles */
 .profile-stats-main-section {

@@ -18,10 +18,11 @@ router.get('/', verifyToken, async (req, res) => {
 
         res.status(200).json(user)
     } catch (err) {
-        console.log('no user with that id found', err)
+        res.status(500).json({ error: 'user not found'})
     }
 })
 
+// this is for their profile
 router.get('/getUserInfo', verifyToken, async (req, res) => {
     try {
         const user = await User.findByPk(req.user.data.id, {
@@ -37,7 +38,8 @@ router.get('/getUserInfo', verifyToken, async (req, res) => {
         }
         res.status(200).json(user)
     } catch (err) {
-        console.log('no user with that id found', err)
+        res.status(500).json({ error: 'friend not found'})
+
     }
 })
 
@@ -56,7 +58,8 @@ router.post('/addPost', verifyToken, async (req, res) => {
         }
         res.status(200).json(newPost)
     } catch (err) {
-        console.log('error adding posts', err)
+        res.status(500).json({ error: 'post not added'})
+
     }
 })
 
@@ -135,7 +138,8 @@ router.put('/updatePost', verifyToken, async (req, res) => {
         await updatedPost.save();
         res.status(200).json(updatedPost);
     } catch (err) {
-        console.log('error updating post ', err)
+        res.status(500).json({ error: 'error updating post'})
+
     }
 })
 
@@ -148,7 +152,7 @@ router.delete('/deletePost', verifyToken, async (req, res) => {
         await deletedPost.destroy();
         res.status(200).json(deletedPost)
     } catch (err) {
-        console.log('could not delete post ', err)
+        res.status(500).json({ error: 'post not deleted'})
     }
 })
 
@@ -173,7 +177,7 @@ router.put('/updateUserInfo', verifyToken, async (req, res) => {
 
         res.status(200).json(updateUser)
     } catch (err) {
-        console.log(err)
+        res.status(500).json({ error: 'user info not updated'})
     }
 })
 
@@ -189,7 +193,7 @@ router.put('/updateProfilePic', verifyToken, async (req, res) => {
         res.status(200).json(updatedUser)
 
     } catch (err) {
-        console.log(err)
+        res.status(500).json({ error: 'picture not uploaded'})
     }
 })
 
@@ -203,7 +207,13 @@ router.get('/searchNewFriends/:searchBy', verifyToken, async (req, res) => {
                     model: User,
                     as: 'friends',
                     through: Friendship,
-                    attributes: ['id', 'username'],
+                    attributes: ['id'],
+                },
+                {
+                    model: User,
+                    as: 'Requestees',
+                    through: FriendRequest,
+                    attributes: ['id'],
                 }
             ],
             plain: true
@@ -211,6 +221,9 @@ router.get('/searchNewFriends/:searchBy', verifyToken, async (req, res) => {
         // retrieve all the ids from current friends to filter search 
         // to only show users that have not been befriended
         const friendIds = userFriends.dataValues.friends.map((friend) => friend.id);
+        const friendRequestedIds = userFriends.dataValues.Requestees.map((friend) => friend.id);
+        const friendsNotToShowOnFinder = friendIds.concat(friendRequestedIds)
+
 
         const foundUsers = await User.findAll({
             attributes: ['id', 'profilePic', 'username'],
@@ -235,7 +248,7 @@ router.get('/searchNewFriends/:searchBy', verifyToken, async (req, res) => {
                     },
                     // don't show users that are already friends with this user
                     {
-                        id: { [Op.notIn]: [...friendIds] }
+                        id: { [Op.notIn]: [...friendsNotToShowOnFinder] }
                     }
                 ]
             },
@@ -243,7 +256,7 @@ router.get('/searchNewFriends/:searchBy', verifyToken, async (req, res) => {
 
         res.status(200).json(foundUsers)
     } catch (err) {
-        console.log(err)
+        res.status(500).json({ error: 'friend not found'})
     }
 })
 
@@ -332,7 +345,8 @@ router.get('/getUserFriends/:searchBy?', verifyToken, async (req, res) => {
 
         }
     } catch (err) {
-        console.log('no user with that id found', err)
+        res.status(500).json({ error: 'no user with that Id found'})
+
     }
 })
 
@@ -357,7 +371,7 @@ router.get('/getIncomingFriendRequests', verifyToken, async(req, res) => {
         res.status(200).json(incomingRequests)
 
     } catch(err) {
-        console.log('error getting friend request ', err)
+        res.status(500).json({ error: 'could not get requests'})
     }
 });
 router.get('/getOutgoingFriendRequests', verifyToken, async(req, res) => {
@@ -380,8 +394,30 @@ router.get('/getOutgoingFriendRequests', verifyToken, async(req, res) => {
         res.status(200).json(outgoingRequests)
 
     } catch(err) {
-        console.log('error getting friend request ', err)
+        res.status(500).json({ error: 'request not made'})
     }
 });
+
+// this is to get friends profile
+router.get('/getFriendInfo/:friendId', verifyToken, async(req, res) => {
+    console.log('req params   ', req.params)
+    try {
+        const user = await User.findByPk(req.params.friendId, {
+            include: [
+                {
+                    model: Post,
+                    order: [['createdAt', 'DESC']]
+                },
+            ]
+        });
+        if (!user) {
+            return res.status(400).json({ error: 'no user found' })
+        }
+        res.status(200).json(user)
+    } catch (err) {
+        res.status(500).json({ error: 'friend not found'})
+
+    }
+})
 
 module.exports = router;

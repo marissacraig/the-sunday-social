@@ -32,6 +32,7 @@
 
 .profile-pic-in-nav {
     width: 32px;
+    border-radius: 50%;
 }
 
 /* mobile styles */

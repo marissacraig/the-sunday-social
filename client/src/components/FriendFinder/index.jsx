@@ -1,9 +1,11 @@
+/* eslint-disable react/prop-types */
 import { FaSearch } from 'react-icons/fa'
 import { useState, useEffect, useRef } from 'react'
+import { Link } from 'react-router-dom';
 import { Image } from 'cloudinary-react';
 import './index.css'
 
-function FriendFinder() {
+function FriendFinder({ setTriggerRefreshInFriends, triggerRefreshInFriends}) {
 
     const [isFindingFriend, setIsFindingFriends] = useState(false)
     const [foundUsers, setFoundUsers] = useState(null)
@@ -18,7 +20,6 @@ function FriendFinder() {
                 console.log('error');
                 return;
             }
-            console.log(response)
             setFoundUsers(response?.friends)
         } catch (err) {
             console.log('error getting friends', err)
@@ -48,7 +49,7 @@ function FriendFinder() {
         inputEl.current.value = '';
         // only run findMy friends if we are in 
         if(!isFindingFriend) findMyFriends('');
-    }, [isFindingFriend])
+    }, [isFindingFriend, triggerRefreshInFriends])
 
 
 
@@ -67,7 +68,8 @@ function FriendFinder() {
             if (!response) {
                 console.log('friendship not made')
             }
-
+            setTriggerRefreshInFriends(!triggerRefreshInFriends)
+            findFriends();
         } catch (err) {
             console.log(err)
         }
@@ -121,8 +123,12 @@ function FriendFinder() {
                                         <p onClick={() => sendFriendRequestHandler(user.id)}>Send Friend Request</p>
                                         :
                                         <>
-                                            <p>Message</p>
-                                            <p>Profile</p>
+                                            <Link>
+                                                Message
+                                            </Link>
+                                            <Link to={`/friendProfile/${user.id}`}>
+                                                Profile
+                                            </Link>
                                         </>
                                     }
                                 </div>
@@ -130,6 +136,23 @@ function FriendFinder() {
                         </div>
                     )
                 })}
+
+
+                {/* <div className="single-friend">
+                    <figure>
+                        <img src='logo.png' width={40} />
+                    </figure>
+                    <div className="friend-info">
+                        <p>Mike</p>
+                        <div className='button-row'>
+
+                            <p>Accept</p>
+                        </div>
+                    </div>
+                </div>
+            */}
+            
+            
             </div>
         </aside>
     )

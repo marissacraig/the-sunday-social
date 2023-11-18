@@ -1,7 +1,8 @@
 .friend-finder-aside {
     margin: 0 auto;
     width: 280px;
-    padding: 30px;
+    min-height: 250px;
+    padding: 20px;
     padding-top: 0;
     background-color: var(--primary-color);
     border-radius: var(--border-radius);
@@ -88,16 +89,22 @@
 
 .single-friend .button-row {
     display: flex;
+}
+
+.button-row a, .button-row p {
+    text-decoration: none;
+    display: inline-block;
     justify-content: space-around;
-    font-size: .93rem;
+    font-size: .9rem;
     margin-top: 8px;
     color: var(--accent-color)
 }
-
-.button-row p:hover {
+.button-row a:hover, .button-row p:hover {
     cursor: pointer;
+    text-decoration: underline;
 }
 
-.single-friend p {
-    margin-right: 5px;
+.single-friend a {
+    margin-right: 15px;
 }
+

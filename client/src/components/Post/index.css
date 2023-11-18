@@ -28,12 +28,21 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  padding-bottom: 0;
+  padding-bottom: 5px;
   font-size: 0.93rem;
 }
 
+.post-header p:first-child {
+  margin-bottom: 5px;
+  font-size: .95rem;
+}
+
+.post-header p:nth-child(2) {
+  font-size: .9rem;
+}
+
 .post-body {
-  padding: 10px 30px;
+  padding: 5px 30px;
   line-height: 1.2;
   font-size: 1rem;
   text-align: justify;

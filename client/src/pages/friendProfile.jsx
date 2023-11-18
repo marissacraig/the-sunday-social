@@ -2,16 +2,14 @@
 import AddPostModal from "../components/AddPostModal";
 import FloatingButton from "../components/FloatingBtn";
 import Post from "../components/Post";
-import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import EditProfileModal from "../components/EditProfileModal";
 import { useEffect, useState } from "react";
-import { IoCloudUpload } from 'react-icons/io5'
-import { FaCheckCircle } from "react-icons/fa";
-import Axios from 'axios';
 import { Image } from 'cloudinary-react';
 
-function ProfilePage({ triggerRefreshAmongPages, setTriggerRefreshAmongPages}) {
-    const navigate = useNavigate();
+function FriendProfilePage() {
+
+    const { friendId } = useParams();
 
     // these two use state variable are paired with the floating button
     const [showAddPostModal, setShowAddPostModal] = useState(false)
@@ -20,10 +18,11 @@ function ProfilePage({ triggerRefreshAmongPages, setTriggerRefreshAmongPages}) {
     const [userData, setUserData] = useState(null)
     const [showEditModal, setShowEditModal] = useState(false)
 
+
     useEffect(() => {
         async function getUserInfo() {
             try {
-                const data = await fetch('/api/user/getUserInfo');
+                const data = await fetch(`/api/user/getFriendInfo/${friendId}`);
                 const response = await data.json();
                 setUserData(response)
             }
@@ -34,54 +33,14 @@ function ProfilePage({ triggerRefreshAmongPages, setTriggerRefreshAmongPages}) {
         getUserInfo()
     }, [showAddPostModal, triggerRefresh])
 
-    // Profile Picture logic and Variables
-    const [imageSelected, setImageSelected] = useState('');
+
     const [photoUrl, setPhotoUrl] = useState(userData?.profilePic)
 
     useEffect(() => {
         setPhotoUrl(userData?.profilePic)
     }, [userData?.profilePic])
 
-    async function uploadImage() {
-        try {
-            // set up form data
-            const formData = new FormData();
-            formData.append('file', imageSelected)
-            formData.append('upload_preset', 'ct5upohe')
-            // make Axios request to cloudinary for Post
-            Axios.post(
-                'https://api.cloudinary.com/v1_1/dp6owwg93/image/upload',
-                formData
-            ).then( async (response) => {
-                setImageSelected('');
-                setPhotoUrl(response.data.url)
-                // save photo to user's database
-                await fetch('/api/user/updateProfilePic', {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        profilePicURL: response.data.url
-                    })
-                })
-            })
-        } catch (err) {
-            console.log('image not uploaded')
-        }
-    }
-    async function handleLogout() {
-        try {
-            await fetch('/api/auth/logout', {
-                method: 'POST'
-            });
-            localStorage.removeItem('token');
-            navigate('/');
-            setTriggerRefreshAmongPages(!triggerRefreshAmongPages)
-        } catch (err) {
-            console.log('problem signing out', err)
-        }
-    }
+
     return (
         <main>
             {/* FLOATING BUTTON */}
@@ -108,37 +67,21 @@ function ProfilePage({ triggerRefreshAmongPages, setTriggerRefreshAmongPages}) {
                 showAddPostModal={showAddPostModal}
             />
             {/* User Info */}
-
-            <p className="submit-btn logout-btn" onClick={handleLogout}>Logout</p>
-            <h2 className="section-heading"><span>Your Info</span></h2>
+            <h2 className="section-heading"><span>Friend Info</span></h2>
 
 
             <section className="profile-stats-main-section">
                 <div className="user-profile-image-bio">
 
                     <Image className='user-profile-image' cloudName='dp6owwg93' publicId={photoUrl} />
-                    
-                    <input type="file" name="upload-pic" id="upload-pic-input"
-                        onChange={(event) => { setImageSelected(event.target.files[0]) }}
-                    />
 
-                    <h3>Headline
-                    {imageSelected ?
-                        <p className="open-file-profile-pic-btn" onClick={uploadImage}>
-                        <FaCheckCircle />
-                        </p>
-                        :
-                        <label className="open-file-profile-pic-btn" htmlFor="upload-pic-input">
-                            <IoCloudUpload />
-                        </label>
-                    }
-                    </h3>
+                    <h3>Headline</h3>
+
                     <p className="user-bio">&ldquo;{userData?.headline}&rdquo;</p>
 
                     <h3>Website</h3>
                     <a className="view-work-link" target="_blank" rel="noopener noreferrer" href={userData?.website}>View my work</a>
                 </div>
-                <button className="edit-profile-btn" onClick={() => setShowEditModal(true)}>edit</button>
 
                 <div className="user-stats">
                     <h3>Searchable Qualities</h3>
@@ -155,14 +98,13 @@ function ProfilePage({ triggerRefreshAmongPages, setTriggerRefreshAmongPages}) {
 
 
             {/* User Posts */}
-            <h2 className="section-heading"><span>My Posts</span></h2>
+            <h2 className="section-heading"><span>{userData?.username}&apos;s Posts</span></h2>
             {userData &&
                 userData?.Posts.map((post, index) => {
                     return (
                         <Post
                             key={index}
                             postId={post.id}
-                            isInUserProfile={true}
                             setTriggerRefresh={setTriggerRefresh}
                             triggerRefresh={triggerRefresh}
                         />
@@ -174,4 +116,4 @@ function ProfilePage({ triggerRefreshAmongPages, setTriggerRefreshAmongPages}) {
 
 }
 
-export default ProfilePage;
+export default FriendProfilePage;

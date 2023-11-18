@@ -1,8 +1,9 @@
+/* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react'
 import { Image } from 'cloudinary-react';
 import './index.css'
 
-function FriendRequests() {
+function FriendRequests({ setTriggerRefreshInFriends, triggerRefreshInFriends }) {
 
     const [allIncomingRequests, setAllIncomingRequests] = useState([])
     async function getMyFriendRequests() {
@@ -32,9 +33,7 @@ function FriendRequests() {
 
     useEffect(() => {
         getMyFriendRequests()
-    }, [])
-
-
+    }, [triggerRefreshInFriends])
 
 
     async function addFriendHandler(friendId, requestId) {
@@ -53,37 +52,68 @@ function FriendRequests() {
             if (!response) {
                 console.log('friendship not made')
             }
+            setTriggerRefreshInFriends(!triggerRefreshInFriends)
         } catch (err) {
             console.log(err)
         }
     }
+
     return (
-        <aside className="friend-finder-aside">
+        <aside className="friend-request-aside">
             <div className='top-search-bar'>
                 <h2>Friend Requests</h2>
             </div>
 
             {/* Search results for finding friends */}
-            <div className="search-results">
-                {allIncomingRequests && allIncomingRequests.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((user, index) => {
-                    return (
-                        <div key={index} className="single-friend">
-                            <figure>
-                                <Image width={28} alt='user profile picture' className='profile-pic' cloudName='dp6owwg93' publicId={user?.profilePic} />
-                            </figure>
-                            <div className="friend-info">
-                                <p>{user.username}</p>
-                                <div className='button-row'>
+            <div className="friend-request-results">
+
+                {allIncomingRequests && allIncomingRequests.length === 0 ?
+                    <p className='no-request-text'>No requests</p>
+                    :
+                    allIncomingRequests.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((user, index) => {
+                        return (
+                            <div key={index} className="single-friend">
+                                <figure>
+                                    <Image width={28} alt='user profile picture' className='profile-pic' cloudName='dp6owwg93' publicId={user?.profilePic} />
+                                </figure>
+                                <div className="friend-info">
+                                    <p>{user.username}</p>
                                     {user?.incoming ?
-                                        <p onClick={() => addFriendHandler(user.id, user.FriendRequest.id)}>Accept</p>
+                                        <div className='button-row'>
+                                            <p onClick={() => addFriendHandler(user.id, user.FriendRequest.id)}>Accept</p>
+                                        </div>
                                         :
-                                        <p>Pending...</p>
+                                        <p className='pending-text'>Pending...</p>
                                     }
                                 </div>
                             </div>
+                        )
+                    })
+                }
+
+
+
+                {/* <div className="single-friend">
+                    <figure>
+                        <img src='logo.png' width={40} />
+                    </figure>
+                    <div className="friend-info">
+                        <p>Mike</p>
+                        <div className='button-row'>
+
+                            <p onClick={() => addFriendHandler(5, 4)}>Accept</p>
                         </div>
-                    )
-                })}
+                    </div>
+                </div> */}
+
+
+
+
+
+
+
+
+
             </div>
         </aside>
     )

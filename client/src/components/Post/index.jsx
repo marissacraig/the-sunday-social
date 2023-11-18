@@ -81,15 +81,17 @@ function Post({ postId, isInUserProfile, setTriggerRefresh, triggerRefresh }) {
                     <div className='flex-box-sa'>
 
                         <figure>
-                    <Image width={28} alt='user profile picture' className='profile-pic' cloudName='dp6owwg93' publicId={postData?.User?.profilePic} />
+                            <Image width={28} alt='user profile picture' className='profile-pic' cloudName='dp6owwg93' publicId={postData?.User?.profilePic} />
 
                         </figure>
-                        <p>{postData?.author}</p>
+                        <div>
+                            <p>{postData?.author}</p>
+                            <p>{formatDate(postData?.createdAt)}</p>
+                        </div>
                     </div>
 
-                    { isInUserProfile && <p className='click-to-edit-modal-text'>(click to edit)</p> }
+                    {isInUserProfile && <p className='click-to-edit-modal-text'>(click to edit)</p>}
 
-                    <p>{formatDate(postData?.createdAt)}</p>
                 </div>
                 <div className="post-body">
                     <p>{postData?.postText}</p>
