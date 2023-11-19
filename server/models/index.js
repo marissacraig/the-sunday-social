@@ -4,6 +4,9 @@ const { Post } = require('./Post');
 const { Likes } = require('./Likes');
 const { Friendship } = require('./Friendship');
 const { FriendRequest } = require('./FriendRequest')
+const { ChatRoom } = require('./ChatRoom');
+const { Message } = require('./Message');
+const { UserChatJunc } = require('./UserChatJunc')
 
 // friendships
 User.belongsToMany(User, {
@@ -85,5 +88,52 @@ Likes.hasOne(Post, {
     foreignKey: 'postId'
 })
 
+// ChatRoom and Messages 
+User.hasMany(Message, {
+    foreignKey: 'sender',
+    onDelete: 'CASCADE'
+})
 
-module.exports = { User, Post, Comment, Likes, Friendship, FriendRequest }
+Message.belongsTo(User, {
+    foreignKey: 'sender'
+})
+
+ChatRoom.hasMany(Message, {
+    foreignKey: 'chatroomId',
+    onDelete: 'CASCADE'
+})
+
+// I don't think sender needs to be a reference
+// Maybe the message can just hold the users name
+// Is there any reason to reference the entire user? 
+
+Message.belongsTo(ChatRoom, {
+    foreignKey: 'chatroomId'
+})
+
+User.belongsToMany(ChatRoom, {
+    as: 'ChatRoom',
+    through: UserChatJunc,
+    foreignKey: 'userId',
+})
+ChatRoom.belongsToMany(User, {
+    as: 'User',
+    through: UserChatJunc,
+    foreignKey: 'chatRoomId',
+})
+
+
+
+
+module.exports =
+{
+    User,
+    Post,
+    Comment,
+    Likes,
+    Friendship,
+    FriendRequest,
+    ChatRoom,
+    Message,
+    UserChatJunc
+}

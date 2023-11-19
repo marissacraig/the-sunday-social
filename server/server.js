@@ -19,14 +19,13 @@ app.use('/api', api)
 if (process.env.NODE_ENV === 'production') {
   // server react app when in production
   app.use(express.static(path.join(__dirname, '../client/dist')));
-  
+
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/dist/index.html'));
   });
 }
 
-
 app.listen(PORT, () => {
   // db.sync({ force: true })
-    console.log(`API server running on port ${PORT}!`);
+  console.log(`API server running on port ${PORT}!`);
 })

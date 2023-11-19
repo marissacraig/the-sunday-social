@@ -1,7 +1,17 @@
 const router = require('express').Router();
 const { verifyToken } = require('../utils/auth');
 const { Op } = require('sequelize');
-const { Post, Comment, Likes, User, Friendship, FriendRequest } = require('../models');
+const { 
+    Post, 
+    Comment, 
+    Likes, 
+    User, 
+    Friendship, 
+    FriendRequest,
+    ChatRoom,
+    UserChatJunc,
+    Message
+} = require('../models');
 
 // this route is just to check if user is logged in. Used in Navigation
 // and other components. no database query
@@ -267,7 +277,12 @@ router.post('/addFriend', verifyToken, async (req, res) => {
             user_id: req.user.data.id,
             friend_id: req.body.friendId
         })
-        if (!newFriendShip) {
+        // i have to make the association the other way as well
+        const newFriendShipTwo = await Friendship.create({
+            user_id: req.body.friendId,
+            friend_id: req.user.data.id
+        })
+        if (!newFriendShip || ! newFriendShipTwo) {
             return res.status(400).json({ error: 'friendship not made' })
         }
 
@@ -318,7 +333,7 @@ router.get('/getUserFriends/:searchBy?', verifyToken, async (req, res) => {
                                 hobbies: { [Op.like]: `%${req.params.searchBy}%` }
                             }
                         },
-                    }
+                    },
                 ]
             });
             if (!user) {
@@ -400,7 +415,7 @@ router.get('/getOutgoingFriendRequests', verifyToken, async(req, res) => {
 
 // this is to get friends profile
 router.get('/getFriendInfo/:friendId', verifyToken, async(req, res) => {
-    console.log('req params   ', req.params)
+    console.log('req params', req.params)
     try {
         const user = await User.findByPk(req.params.friendId, {
             include: [
@@ -417,6 +432,39 @@ router.get('/getFriendInfo/:friendId', verifyToken, async(req, res) => {
     } catch (err) {
         res.status(500).json({ error: 'friend not found'})
 
+    }
+})
+
+
+// Create a chatroom
+router.post('/createChatRoom', verifyToken, async(req, res) => {
+    try {
+        // Create new chat room
+        const newChatRoom =  await ChatRoom.create();
+
+        if (!newChatRoom) {
+            return res.status(400).json({ error: 'chatroom not created' })
+        }
+        
+        // get all the user ids that will be in here
+        const userIdArray = [...req.body.userIdsForChatRoom, req.user.data.id ]
+        // loop through each userID and create a new row in the
+        // User Junc table
+        userIdArray.forEach(async (userId) => {
+            const newJunc = await UserChatJunc.create({
+                chatRoomId: newChatRoom.id,
+                userId: userId
+            })
+
+            if (!newJunc) {
+                return res.status(400).json({ error: 'chatroom not created' })
+            }
+        })
+
+        res.status(200).json(newChatRoom)
+
+    } catch(err) {
+        res.status(500).json(`error creating chat room `, err)
     }
 })
 

@@ -1,7 +1,7 @@
 .friend-finder-aside {
     margin: 0 auto;
     width: 280px;
-    min-height: 250px;
+    height: 350px;
     padding: 20px;
     padding-top: 0;
     background-color: var(--primary-color);

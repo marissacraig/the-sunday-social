@@ -26,19 +26,20 @@ function FriendPage() {
                 makeButtonDisappear={makeButtonDisappear}
                 showAddPostModal={showAddPostModal} />
 
+            <main className="friend-page-main">
+                <FriendFinder
+                    setTriggerRefreshInFriends={setTriggerRefreshInFriends}
+                    triggerRefreshInFriends={triggerRefreshInFriends}
+                />
 
-            <FriendFinder 
-                setTriggerRefreshInFriends={setTriggerRefreshInFriends}
-                triggerRefreshInFriends={triggerRefreshInFriends}
-            />
-
-            <FriendRequests 
-                setTriggerRefreshInFriends={setTriggerRefreshInFriends}
-                triggerRefreshInFriends={triggerRefreshInFriends}
-            />
+                <FriendRequests
+                    setTriggerRefreshInFriends={setTriggerRefreshInFriends}
+                    triggerRefreshInFriends={triggerRefreshInFriends}
+                />
+            </main>
 
 
-   
+
             <p>Messaging needs to work</p>
 
             <p>Allowed to send on message with request</p>

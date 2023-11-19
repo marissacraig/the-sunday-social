@@ -58,6 +58,10 @@ ol, ul {
 
 /* /////////////////////////////////// RESET OVER ////////////////////////// */
 
+.main-section-homepage {
+  display: flex;
+} 
+
 .homepage-greeting {
   position: absolute;
   top: 90px;
@@ -356,6 +360,12 @@ ol, ul {
   .user-stats h3 {
     margin-top: -10px;
   }
+}
+
+/* //////////////////////Friend Page//////////////// */
+.friend-page-main {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 /* //////////////////// Utilities////////////////// */

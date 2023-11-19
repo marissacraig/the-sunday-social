@@ -20,7 +20,7 @@ function FriendFinder({ setTriggerRefreshInFriends, triggerRefreshInFriends}) {
                 console.log('error');
                 return;
             }
-            setFoundUsers(response?.friends)
+            setFoundUsers(response.friends)
         } catch (err) {
             console.log('error getting friends', err)
         }

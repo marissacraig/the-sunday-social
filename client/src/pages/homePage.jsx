@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import FloatingButton from "../components/FloatingBtn";
 import Post from "../components/Post";
 import AddPostModal from "../components/AddPostModal";
+import MostPost from "../components/MostPost";
 import 'react-toastify/dist/ReactToastify.css';
 
 
@@ -54,6 +55,11 @@ function HomePage() {
 
             <h1 className="page-heading">The Sunday Feed</h1>
 
+            <section className="main-section-homepage">
+
+            {/* Most Talked about */}
+            <MostPost />
+
             {/* ALL POSTS */}
             {allPosts &&
                 allPosts.map((post, index) => {
@@ -66,6 +72,11 @@ function HomePage() {
                     )
                 })
             }
+
+            {/*  Most Liked */}
+            <MostPost />
+            </section>
+
 
         </main>
     )
