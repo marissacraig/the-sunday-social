@@ -49,7 +49,7 @@ function NavLinks({ closeHamburger, isMobile, triggerRefreshAmongPages }) {
                         </li>
                         <li>
                             <NavLink
-                                to='/messages'
+                                to='/messages/1'
                                 onClick={closeHamburgerMenu}
                                 style={({ isActive }) => isActive ? activeLinkStyle : {}}
                             >

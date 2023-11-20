@@ -61,7 +61,7 @@
 
 .single-chat-friend:hover {
     cursor: pointer;
-    background-color: #00629ba7;
+    background-color: var(--primary-highlight);
 }
 
 .friend-name-pic-chatlist {

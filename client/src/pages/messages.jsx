@@ -1,13 +1,26 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CreateChatModal from "../components/CreateChatModal";
+import ChatBox from "../components/ChatBox";
 import AddPostModal from "../components/AddPostModal";
-import FloatingButton from "../components/FloatingBtn";
 
 function Messages() {
     // these two use state variable are paired with the floating button
     const [showAddPostModal, setShowAddPostModal] = useState(false)
-    const [makeButtonDisappear, setMakeButtonDisappear] = useState(false);
     const [showCreateChatModal, setShowCreateChatModal] = useState(false);
+    const [userData, setUserData] = useState(null);
+
+
+    useEffect(() => {
+        async function getUserData() {
+            const rawData = await fetch('/api/user');
+            const data = await rawData.json();
+            setUserData(data);
+        }
+
+        getUserData();
+    }, [showAddPostModal])
+
+    console.log(userData)
 
     return (
         <main>
@@ -28,16 +41,14 @@ function Messages() {
 
             }
 
-            <FloatingButton
-                setShowAddPostModal={setShowAddPostModal}
-                setMakeButtonDisappear={setMakeButtonDisappear}
-                makeButtonDisappear={makeButtonDisappear}
-                showAddPostModal={showAddPostModal}
+
+            <button className="submit-btn" id="create-chatroom-btn" onClick={() => setShowCreateChatModal(true)}>New Chat+</button>
+
+
+            <ChatBox 
+                username={userData?.username}
+
             />
-
-            <button className="submit-btn" onClick={() => setShowCreateChatModal(true)}>New Chat+</button>
-
-
         </main>
 
 

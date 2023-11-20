@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { IoMdSend } from 'react-icons/io'
 import { useEffect, useState } from 'react';
-import formatDate from '../../utils/formatDate'
+import { formatDate } from '../../utils/formatDate'
 import './index.css';
 
 function ViewPostModal({ triggerModal, postId, postRefresh, postStatus, isInEditMode, setTriggerRefresh, triggerRefresh }) {

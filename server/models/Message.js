@@ -17,12 +17,8 @@ Message.init(
             allowNull: false,
         },
         sender: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING(25),
             allowNull: false,
-            references: {
-                model: 'User',
-                key: 'id'
-            }
         },
         chatroomId: {
             type: DataTypes.INTEGER,

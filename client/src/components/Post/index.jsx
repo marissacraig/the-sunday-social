@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import ViewPostModal from '../ViewPostModal';
 import { BiLike } from 'react-icons/bi'
-import formatDate from '../../utils/formatDate'
+import { formatDate } from '../../utils/formatDate'
 import { ToastContainer, toast } from "react-toastify";
 import './index.css';
 import { Image } from 'cloudinary-react';

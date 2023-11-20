@@ -468,4 +468,45 @@ router.post('/createChatRoom', verifyToken, async(req, res) => {
     }
 })
 
+router.get('/getChatRoom/:chatId', verifyToken, async(req, res) => {
+    console.log('weeeeeeeeeeeee', req.params.chatId)
+    try {
+        
+        const chatRoom = await ChatRoom.findByPk(req.params.chatId)
+
+        console.log(chatRoom)
+
+        res.status(200).json(chatRoom)
+
+
+    } catch(err) {
+        res.status(500).json(err)
+    }
+})
+
+router.get('/getChatMessages/:chatId', verifyToken, async(req, res) => {
+    try {
+        const allMessages = await Message.findAll({ where: { chatroomId: req.params.chatId }});
+
+        res.status(200).json(allMessages)
+    } catch(err) {
+        console.log(err)
+    }
+})
+
+router.post('/createNewMessage', async(req, res) => {
+    try {
+        const newMessage = await Message.create({
+            messageText: req.body.messageText,
+            sender: req.body.sender,
+            chatroomId: req.body.chatroomId
+        })
+
+        res.status(200).json(newMessage)
+
+    } catch(err) {
+        res.status(500).json(err)
+    }
+})
+
 module.exports = router;

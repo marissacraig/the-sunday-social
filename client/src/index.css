@@ -3,6 +3,7 @@
   /*  COLORS */
   --primary-color: #182B49;
   --secondary-color: #00629B;
+  --primary-highlight: #00629ba7;
   --tertiary-color: #C69214;
   --accent-color:#FFCD00;
   --black: #0c0b0b;
@@ -366,6 +367,12 @@ ol, ul {
 .friend-page-main {
   display: flex;
   flex-wrap: wrap;
+}
+
+#create-chatroom-btn {
+  position: absolute;
+  top: 105px;
+  right: 30px;
 }
 
 /* //////////////////// Utilities////////////////// */

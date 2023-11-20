@@ -89,23 +89,20 @@ Likes.hasOne(Post, {
 })
 
 // ChatRoom and Messages 
-User.hasMany(Message, {
-    foreignKey: 'sender',
-    onDelete: 'CASCADE'
-})
+// User.hasMany(Message, {
+//     foreignKey: 'sender',
+//     onDelete: 'CASCADE'
+// })
 
-Message.belongsTo(User, {
-    foreignKey: 'sender'
-})
+// Message.belongsTo(User, {
+//     foreignKey: 'sender'
+// })
 
 ChatRoom.hasMany(Message, {
     foreignKey: 'chatroomId',
     onDelete: 'CASCADE'
 })
-
-// I don't think sender needs to be a reference
-// Maybe the message can just hold the users name
-// Is there any reason to reference the entire user? 
+ 
 
 Message.belongsTo(ChatRoom, {
     foreignKey: 'chatroomId'
