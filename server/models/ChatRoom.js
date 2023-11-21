@@ -19,6 +19,10 @@ ChatRoom.init(
         notifications: {
             type: DataTypes.STRING,
             allowNull: true
+        },
+        updateBoolean: {
+            type: DataTypes.STRING,
+            defaultValue: false,
         }
     }, 
     {

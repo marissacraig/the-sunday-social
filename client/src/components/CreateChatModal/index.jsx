@@ -39,15 +39,15 @@ function CreateChatModal({ triggerModal }) {
         findMyFriends()
     }, [])
 
+    
+
 
     async function makeChatRoom(e) {
         e.preventDefault();
-
         if (userIdsForChatRoom.length === 0) {
             showToastMessage('Please select recipient(s)')
             return;
         }
-
         try {
             const data = await fetch('/api/user/createChatRoom', {
                 method: 'POST',
@@ -55,13 +55,15 @@ function CreateChatModal({ triggerModal }) {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    userIdsForChatRoom
+                    userIdsForChatRoom,
+
                 })
             })
             const response = await data.json();
             if(!response) {
                 console.log('error')
             }
+            triggerModal(false);
         } catch (err) {
             console.log(`error making room `, err)
         }
@@ -77,11 +79,7 @@ function CreateChatModal({ triggerModal }) {
         } else {
             setUsersIdsForChatRoom(prevArrary => [...prevArrary, e.target.value])
         }
-
     }
-
-    console.log(userIdsForChatRoom)
-
 
     return (
         <section onClick={() => { triggerModal(false) }} className='modal-container'>

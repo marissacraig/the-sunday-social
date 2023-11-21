@@ -1,12 +1,12 @@
 const router = require('express').Router();
 const { verifyToken } = require('../utils/auth');
 const { Op } = require('sequelize');
-const { 
-    Post, 
-    Comment, 
-    Likes, 
-    User, 
-    Friendship, 
+const {
+    Post,
+    Comment,
+    Likes,
+    User,
+    Friendship,
     FriendRequest,
     ChatRoom,
     UserChatJunc,
@@ -28,7 +28,7 @@ router.get('/', verifyToken, async (req, res) => {
 
         res.status(200).json(user)
     } catch (err) {
-        res.status(500).json({ error: 'user not found'})
+        res.status(500).json({ error: 'user not found' })
     }
 })
 
@@ -48,7 +48,7 @@ router.get('/getUserInfo', verifyToken, async (req, res) => {
         }
         res.status(200).json(user)
     } catch (err) {
-        res.status(500).json({ error: 'friend not found'})
+        res.status(500).json({ error: 'friend not found' })
 
     }
 })
@@ -68,7 +68,7 @@ router.post('/addPost', verifyToken, async (req, res) => {
         }
         res.status(200).json(newPost)
     } catch (err) {
-        res.status(500).json({ error: 'post not added'})
+        res.status(500).json({ error: 'post not added' })
 
     }
 })
@@ -148,7 +148,7 @@ router.put('/updatePost', verifyToken, async (req, res) => {
         await updatedPost.save();
         res.status(200).json(updatedPost);
     } catch (err) {
-        res.status(500).json({ error: 'error updating post'})
+        res.status(500).json({ error: 'error updating post' })
 
     }
 })
@@ -162,7 +162,7 @@ router.delete('/deletePost', verifyToken, async (req, res) => {
         await deletedPost.destroy();
         res.status(200).json(deletedPost)
     } catch (err) {
-        res.status(500).json({ error: 'post not deleted'})
+        res.status(500).json({ error: 'post not deleted' })
     }
 })
 
@@ -187,7 +187,7 @@ router.put('/updateUserInfo', verifyToken, async (req, res) => {
 
         res.status(200).json(updateUser)
     } catch (err) {
-        res.status(500).json({ error: 'user info not updated'})
+        res.status(500).json({ error: 'user info not updated' })
     }
 })
 
@@ -203,7 +203,7 @@ router.put('/updateProfilePic', verifyToken, async (req, res) => {
         res.status(200).json(updatedUser)
 
     } catch (err) {
-        res.status(500).json({ error: 'picture not uploaded'})
+        res.status(500).json({ error: 'picture not uploaded' })
     }
 })
 
@@ -266,7 +266,7 @@ router.get('/searchNewFriends/:searchBy', verifyToken, async (req, res) => {
 
         res.status(200).json(foundUsers)
     } catch (err) {
-        res.status(500).json({ error: 'friend not found'})
+        res.status(500).json({ error: 'friend not found' })
     }
 })
 
@@ -282,11 +282,11 @@ router.post('/addFriend', verifyToken, async (req, res) => {
             user_id: req.body.friendId,
             friend_id: req.user.data.id
         })
-        if (!newFriendShip || ! newFriendShipTwo) {
+        if (!newFriendShip || !newFriendShipTwo) {
             return res.status(400).json({ error: 'friendship not made' })
         }
 
-        await FriendRequest.destroy({ where: { id: req.body.requestId}})
+        await FriendRequest.destroy({ where: { id: req.body.requestId } })
 
         res.status(200).json(newFriendShip)
     } catch (err) {
@@ -360,12 +360,12 @@ router.get('/getUserFriends/:searchBy?', verifyToken, async (req, res) => {
 
         }
     } catch (err) {
-        res.status(500).json({ error: 'no user with that Id found'})
+        res.status(500).json({ error: 'no user with that Id found' })
 
     }
 })
 
-router.get('/getIncomingFriendRequests', verifyToken, async(req, res) => {
+router.get('/getIncomingFriendRequests', verifyToken, async (req, res) => {
     try {
         const incomingRequests = await User.findByPk(req.user.data.id, {
             attributes: ['id'],
@@ -385,11 +385,11 @@ router.get('/getIncomingFriendRequests', verifyToken, async(req, res) => {
 
         res.status(200).json(incomingRequests)
 
-    } catch(err) {
-        res.status(500).json({ error: 'could not get requests'})
+    } catch (err) {
+        res.status(500).json({ error: 'could not get requests' })
     }
 });
-router.get('/getOutgoingFriendRequests', verifyToken, async(req, res) => {
+router.get('/getOutgoingFriendRequests', verifyToken, async (req, res) => {
     try {
         const outgoingRequests = await User.findByPk(req.user.data.id, {
             attributes: ['id'],
@@ -404,18 +404,17 @@ router.get('/getOutgoingFriendRequests', verifyToken, async(req, res) => {
         })
 
         if (!outgoingRequests) {
-            return res.status(400).json({ error: 'could not get outgoing friend requests'})
+            return res.status(400).json({ error: 'could not get outgoing friend requests' })
         }
         res.status(200).json(outgoingRequests)
 
-    } catch(err) {
-        res.status(500).json({ error: 'request not made'})
+    } catch (err) {
+        res.status(500).json({ error: 'request not made' })
     }
 });
 
 // this is to get friends profile
-router.get('/getFriendInfo/:friendId', verifyToken, async(req, res) => {
-    console.log('req params', req.params)
+router.get('/getFriendInfo/:friendId', verifyToken, async (req, res) => {
     try {
         const user = await User.findByPk(req.params.friendId, {
             include: [
@@ -430,24 +429,31 @@ router.get('/getFriendInfo/:friendId', verifyToken, async(req, res) => {
         }
         res.status(200).json(user)
     } catch (err) {
-        res.status(500).json({ error: 'friend not found'})
+        res.status(500).json({ error: 'friend not found' })
 
     }
 })
 
 
 // Create a chatroom
-router.post('/createChatRoom', verifyToken, async(req, res) => {
+router.post('/createChatRoom', verifyToken, async (req, res) => {
     try {
+        // find the first user to make it the naem of the chat
+        const firstRecipient = await User.findByPk(req.body.userIdsForChatRoom[0], {
+            attributes: ['username']
+        });
+
         // Create new chat room
-        const newChatRoom =  await ChatRoom.create();
+        const newChatRoom = await ChatRoom.create({
+            chatRoomName: firstRecipient.dataValues.username
+        });
 
         if (!newChatRoom) {
             return res.status(400).json({ error: 'chatroom not created' })
         }
-        
+
         // get all the user ids that will be in here
-        const userIdArray = [...req.body.userIdsForChatRoom, req.user.data.id ]
+        const userIdArray = [...req.body.userIdsForChatRoom, req.user.data.id]
         // loop through each userID and create a new row in the
         // User Junc table
         userIdArray.forEach(async (userId) => {
@@ -463,48 +469,66 @@ router.post('/createChatRoom', verifyToken, async(req, res) => {
 
         res.status(200).json(newChatRoom)
 
-    } catch(err) {
+    } catch (err) {
         res.status(500).json(`error creating chat room `, err)
     }
 })
 
-router.get('/getChatRoom/:chatId', verifyToken, async(req, res) => {
-    console.log('weeeeeeeeeeeee', req.params.chatId)
+router.get('/getChatRoom/:chatId', verifyToken, async (req, res) => {
     try {
-        
         const chatRoom = await ChatRoom.findByPk(req.params.chatId)
-
-        console.log(chatRoom)
-
         res.status(200).json(chatRoom)
-
-
-    } catch(err) {
+    } catch (err) {
         res.status(500).json(err)
     }
 })
 
-router.get('/getChatMessages/:chatId', verifyToken, async(req, res) => {
+router.get('/getAllChatrooms/:userId', verifyToken, async (req, res) => {
     try {
-        const allMessages = await Message.findAll({ where: { chatroomId: req.params.chatId }});
+        const chatRooms = await User.findByPk(req.params.userId, {
+            attributes: ['id', 'username'],
+            include: [
+                {
+                    model: ChatRoom,
+                    as: 'ChatRoom',
+                    through: UserChatJunc,
+                    attributes: ['id', 'chatRoomName', 'notifications'],
+                    include: [
+                        {
+                            model: User,
+                            as: 'User',
+                            through: UserChatJunc,
+                            attributes: ['id', 'username', 'profilePic']
+                        }
+                    ]
+                },
+            ]
+        })
+        res.status(200).json(chatRooms)
+    } catch (err) {
+        res.status(500).json(err)
+    }
+})
+
+router.get('/getChatMessages/:chatId', verifyToken, async (req, res) => {
+    try {
+        const allMessages = await Message.findAll({ where: { chatroomId: req.params.chatId } });
 
         res.status(200).json(allMessages)
-    } catch(err) {
+    } catch (err) {
         console.log(err)
     }
 })
 
-router.post('/createNewMessage', async(req, res) => {
+router.post('/createNewMessage', verifyToken, async (req, res) => {
     try {
         const newMessage = await Message.create({
             messageText: req.body.messageText,
             sender: req.body.sender,
             chatroomId: req.body.chatroomId
         })
-
         res.status(200).json(newMessage)
-
-    } catch(err) {
+    } catch (err) {
         res.status(500).json(err)
     }
 })

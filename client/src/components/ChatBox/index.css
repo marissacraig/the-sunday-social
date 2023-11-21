@@ -21,11 +21,17 @@
     width: 0px;
 }
 
-.chatbox-aside li {
-    padding: 20px;
-    border: 1px solid black
+.chatbox-aside a:first-child {
+    border-top: 1px solid var(--black);
 }
-.chatbox-aside li:hover {
+.chatbox-aside a {
+    display: block;
+    text-decoration: none;
+    color: var(--off-white);
+    padding: 25px;
+    border-bottom: 1px solid var(--black)
+}
+.chatbox-aside a:hover {
     cursor: pointer;
     background-color: var(--primary-highlight);
 }
@@ -36,6 +42,7 @@
     overflow-y: scroll;
     background-color: var(--off-white);
     color: var(--off-white);
+    border-top: 1px solid black;
 }
 
 .message-text-screen::-webkit-scrollbar {
@@ -52,15 +59,21 @@
 }
 
 .message-bubble {
-    margin-bottom: 35px;
+    margin-bottom: 15px;
     padding: 10px;
     padding-bottom: 5px;
+    min-width: 140px;
+    margin-top: 20px;
     max-width: 70%;
     line-height: 1.3;
     position: relative;
     font-size: .93rem;
     border-radius: var(--border-radius);
-    border: 1px solid black;
+    word-wrap: break-word;
+}
+
+.message-bubble:last-child() {
+    margin-bottom: 100px;
 }
 
 .incoming-message-bubble {
@@ -77,7 +90,7 @@
 
 .message-timestamp {
     font-size: .78rem;
-    margin-top: 7px;
+    margin-top: 10px;
     font-style: italic;
     display: flex;
     justify-content: space-between;
@@ -88,10 +101,14 @@
     padding-top: 10px;
     display:flex;
     justify-content: space-between;
-    font-size: .85rem;
+    font-size: .86rem;
     color: var(--primary-color);
     top: -27px;
     left: 5px;
+}
+
+.text-messages-area {
+    margin-bottom: 120px;
 }
 
 .type-message-div {
@@ -100,12 +117,13 @@
     position: fixed;
     bottom: 0;
     right: 0;
-    width: 67%;
-    box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.367);
+    width: 66.8%;
+    border-left: 1px solid black;
 }
 
 .type-message-div textarea {
     border-radius: var(--border-radius);
+    background-color: var(--off-white);
     resize: none;
     width: 90%;
     height: 70px;
@@ -133,4 +151,6 @@
     cursor: pointer;
     color: var(--tertiary-color)
 }
+
+
 
