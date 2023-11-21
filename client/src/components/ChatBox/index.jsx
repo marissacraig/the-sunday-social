@@ -35,9 +35,11 @@ function ChatBox({ username, userId, triggerModalStatus }) {
     }
 
     useEffect(() => {
-        getMessages();
+        // getMessages();
         getChatrooms();
     }, [userId, chatId, triggerModalStatus])
+
+    console.log(allChatrooms)
 
     async function addMessage() {
         try {
@@ -70,7 +72,7 @@ function ChatBox({ username, userId, triggerModalStatus }) {
     // Function to scroll to the bottom
     function scrollToBottom() {
         if (messageTextArea.current) {
-            messageTextArea.current?.scrollIntoView({ behavior: "smooth" })
+            messageTextArea.current?.scrollIntoView({ behavior: "auto" })
         }
     }
 
@@ -78,7 +80,8 @@ function ChatBox({ username, userId, triggerModalStatus }) {
         <section className="chatbox-main-section">
             <aside className="chatbox-aside">
                 <ul>
-                    {allChatrooms && allChatrooms?.ChatRoom?.map((chatroom, index) => {
+                    {/* sort the chat boxes by last updated so most relevant is on top */}
+                    {allChatrooms && allChatrooms?.ChatRoom?.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)).map((chatroom, index) => {
                         return (
                             <Link key={index} to={`/messages/${chatroom.id}`}>
                                 {chatroom.User.length > 2 ?

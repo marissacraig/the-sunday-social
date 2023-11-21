@@ -20,6 +20,7 @@ ChatRoom.init(
             type: DataTypes.STRING,
             allowNull: true
         },
+        // i just switch this field when a message is sent to update the update time
         updateBoolean: {
             type: DataTypes.STRING,
             defaultValue: false,

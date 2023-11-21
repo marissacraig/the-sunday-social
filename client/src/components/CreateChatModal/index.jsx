@@ -77,7 +77,7 @@ function CreateChatModal({ triggerModal }) {
             setUsersIdsForChatRoom(prevArrary => prevArrary.filter(item => item !== e.target.value))
         // else add it to the array
         } else {
-            setUsersIdsForChatRoom(prevArrary => [...prevArrary, e.target.value])
+            setUsersIdsForChatRoom(prevArrary => [...prevArrary, parseInt(e.target.value)])
         }
     }
 

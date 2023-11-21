@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { Image } from 'cloudinary-react';
 import './index.css'
 
-function FriendFinder({ setTriggerRefreshInFriends, triggerRefreshInFriends}) {
+function FriendFinder({ setTriggerRefreshInFriends, triggerRefreshInFriends, userId}) {
 
     const [isFindingFriend, setIsFindingFriends] = useState(false)
     const [foundUsers, setFoundUsers] = useState(null)
@@ -40,6 +40,17 @@ function FriendFinder({ setTriggerRefreshInFriends, triggerRefreshInFriends}) {
             }
             setFoundUsers(response)
         } catch (err) {
+            console.log(err)
+        }
+    }
+
+    async function sendMessageToFriend(friendId) {
+        try{
+            // check to see if there is already a chat
+            const data = await fetch(`/api/user/doesChatRoomExist/${userId}/${friendId}`);
+            const response = await data.json();
+            console.log('response', response)
+        } catch(err) {
             console.log(err)
         }
     }
@@ -123,12 +134,15 @@ function FriendFinder({ setTriggerRefreshInFriends, triggerRefreshInFriends}) {
                                         <p onClick={() => sendFriendRequestHandler(user.id)}>Send Friend Request</p>
                                         :
                                         <>
-                                            <Link>
+                                            <a onClick={() => sendMessageToFriend(user.id)}>
                                                 Message
-                                            </Link>
+                                            </a>
                                             <Link to={`/friendProfile/${user.id}`}>
                                                 Profile
                                             </Link>
+                                             <p>
+                                                Delete
+                                            </p>
                                         </>
                                     }
                                 </div>
@@ -136,23 +150,6 @@ function FriendFinder({ setTriggerRefreshInFriends, triggerRefreshInFriends}) {
                         </div>
                     )
                 })}
-
-
-                {/* <div className="single-friend">
-                    <figure>
-                        <img src='logo.png' width={40} />
-                    </figure>
-                    <div className="friend-info">
-                        <p>Mike</p>
-                        <div className='button-row'>
-
-                            <p>Accept</p>
-                        </div>
-                    </div>
-                </div>
-            */}
-            
-            
             </div>
         </aside>
     )

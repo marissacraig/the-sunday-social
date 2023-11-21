@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom';
 import { Image } from 'cloudinary-react';
 import './index.css'
 
@@ -57,6 +58,26 @@ function FriendRequests({ setTriggerRefreshInFriends, triggerRefreshInFriends })
             console.log(err)
         }
     }
+    async function denyFriendHandler(requestId) {
+        try {
+            const data = await fetch('/api/user/denyFriendRequest', {
+                method: 'Delete',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    requestId
+                })
+            })
+            const response = await data.json();
+            if (!response) {
+                console.log('friendship not made')
+            }
+            setTriggerRefreshInFriends(!triggerRefreshInFriends)
+        } catch (err) {
+            console.log(err)
+        }
+    }
 
     return (
         <aside className="friend-request-aside">
@@ -80,46 +101,23 @@ function FriendRequests({ setTriggerRefreshInFriends, triggerRefreshInFriends })
                                     <p>{user.username}</p>
                                     {user?.incoming ?
                                         <div className='button-row'>
-                                            <p onClick={() => addFriendHandler(user.id, user.FriendRequest.id)}>Accept</p>
+                                            <a onClick={() => addFriendHandler(user.id, user.FriendRequest.id)}>Accept</a>
+                                            <a onClick={() => denyFriendHandler(user.FriendRequest.id)}>Decline</a>
+                                            <Link to={`/friendProfile/${user.id}`}>
+                                                Profile
+                                            </Link>
                                         </div>
                                         :
-                                        <p className='pending-text'>Pending...</p>
+                                        <p className='pending-text'>Pending...</p>                    
                                     }
                                 </div>
                             </div>
                         )
                     })
                 }
-
-
-
-                {/* <div className="single-friend">
-                    <figure>
-                        <img src='logo.png' width={40} />
-                    </figure>
-                    <div className="friend-info">
-                        <p>Mike</p>
-                        <div className='button-row'>
-
-                            <p onClick={() => addFriendHandler(5, 4)}>Accept</p>
-                        </div>
-                    </div>
-                </div> */}
-
-
-
-
-
-
-
-
-
             </div>
         </aside>
     )
 }
 
 export default FriendRequests;
-
-// requesteee 3
-// requesterr 2

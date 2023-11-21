@@ -22,7 +22,7 @@ function App() {
             triggerRefreshAmongPages={triggerRefreshAmongPages}
             setTriggerRefreshAmongPages={setTriggerRefreshAmongPages}
            />} />
-          <Route path='/messages/:chatId' element={<Messages />} />
+          <Route path='/messages/:chatId?' element={<Messages />} />
           <Route path='/friends' element={<Friends />} />
           <Route path='/friendProfile/:friendId' element={<FriendProfilePage />} />
         </Routes>

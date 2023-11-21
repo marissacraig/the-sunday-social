@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AddPostModal from "../components/AddPostModal";
 import FloatingButton from "../components/FloatingBtn";
 import FriendFinder from "../components/FriendFinder";
@@ -10,7 +10,18 @@ function FriendPage() {
     const [showAddPostModal, setShowAddPostModal] = useState(false)
     const [makeButtonDisappear, setMakeButtonDisappear] = useState(false);
     const [triggerRefreshInFriends, setTriggerRefreshInFriends] = useState(false)
+    const [userData, setUserData] = useState(null)
 
+    useEffect(() => {
+        async function getUserData() {
+            const rawData = await fetch('/api/user');
+            const data = await rawData.json();
+            setUserData(data);
+        }
+
+        getUserData();
+    }, [showAddPostModal])
+    
     return (
         <main>
             {showAddPostModal &&
@@ -30,6 +41,7 @@ function FriendPage() {
                 <FriendFinder
                     setTriggerRefreshInFriends={setTriggerRefreshInFriends}
                     triggerRefreshInFriends={triggerRefreshInFriends}
+                    userId={userData?.id}
                 />
 
                 <FriendRequests
@@ -40,15 +52,12 @@ function FriendPage() {
 
 
 
-            <p>Messaging needs to work</p>
 
-            <p>Allowed to send on message with request</p>
-            <p>case insensitivity searches</p>
-            <p>When user puts a new image, old one is erased</p>
-            <p>have view profile work</p>
-            <p>Most talkedabout and most liked</p>
-            <p>Set up messages</p>
             <p>Have message button work in friends</p>
+            <p>Highlight active message</p>
+            <p>title for message text area</p>
+            <p>When user puts a new image, old one is erased</p>
+            <p>Most talkedabout and most liked</p>
             <p>Socket Io for automatic refresh and notfications</p>
 
 

@@ -309,6 +309,18 @@ router.post('/sendFriendRequest', verifyToken, async (req, res) => {
     }
 })
 
+router.delete('/denyFriendRequest', verifyToken, async (req, res) => {
+    try {
+        const denyFriend = await FriendRequest.destroy({ where: { id: req.body.requestId } })
+        if (!denyFriend) {
+            res.status(400).json({ error: 'could not deny' })
+        }
+        res.status(200).json(denyFriend)
+    } catch (err) {
+        res.status(500).json({ error: 'internal server error', err })
+    }
+})
+
 router.get('/getUserFriends/:searchBy?', verifyToken, async (req, res) => {
     try {
         // search by optional parameter if it's there, Else:
@@ -438,24 +450,25 @@ router.get('/getFriendInfo/:friendId', verifyToken, async (req, res) => {
 // Create a chatroom
 router.post('/createChatRoom', verifyToken, async (req, res) => {
     try {
+        
         // find the first user to make it the naem of the chat
         const firstRecipient = await User.findByPk(req.body.userIdsForChatRoom[0], {
             attributes: ['username']
         });
-
+        
+        
         // Create new chat room
         const newChatRoom = await ChatRoom.create({
-            chatRoomName: firstRecipient.dataValues.username
+            chatRoomName: firstRecipient.dataValues.username,
         });
-
+        
         if (!newChatRoom) {
             return res.status(400).json({ error: 'chatroom not created' })
         }
-
+        
         // get all the user ids that will be in here
         const userIdArray = [...req.body.userIdsForChatRoom, req.user.data.id]
-        // loop through each userID and create a new row in the
-        // User Junc table
+        // loop through each userID and create a new row in the User Junc table
         userIdArray.forEach(async (userId) => {
             const newJunc = await UserChatJunc.create({
                 chatRoomId: newChatRoom.id,
@@ -474,10 +487,36 @@ router.post('/createChatRoom', verifyToken, async (req, res) => {
     }
 })
 
-router.get('/getChatRoom/:chatId', verifyToken, async (req, res) => {
+// this route checks to see if two users already have a chatroom going
+router.get('/doesChatRoomExist/:userId/:friendId', verifyToken, async (req, res) => {
     try {
-        const chatRoom = await ChatRoom.findByPk(req.params.chatId)
-        res.status(200).json(chatRoom)
+        const chatRoomsCreatedByUser = await UserChatJunc.findAll({
+            where: { userId: req.params.userId},
+            include: [
+                {
+                    model: ChatRoom,
+                    as: 'ChatRoom',
+                    attributes: ['id'],
+                    through: { attributes: []},
+                    include: [
+                        {
+                            model: User,
+                            as: 'User',
+                            through: { attributes: []}
+                        }
+                    ]
+                }
+            ]
+        });
+
+        const chatroomExists = chatRoomsCreatedByUser.find(userChat => userChat.ChatRoom.Users.some(user => user.id === req.params.friendId))
+
+        // filter to only get chatrooms with friend we are looking for
+        if (!chatroomExists) {
+            res.status(200).json({ error: 'no room found' })
+        } else {
+            res.status(200).json(chatroomExists)
+        }
     } catch (err) {
         res.status(500).json(err)
     }
@@ -492,7 +531,7 @@ router.get('/getAllChatrooms/:userId', verifyToken, async (req, res) => {
                     model: ChatRoom,
                     as: 'ChatRoom',
                     through: UserChatJunc,
-                    attributes: ['id', 'chatRoomName', 'notifications'],
+                    attributes: ['id', 'chatRoomName', 'notifications', 'updatedAt'],
                     include: [
                         {
                             model: User,
@@ -527,10 +566,20 @@ router.post('/createNewMessage', verifyToken, async (req, res) => {
             sender: req.body.sender,
             chatroomId: req.body.chatroomId
         })
+        // update chatroom so it filter to top of list
+        const chatroom = await ChatRoom.findByPk(req.body.chatroomId);
+
+        if (chatroom) {
+            chatroom.updateBoolean = false
+            await chatroom.save();
+        }
+
         res.status(200).json(newMessage)
     } catch (err) {
         res.status(500).json(err)
     }
 })
+
+router.get('/')
 
 module.exports = router;
