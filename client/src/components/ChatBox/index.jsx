@@ -35,11 +35,9 @@ function ChatBox({ username, userId, triggerModalStatus }) {
     }
 
     useEffect(() => {
-        // getMessages();
+        getMessages();
         getChatrooms();
     }, [userId, chatId, triggerModalStatus])
-
-    console.log(allChatrooms)
 
     async function addMessage() {
         try {
@@ -85,15 +83,17 @@ function ChatBox({ username, userId, triggerModalStatus }) {
                         return (
                             <Link key={index} to={`/messages/${chatroom.id}`}>
                                 {chatroom.User.length > 2 ?
-                                    <li>
-                                        {chatroom.User.map(user => {
+                                    <li>To: 
+                                        {chatroom.User.map((user) => {
+                                            {/* Don't include logged in user */}
+                                            if (user.username === username) return;
                                             return (
-                                                `${user.username} `
+                                                ` ${user.username} `
                                             )
                                         })}
                                     </li>
                                     :
-                                    <li>{chatroom.chatRoomName}</li>
+                                    <li>To: {chatroom.chatRoomName}</li>
                                 }
                             </Link>
                         )

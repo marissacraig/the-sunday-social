@@ -449,7 +449,8 @@ router.get('/getFriendInfo/:friendId', verifyToken, async (req, res) => {
 
 // Create a chatroom
 router.post('/createChatRoom', verifyToken, async (req, res) => {
-    try {
+    try {   
+        const isGroupChat = req.body.userIdsForChatRoom.length > 1 ? true : false
         
         // find the first user to make it the naem of the chat
         const firstRecipient = await User.findByPk(req.body.userIdsForChatRoom[0], {
@@ -460,6 +461,7 @@ router.post('/createChatRoom', verifyToken, async (req, res) => {
         // Create new chat room
         const newChatRoom = await ChatRoom.create({
             chatRoomName: firstRecipient.dataValues.username,
+            isGroupChat: isGroupChat
         });
         
         if (!newChatRoom) {
@@ -472,7 +474,8 @@ router.post('/createChatRoom', verifyToken, async (req, res) => {
         userIdArray.forEach(async (userId) => {
             const newJunc = await UserChatJunc.create({
                 chatRoomId: newChatRoom.id,
-                userId: userId
+                userId: userId,
+                isGroupChat: isGroupChat
             })
 
             if (!newJunc) {
@@ -490,32 +493,30 @@ router.post('/createChatRoom', verifyToken, async (req, res) => {
 // this route checks to see if two users already have a chatroom going
 router.get('/doesChatRoomExist/:userId/:friendId', verifyToken, async (req, res) => {
     try {
+        // get all the Junction tables that belong to the user
+        // and save all the chatroomIds
         const chatRoomsCreatedByUser = await UserChatJunc.findAll({
             where: { userId: req.params.userId},
-            include: [
-                {
-                    model: ChatRoom,
-                    as: 'ChatRoom',
-                    attributes: ['id'],
-                    through: { attributes: []},
-                    include: [
-                        {
-                            model: User,
-                            as: 'User',
-                            through: { attributes: []}
-                        }
-                    ]
-                }
-            ]
         });
 
-        const chatroomExists = chatRoomsCreatedByUser.find(userChat => userChat.ChatRoom.Users.some(user => user.id === req.params.friendId))
+        const chatroomIds = chatRoomsCreatedByUser.map((chatroom) => chatroom.chatRoomId)
+        
+        // try to find userJunct with friend ID and these chatroomIds
+        const isThereChat = await UserChatJunc.findAll({
+            where: { 
+                userId: req.params.friendId,
+                chatRoomId:{ [Op.in]: chatroomIds },
+                isGroupChat: false
+            },
+        });
 
-        // filter to only get chatrooms with friend we are looking for
-        if (!chatroomExists) {
-            res.status(200).json({ error: 'no room found' })
+        // if there is no chat, creat Chat
+        if (isThereChat.length === 0) {
+            // return false if there is no match
+            res.status(200).json(false)
         } else {
-            res.status(200).json(chatroomExists)
+            // return the chatroom id if it exists
+            res.status(200).json(isThereChat[0].chatRoomId)
         }
     } catch (err) {
         res.status(500).json(err)

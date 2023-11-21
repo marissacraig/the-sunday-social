@@ -1,11 +1,12 @@
 /* eslint-disable react/prop-types */
 import { FaSearch } from 'react-icons/fa'
 import { useState, useEffect, useRef } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Image } from 'cloudinary-react';
 import './index.css'
 
 function FriendFinder({ setTriggerRefreshInFriends, triggerRefreshInFriends, userId}) {
+    const navigate = useNavigate();
 
     const [isFindingFriend, setIsFindingFriends] = useState(false)
     const [foundUsers, setFoundUsers] = useState(null)
@@ -49,9 +50,36 @@ function FriendFinder({ setTriggerRefreshInFriends, triggerRefreshInFriends, use
             // check to see if there is already a chat
             const data = await fetch(`/api/user/doesChatRoomExist/${userId}/${friendId}`);
             const response = await data.json();
-            console.log('response', response)
+            // redirect if there is a response with chatID
+            if (response) { 
+                navigate(`/messages/${response}`)
+            } else {
+                makeChatRoom(friendId)
+            }
         } catch(err) {
             console.log(err)
+        }
+    }
+
+    async function makeChatRoom(friendId) {
+        try {
+            const data = await fetch('/api/user/createChatRoom', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userIdsForChatRoom: [friendId]
+                })
+            })
+            const response = await data.json();
+            if(!response) {
+                console.log('error');
+                return;
+            }
+            navigate(`/messages/${response.id}`)
+        } catch (err) {
+            console.log(`error making room `, err)
         }
     }
 

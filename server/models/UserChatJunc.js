@@ -27,7 +27,11 @@ UserChatJunc.init(
                 model: 'User',
                 key: 'id'
             }
-        }
+        },
+        isGroupChat: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+        },
     }, 
     {
         sequelize,
