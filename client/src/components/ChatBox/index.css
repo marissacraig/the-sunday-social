@@ -7,7 +7,17 @@
     left: 0;
     bottom: 0;
     overflow: hidden;
-    margin-top: 70px;
+    margin-top: 50px;
+}
+
+.messages-title {
+    color: var(--accent-color);
+    display: block;
+    text-decoration: none;
+    text-align: center;
+    letter-spacing: 2px;
+    padding: 15px;
+    border-bottom: 1px solid var(--black)
 }
 
 .chatbox-aside {
@@ -16,6 +26,7 @@
     overflow-y: scroll;
     width: 100%;
     padding: 0;
+    padding-bottom: 50px;
 }
 .chatbox-aside::-webkit-scrollbar {
     width: 0px;
@@ -24,16 +35,21 @@
 .chatbox-aside a:first-child {
     border-top: 1px solid var(--black);
 }
-.chatbox-aside a {
+.chatbox-aside .chat-aside-link{
     display: block;
     text-decoration: none;
     color: var(--off-white);
-    padding: 25px;
+    padding: 15px;
     border-bottom: 1px solid var(--black)
 }
-.chatbox-aside a:hover {
+
+.chatbox-aside .chat-aside-link:hover {
     cursor: pointer;
     background-color: var(--primary-highlight);
+}
+
+.chatbox-aside .active-chat {
+   background-color: var(--secondary-color);
 }
 
 .message-text-screen {
@@ -43,6 +59,15 @@
     background-color: var(--off-white);
     color: var(--off-white);
     border-top: 1px solid black;
+}
+
+.message-text-screen h1 {
+    background-color: var(--primary-color);
+    padding: 15px 5px;
+    font-weight: 300;
+    text-align: center;
+    border-left: 1px solid var(--black);
+    color: var(--accent-color)
 }
 
 .message-text-screen::-webkit-scrollbar {

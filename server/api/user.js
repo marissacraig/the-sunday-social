@@ -451,16 +451,20 @@ router.get('/getFriendInfo/:friendId', verifyToken, async (req, res) => {
 router.post('/createChatRoom', verifyToken, async (req, res) => {
     try {   
         const isGroupChat = req.body.userIdsForChatRoom.length > 1 ? true : false
-        
-        // find the first user to make it the naem of the chat
-        const firstRecipient = await User.findByPk(req.body.userIdsForChatRoom[0], {
-            attributes: ['username']
-        });
-        
-        
+
+        const allUsersIds = [...req.body.userIdsForChatRoom, req.user.data.id]
+
+        const allUsers = await User.findAll({
+            where: { id: { [Op.in]: allUsersIds} },
+            attributes: ['username'],
+            raw: true
+        })
+
+        const userNamesAsString = allUsers.map(username => username.username).join(', ')
+
         // Create new chat room
         const newChatRoom = await ChatRoom.create({
-            chatRoomName: firstRecipient.dataValues.username,
+            chatRoomName: userNamesAsString,
             isGroupChat: isGroupChat
         });
         

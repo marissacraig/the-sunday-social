@@ -5,7 +5,7 @@
 .navLinks ul li, .navLinks ul li a {
     list-style-type: none;
     display: inline;
-    font-size: 1.8rem;
+    font-size: 1.65rem;
     color: var(--off-white);
     text-decoration: none;
     font-weight: 500;
@@ -38,7 +38,7 @@
 /* mobile styles */
 @media screen and (max-width: 500px) {
     .navLinks ul li, .navLinks ul li a {
-        font-size: 1.7rem;
+        font-size: 1.6rem;
     }
 
 

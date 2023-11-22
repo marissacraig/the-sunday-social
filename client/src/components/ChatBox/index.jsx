@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState, useRef } from "react";
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import { formatDateShortYear } from "../../utils/formatDate";
 import { getTime } from "../../utils/formatDate";
 import { IoMdSend } from 'react-icons/io'
@@ -8,6 +8,7 @@ import './index.css'
 
 function ChatBox({ username, userId, triggerModalStatus }) {
 
+    const navigate = useNavigate();
     const { chatId } = useParams();
     const [allMessages, setAllMessage] = useState(null);
     const [allChatrooms, setAllChatrooms] = useState(null);
@@ -34,10 +35,17 @@ function ChatBox({ username, userId, triggerModalStatus }) {
         }
     }
 
+    // open latest chat as soon as page loads
+    if (!chatId && allChatrooms) {
+        navigate(`/messages/${allChatrooms.ChatRoom[0].id}`)
+    }
+
+
     useEffect(() => {
         getMessages();
         getChatrooms();
     }, [userId, chatId, triggerModalStatus])
+
 
     async function addMessage() {
         try {
@@ -79,22 +87,16 @@ function ChatBox({ username, userId, triggerModalStatus }) {
             <aside className="chatbox-aside">
                 <ul>
                     {/* sort the chat boxes by last updated so most relevant is on top */}
+                    <a href="#" className="messages-title"><li>Messages</li></a>
                     {allChatrooms && allChatrooms?.ChatRoom?.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)).map((chatroom, index) => {
                         return (
-                            <Link key={index} to={`/messages/${chatroom.id}`}>
-                                {chatroom.User.length > 2 ?
-                                    <li>To: 
-                                        {chatroom.User.map((user) => {
-                                            {/* Don't include logged in user */}
-                                            if (user.username === username) return;
-                                            return (
-                                                ` ${user.username} `
-                                            )
-                                        })}
-                                    </li>
-                                    :
-                                    <li>To: {chatroom.chatRoomName}</li>
-                                }
+                            <Link
+                                className={`chat-aside-link ${chatId == chatroom.id ? 'active-chat' : ''}`}
+                                key={index}
+                                to={`/messages/${chatroom.id}`}
+                            >
+                                {/* Only show the names that aren't the logged in user */}
+                                <li>{chatroom.chatRoomName.split(',').filter(item => item !== username).join(',')}</li>
                             </Link>
                         )
                     })}
