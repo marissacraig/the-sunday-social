@@ -1,42 +1,91 @@
 /* eslint-disable react/prop-types */
+import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom'
+import { IoHome,  } from 'react-icons/io5'
+import { BiSolidMessage } from 'react-icons/bi'
+import { FaUserFriends } from 'react-icons/fa'
+import LoginModal from '../LoginModal';
+import { Image } from 'cloudinary-react';
 import './index.css'
 
-function NavLinks({ closeHamburger, isMobile }) {
+function NavLinks({ closeHamburger, isMobile, triggerRefreshAmongPages }) {
 
-    function closeHamburgerMenu () {
-        if(isMobile) {
+    const activeLinkStyle = {
+        color: '#FFCD00'
+    }
+
+    function closeHamburgerMenu() {
+        if (isMobile) {
             closeHamburger();
         }
     }
+
+    const [showModal, setShowModal] = useState(false);
+    const [userData, setUserData] = useState(null);
+
+    useEffect(() => {
+        async function getUserData() {
+            const rawData = await fetch('/api/user');
+            const data = await rawData.json();
+            setUserData(data);
+        }
+        getUserData();
+    }, [triggerRefreshAmongPages])
+
     return (
-        <nav className='navLinks'>
-            <ul>
-                <li>
-                    <NavLink to='/' onClick={closeHamburgerMenu}>
-                        Home
-                    </NavLink>
-                    {/* <a href='/'>HomePage</a> */}
-                </li>
-                <li>
-                    <NavLink to='/profile' onClick={closeHamburgerMenu}>
-                        Profile
-                    </NavLink>
-                    {/* <a href='/profile'>Profile</a> */}
-                </li>
-                <li>
-                    <NavLink to='/friends' onClick={closeHamburgerMenu}>
-                        Messages
-                    </NavLink>
-                </li>
-                <li>
-                    <p>Login</p>
-                </li>
-                <li>
-                    <p>Signup</p>
-                </li>
-            </ul>
-        </nav>
+        <>
+            {showModal && <LoginModal setShowModal={setShowModal} />}
+            {userData?.profilePic ?
+                <nav className='navLinks'>
+                    <ul>
+                        <li>
+                            <NavLink
+                                to='/'
+                                onClick={closeHamburgerMenu}
+                                style={({ isActive }) => isActive ? activeLinkStyle : {}}
+                            >
+                                <IoHome />
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                to='/messages'
+                                onClick={closeHamburgerMenu}
+                                style={({ isActive }) => isActive ? activeLinkStyle : {}}
+                            >
+                                <BiSolidMessage />
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                to='/friends'
+                                onClick={closeHamburgerMenu}
+                                style={({ isActive }) => isActive ? activeLinkStyle : {}}
+                            >
+                                <FaUserFriends />
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                to='/profile'
+                                onClick={closeHamburgerMenu}
+                                style={({ isActive }) => isActive ? activeLinkStyle : {}}
+                            >
+                            <Image className='profile-pic-in-nav' cloudName='dp6owwg93' publicId={userData?.profilePic} />
+                            </NavLink>
+                        </li>
+                    </ul>
+                </nav>
+                :
+                <nav className='navLinks'>
+                    <ul>
+                        <li>
+                            <p onClick={() => setShowModal(true)}>Sign in</p>
+                        </li>
+                    </ul>
+                </nav>
+            }
+        </>
     )
 }
 

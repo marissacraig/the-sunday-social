@@ -3,6 +3,29 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 50px;
-    padding: 20px 30px;
-    background-color: rgb(114, 34, 12);
+    height: 80px;
+    padding: 15px;
+    background-color: var(--primary-color);
+}
+
+.logo {
+    border: none;
+    position: absolute;
+    top: 4px;
+    width: 100px;
+    height: 100px;
+}
+
+/* mobile styles */
+@media screen and (max-width: 500px) { 
+    .header {
+        padding: 10px;
+    }
+    .logo {
+        border: none;
+        position: absolute;
+        top: 12px;
+        width: 90px;
+        height: 90px;
+    }
 }

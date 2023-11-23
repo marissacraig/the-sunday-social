@@ -1,38 +1,51 @@
+.navLinks ul {
+    padding-top: 8px;
+}
+
 .navLinks ul li, .navLinks ul li a {
     list-style-type: none;
     display: inline;
-    margin-right: 15px;
-    color: white;
+    font-size: 1.65rem;
+    color: var(--off-white);
     text-decoration: none;
+    font-weight: 500;
+    letter-spacing: 1px;
 }
-.navLinks ul li a:hover {
-    cursor: pointer;
-    text-decoration: underline;
+.navLinks ul li:not(:last-child) {
+    padding-right: 40px;
+}
+.navLinks ul li:last-child {
+    padding-right: 15px;
 }
 
 /* style for logout */
 .navLinks ul li p {
     display: inline;
     margin-right: 0;
-}
-.navLinks ul li p:hover {
-    cursor: pointer;
-    text-decoration: underline;
+    font-size: 1rem;
 }
 
+.navLinks ul li a:hover, .navLinks ul li p:hover{
+    cursor: pointer;
+    color: var(--accent-color)
+}
+
+.profile-pic-in-nav {
+    width: 32px;
+    border-radius: 50%;
+}
 
 /* mobile styles */
-@media screen and (max-width: 540px) {
-    .navLinks ul {
-        position: absolute;
-        top: 70px;
-        left: 0px;
+@media screen and (max-width: 500px) {
+    .navLinks ul li, .navLinks ul li a {
+        font-size: 1.6rem;
     }
 
-    .navLinks ul li {
-        list-style-type: none;
-        display: block;
-        margin-right: 10px;
-        text-decoration: none;
+
+    .navLinks ul li:not(:last-child) {
+        padding-right: 25px;
+    }
+    .profile-pic-in-nav {
+        width: 30px;
     }
 }
